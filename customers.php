@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (mysqli_num_rows($selectData) > 0) {
             $showError = "Customer already exists";
         } else {
-            if ($company != "" || $website != "" || $email != "" || $phone != "" || $country != "" || $address != "") {
+            if (($company != "" || $website != "" || $email != "" || $phone != "" || $country != "" || $address != "")) {
                 $sql = "INSERT INTO `customers` ( `company`, `website`, `email`, `phone`, `country`, `address`, `created_at`, `updated_at`) VALUES ('$company', '$website', '$email', '$phone', '$country', '$address', current_timestamp(), current_timestamp())";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
