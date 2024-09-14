@@ -1,4 +1,5 @@
 <?php
+include "includes/function.php";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_start();
 
@@ -12,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $selectData = mysqli_query($conn, "SELECT * FROM `users` WHERE `username` = '$username' AND `password` = '$password'") or die("Failed");
         if (mysqli_num_rows($selectData) > 0) {
             $rows = mysqli_fetch_assoc($selectData);
-            $_SESSION['id'] = $rows['id'];
-            header("location:index.php");
+            $_SESSION['userid'] = $rows['id'];
+            redirectTo("index.php");
         } else {
             $showError = "Incorrect username and password";
         }

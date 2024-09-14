@@ -1,4 +1,5 @@
 <?php
+include "includes/function.php";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     include "includes/database.php";
     if (isset($_POST['submit'])) {
@@ -10,14 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $selectData = mysqli_query($conn, "SELECT * FROM `users` WHERE `username` = '$username' AND `password` = '$password'") or die("Failed");
         if (mysqli_num_rows($selectData) > 0) {
-            $showError = "User already exists";
+            $showError = "Failed to register";
         } else {
-            if ($password == $cpassword) {
+            if ($password == $cpassword && $password != "" && $username != "") {
                 $sql = "INSERT INTO `users` ( `username`, `password`, `datetime`) VALUES ('$username', '$password', current_timestamp())";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
                     // $showAlert = true;
-                    header("location:login.php");
+                    redirectTo("login.php");
                 } else {
                     $showError = "Password does not match";
                 }
