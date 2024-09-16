@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     } else if (!validateName($name)) {
         $errors = "Name must contain only letters and spaces!";
 
-    } else if (!validateSelection($country, ['USA,Canada,Mexico,India,Russia'])) {
+    } else if (!validateSelection($country, ['USA', 'Canada', 'Mexico', 'India', 'Russia'])) {
         $errors = " Invalid Selection!";
 
     } else if (!validateName($state)) {
