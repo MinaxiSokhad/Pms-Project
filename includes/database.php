@@ -2,7 +2,7 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "pmsproject";
+$database = "pms";
 
 $conn = mysqli_connect(
     $server,

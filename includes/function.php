@@ -1,10 +1,16 @@
 <?php
+
+$_SESSION['oldFormData'] = $_POST;
+$oldFormData = $_POST;
+// $_SESSION['errors'] = $errors;
 function redirectTo(string $path)
 {
-    // http_response_code(302);
-    //http_response_code(Http::REDIRECT_STATUS_CODE);
     header("Location:{$path}"); //redirection with headers
     exit;
+}
+function e(mixed $value): string
+{
+    return htmlspecialchars((string) $value);
 }
 function start_session()
 {
@@ -13,5 +19,32 @@ function start_session()
     if (!isset($userid)) {
         redirectTo("login.php");
     }
+}
+function isExists($table, $column, $value, $exclude = null)
+{
+    include "includes/database.php";
+    $sql = "SELECT COUNT(*) FROM  $table  WHERE  $column  = '$value' " . (($exclude != null) ? " AND " . $exclude : "");
+    $result = mysqli_query($conn, $sql);
+    $recordCount = mysqli_fetch_row($result)[0];
+    return boolval($recordCount);
+}
+function isEmptyFields($fields)
+{
+    foreach ($fields as $field => $value) {
+        if (empty($value)) {
+            return $field;
+        }
+    }
+    return false;
+}
+
+function validateName($name)
+{
+    return preg_match("/^[A-Za-z\s]+$/", $name);
+}
+
+function validateEmail($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 ?>

@@ -6,17 +6,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     include "includes/database.php";
     if (isset($_POST['submit'])) {
         $showAlert = false;
-        $showError = false;
-        $username = $_POST['username'];
+        $showError = "";
+        $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $selectData = mysqli_query($conn, "SELECT * FROM `users` WHERE `username` = '$username' AND `password` = '$password'") or die("Failed");
+        $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password'") or die("Failed");
         if (mysqli_num_rows($selectData) > 0) {
             $rows = mysqli_fetch_assoc($selectData);
             $_SESSION['userid'] = $rows['id'];
             redirectTo("index.php");
         } else {
-            $showError = "Incorrect username and password";
+            $showError = "Incorrect email and password";
         }
     }
 }
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
-<?php if (isset($showError)): ?>
+<?php if (isset($showError) && $showError != ""): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Error! </strong> <?php echo $showError; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <h1 class="text-center">Login</h1>
     <form action="login.php" method="POST">
         <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email">
 
         </div>
         <!-- <div class="mb-3">
