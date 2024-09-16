@@ -1,4 +1,5 @@
 <?php include "includes/function.php"; ?>
+<?php include "includes/database.php"; ?>
 <!doctype html>
 <html lang="en">
 

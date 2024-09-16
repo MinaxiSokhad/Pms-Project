@@ -6,7 +6,6 @@ if (isset($_SESSION['userid'])) {
     redirectTo("index.php");
 }
 if (isset($_POST['submit'])) {
-    $showAlert = false;
     $errors = "";
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -46,6 +45,9 @@ if (isset($_POST['submit'])) {
     } else if (!validateName($name)) {
         $errors = "Name must contain only letters and spaces!";
 
+    } else if (!validateSelection($country, ['USA,Canada,Mexico,India,Russia'])) {
+        $errors = " Invalid Selection!";
+
     } else if (!validateName($state)) {
         $errors = " State name must contain only letters and spaces!";
 
@@ -81,12 +83,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-<?php if (isset($showAlert) && $showAlert == true): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success! </strong> Your account is now created and you can login.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
 <?php if (isset($errors) && $errors != ""): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Error! </strong> <?php echo $errors; ?>
@@ -192,5 +188,4 @@ if (isset($_POST['submit'])) {
 
     </form>
 </div>
-
 <?php include "includes/_footer.php"; ?>

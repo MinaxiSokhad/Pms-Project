@@ -1,59 +1,63 @@
+<?php include "includes/_header.php"; ?>
+<title>Customers</title>
 <?php
-include "includes/function.php";
-start_session();
-?>
-<?php
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if (isset($_POST['submit'])) {
+    $errors = "";
+    $company = $_POST['company'];
+    $website = $_POST['website'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $country = $_POST['country'];
+    $address = $_POST['address'];
 
-    include "includes/database.php";
-    if (isset($_POST['submit'])) {
-        $showAlert = false;
-        $showError = '';
-        $company = $_POST['company'];
-        $website = $_POST['website'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $country = $_POST['country'];
-        $address = $_POST['address'];
+    $fields = [
+        'company' => $company,
+        'website' => $website,
+        'email' => $email,
+        'phone' => $phone,
+        'country' => $country,
+        'address' => $address
+    ];
+    $selectData = mysqli_query($conn, "SELECT * FROM `customers` WHERE `company` = '$company' AND `email` = '$email'") or die("Failed");
+    if (mysqli_num_rows($selectData) > 0) {
+        $errors = "Customer already exists";
+    } else if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
 
-        $selectData = mysqli_query($conn, "SELECT * FROM `customers` WHERE `company` = '$company' AND `email` = '$email'") or die("Failed");
-        if (mysqli_num_rows($selectData) > 0) {
-            $showError = "Customer already exists";
+    } else if (!validateName($company)) {
+        $errors = "Company name must contain only letters and spaces!";
+
+    } else if (!validateURL($website)) {
+        $errors = "Invalid URL";
+
+    } else if (!validateEmail($email)) {
+        $errors = "Invalid email format";
+
+    } else if (!validateMobile($phone)) {
+        $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
+
+    } else if (!validateSelection($country, ['USA,Canada,Mexico,India,Russia'])) {
+        $errors = " Invalid Selection!";
+
+    } else {
+        $sql = "INSERT INTO `customers` ( `company`, `website`, `email`, `phone`, `country`, `address`, `created_at`, `updated_at`) VALUES ('$company', '$website', '$email', '$phone', '$country', '$address', current_timestamp(), current_timestamp())";
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            redirectTo("customers.php");
         } else {
-            if (($company != "" || $website != "" || $email != "" || $phone != "" || $country != "" || $address != "")) {
-                $sql = "INSERT INTO `customers` ( `company`, `website`, `email`, `phone`, `country`, `address`, `created_at`, `updated_at`) VALUES ('$company', '$website', '$email', '$phone', '$country', '$address', current_timestamp(), current_timestamp())";
-                $result = mysqli_query($conn, $sql);
-                if ($result) {
-
-                    $showAlert = true;
-                } else {
-                    $showError = "Incorrect!";
-                }
-            } else {
-
-                $showError = "Fields is required";
-            }
+            $errors = "Incorrect!";
         }
     }
 }
 ?>
-<?php include "includes/_header.php"; ?>
-<title>Customers</title>
-<?php include "includes/_nav.php"; ?>
-<?php if (isset($showAlert) && $showAlert == true): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success! </strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
-<?php if (isset($showError) && $showError != ""): ?>
+<?php if (isset($errors) && $errors != ""): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error! </strong> <?php echo $showError; ?>
+        <strong>Error! </strong> <?php echo $errors; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 <div class="container my-4">
-    <h1 class="text-center">Customers</h1>
+    <h1 class="text-center">Add Customer</h1>
     <form action="customers.php" method="POST">
         <div class="mb-3">
             <label for="company" class="form-label">Company Name</label>

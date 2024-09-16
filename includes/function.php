@@ -48,6 +48,14 @@ function validateEmail($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
+function validateURL($url)
+{
+    return (bool) filter_var($url, FILTER_VALIDATE_URL);
+}
+function validateSelection($field, array $params)
+{
+    return in_array($field, $params);
+}
 function validateMobile($number)
 {
     return preg_match("/^\d{10}$/", $number);

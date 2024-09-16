@@ -13,3 +13,31 @@
 <body>
     <?php include "includes/database.php"; ?>
     <?php include "includes/function.php"; ?>
+    <style>
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
