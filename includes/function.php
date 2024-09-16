@@ -6,4 +6,12 @@ function redirectTo(string $path)
     header("Location:{$path}"); //redirection with headers
     exit;
 }
+function start_session()
+{
+    session_start();
+    $userid = $_SESSION['userid'];
+    if (!isset($userid)) {
+        redirectTo("login.php");
+    }
+}
 ?>

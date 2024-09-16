@@ -1,10 +1,6 @@
 <?php
 include "includes/function.php";
-session_start();
-$userid = $_SESSION['userid'];
-if (!isset($userid)) {
-    redirectTo("login.php");
-}
+start_session();
 ?>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
