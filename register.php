@@ -1,89 +1,86 @@
+<?php include "includes/_header_login.php"; ?>
+<title>Register</title>
 <?php
-include "includes/function.php";
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    include "includes/database.php";
-    if (isset($_POST['submit'])) {
-        $showAlert = false;
-        $errors = "";
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $country = $_POST['country'];
-        $state = $_POST['state'];
-        $city = $_POST['city'];
-        $gender = $_POST['gender'];
-        $maritalStatus = $_POST['maritalStatus'];
-        $mobileNo = $_POST['mobileNo'];
-        $address = $_POST['address'];
-        $dob = $_POST['dob'];
-        $hireDate = $_POST['hireDate'];
+session_start();
+if (isset($_SESSION['userid'])) {
+    redirectTo("index.php");
+}
+if (isset($_POST['submit'])) {
+    $showAlert = false;
+    $errors = "";
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $country = $_POST['country'];
+    $state = $_POST['state'];
+    $city = $_POST['city'];
+    $gender = $_POST['gender'];
+    $maritalStatus = $_POST['maritalStatus'];
+    $mobileNo = $_POST['mobileNo'];
+    $address = $_POST['address'];
+    $dob = $_POST['dob'];
+    $hireDate = $_POST['hireDate'];
 
+    $fields = [
+        'name' => $name,
+        'email' => $email,
+        'password' => $password,
+        'country' => $country,
+        'state' => $state,
+        'city' => $city,
+        'gender' => $gender,
+        'maritalStatus' => $maritalStatus,
+        'mobileNo' => $mobileNo,
+        'address' => $address,
+        'dob' => $dob,
+        'hireDate' => $hireDate
+    ];
 
-        $fields = [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-            'country' => $country,
-            'state' => $state,
-            'city' => $city,
-            'gender' => $gender,
-            'maritalStatus' => $maritalStatus,
-            'mobileNo' => $mobileNo,
-            'address' => $address,
-            'dob' => $dob,
-            'hireDate' => $hireDate
-        ];
-        $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `mobileNo` = '$mobileNo'") or die("Failed");
-        if (mysqli_num_rows($selectData) > 0) {
-            $errors = "Failed to register";
+    $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `mobileNo` = '$mobileNo'") or die("Failed");
+    if (mysqli_num_rows($selectData) > 0) {
+        $errors = "Failed to register";
 
-        } else if ($missingField = isEmptyFields($fields)) {
-            $errors = "Please fill the required field: $missingField";
+    } else if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
 
-        } else if (!validateName($name)) {
-            $errors = "Name must contain only letters and spaces!";
+    } else if (!validateName($name)) {
+        $errors = "Name must contain only letters and spaces!";
 
-        } else if (!validateName($state)) {
-            $errors = " State name must contain only letters and spaces!";
+    } else if (!validateName($state)) {
+        $errors = " State name must contain only letters and spaces!";
 
-        } else if (!validateName($city)) {
-            $errors = "City name must contain only letters and spaces!";
+    } else if (!validateName($city)) {
+        $errors = "City name must contain only letters and spaces!";
 
-        } else if (!validateEmail($email)) {
-            $errors = "Invalid email format";
+    } else if (!validateEmail($email)) {
+        $errors = "Invalid email format";
 
-        } else if (!validateMobile($mobileNo)) {
-            $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
+    } else if (!validateMobile($mobileNo)) {
+        $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
 
-        } else if (isExists('user', 'email', $_POST['email'])) {
-            $errors = "Email already exists";
+    } else if (!validateDate($dob)) {
+        $errors = "You must be 18 years old to register.";
+    } else if (!validatehireDate($hireDate, $_POST['dob'])) {
+        $errors = "Invalid date For Hiring.";
+    } else if (isExists('user', 'email', $_POST['email'])) {
+        $errors = "Email already exists";
 
-        } else if (isExists('user', 'mobileNo', $_POST['mobileNo'])) {
-            $errors = 'Mobile number already exists';
+    } else if (isExists('user', 'mobileNo', $_POST['mobileNo'])) {
+        $errors = 'Mobile number already exists';
 
-        } else {
-
-            $sql = "INSERT INTO user(
+    } else {
+        $sql = "INSERT INTO user(
             name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate)
             VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$dob','$hireDate')";
-            $result = mysqli_query($conn, $sql);
-            session_regenerate_id();
-            $_SESSION['userid'] == mysqli_insert_id($conn);
-            if ($result) {
-                redirectTo("login.php");
-            } else {
-                $errors = "Error!";
-            }
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            redirectTo("login.php");
+        } else {
+            $errors = "Error!";
         }
     }
 }
-
-
 ?>
-
-<?php include "includes/_header.php"; ?>
-<title>Register</title>
-<?php include "includes/_nav.php"; ?>
 <?php if (isset($showAlert) && $showAlert == true): ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Success! </strong> Your account is now created and you can login.
@@ -97,30 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     </div>
 <?php endif; ?>
 <div class="container my-4">
-
     <h2 class="text-center">User Registration Form</h2>
     <hr>
     <h5 class="text-center"><span style="color: red;"> * </span> Indicates required question</h5>
     <form id="register" action="register.php" method="post">
-
-        <!-- <div class="bg-gray-100 mt-2 p-2 text-red-500" style="color:red">
-                <?php
-                // $err = [];
-                // foreach ($errors as $error) {
-                //     if ($error["0"] == "This field is required") {
-                //         $err[] = $error;
-                //     }
-                // }
-                
-                // if ((sizeOf($err)) >= 5) {
-                
-                //     echo e("Please filll all the required fill * ");
-                //     $errors = [];
-                // }
-                
-
-                ?>  
-        </div> -->
         <div class="mb-3">
             <label for="name" class="form-label">Full Name<span style="color: red;"> * </span></label>
             <input type="text" class="form-control" value="<?php echo e($oldFormData['name'] ?? ''); ?>" id="name"

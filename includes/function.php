@@ -3,6 +3,7 @@
 $_SESSION['oldFormData'] = $_POST;
 $oldFormData = $_POST;
 // $_SESSION['errors'] = $errors;
+
 function redirectTo(string $path)
 {
     header("Location:{$path}"); //redirection with headers
@@ -50,5 +51,32 @@ function validateEmail($email)
 function validateMobile($number)
 {
     return preg_match("/^\d{10}$/", $number);
+}
+function validateDate(string $field): bool
+{
+    $dateString = $field;
+    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+    if (!$date) {
+        return false; // Invalid date format
+    }
+    // Calculate the current date
+    $now = new DateTime('now', new DateTimeZone('Europe/Berlin'));
+
+    $minOver18BirthDate = $now->sub(new DateInterval('P18Y'));
+    return $date < $minOver18BirthDate;
+}
+function validatehireDate(string $field, $params): bool
+{
+    $dateString = $field;
+    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+    $dob = DateTime::createFromFormat('Y-m-d', $params);
+    if (!$date) {
+        return false; // Invalid date format
+    }
+    // Calculate the current date
+    $now = new DateTime('now', new DateTimeZone('Europe/Berlin'));
+
+    $minHireDate = (clone $dob)->add(new DateInterval('P18Y'));
+    return $date <= $now && $date >= $minHireDate;
 }
 ?>
