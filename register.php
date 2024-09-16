@@ -44,10 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $errors = "Name must contain only letters and spaces!";
 
         } else if (!validateName($state)) {
-            $errors = "Name must contain only letters and spaces!";
+            $errors = " State name must contain only letters and spaces!";
+
+        } else if (!validateName($city)) {
+            $errors = "City name must contain only letters and spaces!";
 
         } else if (!validateEmail($email)) {
             $errors = "Invalid email format";
+
+        } else if (!validateMobile($mobileNo)) {
+            $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
 
         } else if (isExists('user', 'email', $_POST['email'])) {
             $errors = "Email already exists";
@@ -61,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate)
             VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$dob','$hireDate')";
             $result = mysqli_query($conn, $sql);
+            session_regenerate_id();
+            $_SESSION['userid'] == mysqli_insert_id($conn);
             if ($result) {
                 redirectTo("login.php");
             } else {

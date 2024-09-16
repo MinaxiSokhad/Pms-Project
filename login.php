@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password'") or die("Failed");
         if (mysqli_num_rows($selectData) > 0) {
             $rows = mysqli_fetch_assoc($selectData);
+
             $_SESSION['userid'] = $rows['id'];
             redirectTo("index.php");
         } else {

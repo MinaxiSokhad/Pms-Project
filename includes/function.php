@@ -38,13 +38,17 @@ function isEmptyFields($fields)
     return false;
 }
 
-function validateName($name)
+function validateName($field)
 {
-    return preg_match("/^[A-Za-z\s]+$/", $name);
+    return preg_match("/^[A-Za-z\s]+$/", $field);
 }
 
 function validateEmail($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+function validateMobile($number)
+{
+    return preg_match("/^\d{10}$/", $number);
 }
 ?>
