@@ -24,16 +24,16 @@ if (!empty($_POST['search_input'])) {
 // Sorting
 $order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction'] ?? 'desc'; // Default sort direction
-$allowedColumns = ['company', 'website', 'email', 'phone', 'country', 'address']; // Allowed columns for sorting
-$allowedDirections = ['asc', 'desc'];
+// $allowedColumns = ['company', 'website', 'email', 'phone', 'country', 'address']; // Allowed columns for sorting
+// $allowedDirections = ['asc', 'desc'];
 
-if (!in_array($order_by, $allowedColumns)) {
-    $orderBy = 'id';
-}
+// if (!in_array($order_by, $allowedColumns)) {
+//     $orderBy = 'id';
+// }
 
-if (!in_array($direction, $allowedDirections)) {
-    $direction = 'desc';
-}
+// if (!in_array($direction, $allowedDirections)) {
+//     $direction = 'desc';
+// }
 $query .= " ORDER BY $order_by $direction";
 
 // Pagination (optional if you're using pagination)
@@ -42,13 +42,7 @@ $limit = 3; // Limit the results to 10 per page
 $offset = ($page - 1) * $limit;
 $query .= " LIMIT $limit OFFSET $offset";
 
-// Execute query
-// $customers = mysqli_query($conn, $query);
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_METHOD']) && $_POST['_METHOD'] === 'DELETE') {
-//     $customerId = $_POST['id'];
-//     $query = "DELETE FROM customers WHERE id = $customerId";
-//     mysqli_query($conn, $query);
-// }
+
 $customers = mysqli_query($conn, $query);
 ?>
 
@@ -150,7 +144,18 @@ $customers = mysqli_query($conn, $query);
         <br><br>
     </div>
 </div>
+<?php
 
+$customers = mysqli_query($conn, $query);
+if (isset($_POST['delete'])) {
+    $customerId = implode(",", $_POST['id']);
+    $query = "DELETE FROM customers WHERE id IN ('$customerId')";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        redirectTo("customers.php");
+    }
+}
+?>
 <?php include "includes/_footer.php"; ?>
 
 
@@ -178,7 +183,7 @@ $customers = mysqli_query($conn, $query);
         var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");
         if (selectedCheckboxes.length === 0) {
             alert("No customers selected");
-            form.action = "/admin/customer";
+            form.action = "customers.php";
         }
         else {
             if (confirm('Are you sure you want to delete this customers?')) {
