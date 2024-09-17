@@ -73,7 +73,7 @@ if (isset($_POST['submit'])) {
     <h1 class="text-center">Add Customer</h1>
     <hr>
     <h5 class="text-center"><span style="color: red;"> * </span> Indicates required question</h5>
-    <form action="customers.php" method="POST">
+    <form action="" method="POST">
         <div class="mb-3">
             <label for="company">Company<span style="color: red;"> * </span></label>
             <input class="form-control" type="text" id="company" name="company"
