@@ -51,5 +51,84 @@
         filterform.submit();
     }
 </script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 200px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        padding: 10px;
+    }
+
+    .dropdown-content label {
+        display: block;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+    .dropdown-content input {
+        margin-right: 8px;
+    }
+
+    .dropdown-content label:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Sub-options styling */
+    .dropdown-submenu {
+        padding-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    /* Button styling */
+    .filter-button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .filter-button:hover {
+        background-color: #218838;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropdown-button {
+        background-color: #0056b3;
+    }
+</style>
 
 </html>

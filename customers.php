@@ -42,7 +42,7 @@ if ($showRecord != "1") {
     $offset = '';
 }
 
-if ($limit != 0) {
+if ($limit != '') {
     $limit_offset = " LIMIT $limit OFFSET $offset";
 } else {
     $limit_offset = "";
@@ -59,9 +59,9 @@ if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
 $customersFilter = mysqli_query($conn, $basequery);
-// var_dump($recordCount);
+
 ?>
-<input type="hidden" name="record" id="record" value="<?php echo $recordCount; ?>" />
+
 <div class="container my-4">
 
     <h4 class="card-title">Customers</h4>
@@ -135,6 +135,7 @@ $customersFilter = mysqli_query($conn, $basequery);
                 <button type="button" onclick="form_submit()" class="submit-btn">Apply Filters</button>
             </div>
         </div>
+        <input type="hidden" name="record" id="record" value="<?php echo $_POST['record'] ?? 3; ?>" />
         <input type="hidden" id="p" name="p" value="<?php echo e($_POST['p'] ?? 1); ?>">
         <input type="hidden" id="search_input" name="search_input" value="<?php echo e($_POST['s'] ?? ''); ?>" />
         <input type="hidden" id="order_by" name="order_by" value="<?php echo e($_POST['order_by'] ?? 'id') ?>" />
@@ -148,8 +149,11 @@ $customersFilter = mysqli_query($conn, $basequery);
             foreach ($_POST['countries'] as $con): ?>
                 <input type="hidden" id="_filter_country_[]" name="_filter_country_[]" value="<?php echo e($con ?? ''); ?>">
             <?php endforeach; ?>
-        <?php endif; ?>
+        <?php endif;
+        ?>
+
     </form>
+
     <div class="table-responsive">
         <form id="form" name="form" method="POST">
 
@@ -255,15 +259,15 @@ $customersFilter = mysqli_query($conn, $basequery);
             $("input[name='ids[]']").prop('checked', this.checked);
         });
 
-        // Select/Deselect checkboxes in the Customers group
-        // $("input[name='selectCustomers[]']").click(function () {
-        //     $("input[name='company[]']").prop('checked', this.checked);
-        // });
+        // Select / Deselect checkboxes in the Customers group
+        $("input[name='selectCustomers[]']").click(function () {
+            $("input[name='company[]']").prop('checked', this.checked);
+        });
 
-        // Select/Deselect checkboxes in the Countries group
-        // $("input[name='selectCountries[]']").click(function () {
-        //     $("input[name='country[]']").prop('checked', this.checked);
-        // });
+        // Select / Deselect checkboxes in the Countries group
+        $("input[name='selectCountries[]']").click(function () {
+            $("input[name='country[]']").prop('checked', this.checked);
+        });
     });
     function deleteSelectedCustomers() {
         var form = document.getElementById('form');
@@ -288,92 +292,4 @@ $customersFilter = mysqli_query($conn, $basequery);
             form.submit();
         }
     }
-    // function sortBy(column, direction) {
-    //     // Update the hidden inputs with the selected sorting column and direction
-    //     document.getElementById('order_by').value = column;
-    //     document.getElementById('direction').value = direction;
-
-    //     // Submit the form
-    //     document.getElementById('form').submit();
-    // }
-
 </script>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: white;
-        min-width: 200px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-        padding: 10px;
-    }
-
-    .dropdown-content label {
-        display: block;
-        padding: 8px 16px;
-        cursor: pointer;
-    }
-
-    .dropdown-content input {
-        margin-right: 8px;
-    }
-
-    .dropdown-content label:hover {
-        background-color: #f1f1f1;
-    }
-
-    /* Sub-options styling */
-    .dropdown-submenu {
-        padding-left: 20px;
-        margin-bottom: 10px;
-    }
-
-    /* Button styling */
-    .filter-button {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        font-size: 14px;
-        cursor: pointer;
-        border-radius: 5px;
-        margin-top: 10px;
-        width: 100%;
-        text-align: center;
-    }
-
-    .filter-button:hover {
-        background-color: #218838;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown:hover .dropdown-button {
-        background-color: #0056b3;
-    }
-</style>
