@@ -108,33 +108,34 @@ $customers = mysqli_query($conn, $query);
         <br><br>
     </div>
 </div>
-<?php $alert = "";
-if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
+<?php
+// $alert = "";
+// if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
 
-    $where = " ";
-    if (isset($_GET['DeleteAll']) && !empty($_POST['ids'])) {
-        $ids = $_POST['ids']; // This will be an array of selected customer IDs
-        $idsList = implode(',', $ids);
-        $where = " WHERE id IN ($idsList) ";
-    } else {
-        $id = $_GET['id'];
-        $where = " WHERE id = '$id' ";
-    }
-    $delQuery = "DELETE FROM customers " . $where;
-    $result = mysqli_query($conn, $delQuery);
-    if ($result) {
-        $alert = "Customer deleted successfully.";
-    } else {
-        $alert = "Error deleting customer.";
-    }
-}
+//     $where = " ";
+//     if (isset($_GET['DeleteAll']) && !empty($_POST['ids'])) {
+//         $ids = $_POST['ids']; // This will be an array of selected customer IDs
+//         $idsList = implode(',', $ids);
+//         $where = " WHERE id IN ($idsList) ";
+//     } else {
+//         $id = $_GET['id'];
+//         $where = " WHERE id = '$id' ";
+//     }
+//     $delQuery = "DELETE FROM customers " . $where;
+//     $result = mysqli_query($conn, $delQuery);
+//     if ($result) {
+//         $alert = "Customer deleted successfully.";
+//     } else {
+//         $alert = "Error deleting customer.";
+//     }
+// }
 ?>
-<?php if (isset($alert) && $alert != ""): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+<?php //if (isset($alert) && $alert != ""): ?>
+<!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong> </strong> <?php echo $alert; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
+    </div> -->
+<?php //endif; ?>
 <?php include "includes/_footer.php"; ?>
 
 
@@ -166,7 +167,7 @@ if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
         else {
             if (confirm('Are you sure you want to delete this customers?')) {
                 <?php $id[0] = [0]; ?>
-                form.action = "customers.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.action = "deletecustomers.php?DeleteAll=<?php echo e($id[0][0]); ?>";
                 form.submit();
             }
         }
@@ -175,7 +176,7 @@ if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
     function deletecustomer(customerid) {
         if (confirm('Are you sure you want to delete this customer?')) {
             <?php $id[0] = [0]; ?>
-            form.action = "customers.php?id=" + customerid;
+            form.action = "deletecustomers.php?id=" + customerid;
             form.submit();
         }
     }
