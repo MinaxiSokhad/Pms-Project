@@ -14,7 +14,7 @@
 <script>
     const filterform = document.getElementById('filterform');
     function form_submit() {
-        document.getElementById('p').value = 1;
+        // document.getElementById('p').value = 1;
         filterform.submit();
     }
     function limit_submit() {
