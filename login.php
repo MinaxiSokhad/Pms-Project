@@ -10,13 +10,24 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password'") or die("Failed");
+    $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email'") or die("Query Failed");
+
+    // Check if a user with this email exists
     if (mysqli_num_rows($selectData) > 0) {
         $rows = mysqli_fetch_assoc($selectData);
-        $_SESSION['userid'] = $rows['id'];
-        redirectTo("index.php");
+
+        // Now verify the password using password_verify()
+        if (password_verify($password, $rows['password'])) {
+            // Password matches, set session and redirect to index.php
+            $_SESSION['userid'] = $rows['id'];
+            redirectTo("index.php");
+        } else {
+            // Password doesn't match
+            $showError = "Incorrect email or password";
+        }
     } else {
-        $showError = "Incorrect email and password";
+        // Email doesn't exist in the database
+        $showError = "Incorrect email or password";
     }
 }
 ?>

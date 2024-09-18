@@ -71,9 +71,12 @@ if (isset($_POST['submit'])) {
         $errors = 'Mobile number already exists';
 
     } else {
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $formattedDate = "{$_POST['dob']} 00:00:00";
+        $hireDate = "{$_POST['hireDate']} 00:00:00";
         $sql = "INSERT INTO user(
             name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate)
-            VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$dob','$hireDate')";
+            VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
             redirectTo("login.php");
