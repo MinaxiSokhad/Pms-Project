@@ -59,7 +59,7 @@ if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
 $customersFilter = mysqli_query($conn, $basequery);
-
+$_POST['record'] = $totalRecords;
 ?>
 
 <div class="container my-4">
@@ -135,7 +135,7 @@ $customersFilter = mysqli_query($conn, $basequery);
                 <button type="button" onclick="form_submit()" class="submit-btn">Apply Filters</button>
             </div>
         </div>
-        <input type="hidden" name="record" id="record" value="<?php echo $_POST['record'] ?? 3; ?>" />
+        <input type="hidden" name="record" id="record" value="<?php echo e($_POST['record'] ?? ''); ?>" />
         <input type="hidden" id="p" name="p" value="<?php echo e($_POST['p'] ?? 1); ?>">
         <input type="hidden" id="search_input" name="search_input" value="<?php echo e($_POST['s'] ?? ''); ?>" />
         <input type="hidden" id="order_by" name="order_by" value="<?php echo e($_POST['order_by'] ?? 'id') ?>" />
