@@ -1,51 +1,15 @@
 <?php include "includes/_header.php"; ?>
 <title>Customers</title>
-<?php // Build the base query
+<?php
+// Build the base query
 $query = "SELECT * FROM customers WHERE id > 0";
-
-// Filtering by company
-// if (!empty($_POST['company'])) {
-//     $companyList = implode("','", array_map('mysqli_real_escape_string', $_POST['company']));
-//     $query .= " AND company IN ('$companyList')";
-// }
-
-// Filtering by country
-// if (!empty($_POST['country'])) {
-//     $countryList = implode("','", array_map('mysqli_real_escape_string', $_POST['country']));
-//     $query .= " AND country IN ('$countryList')";
-// }
-
-// Searching by input (optional search functionality)
-// if (!empty($_POST['search_input'])) {
-//     $search = mysqli_real_escape_string($conn, $_POST['search_input']);
-//     $query .= " AND (company LIKE '%$search%' OR email LIKE '%$search%' OR phone LIKE '%$search%' OR country LIKE '%$search%')";
-// }
-
 // Sorting
 $order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction'] ?? 'desc'; // Default sort direction
-// $allowedColumns = ['company', 'website', 'email', 'phone', 'country', 'address']; // Allowed columns for sorting
-// $allowedDirections = ['asc', 'desc'];
-
-// if (!in_array($order_by, $allowedColumns)) {
-//     $orderBy = 'id';
-// }
-
-// if (!in_array($direction, $allowedDirections)) {
-//     $direction = 'desc';
-// }
 $query .= " ORDER BY $order_by $direction";
 
-// Pagination (optional if you're using pagination)
-// $page = $_POST['p'] ?? 1;
-// $limit = 3; // Limit the results to 10 per page
-// $offset = ($page - 1) * $limit;
-// $query .= " LIMIT $limit OFFSET $offset";
-
 $customers = mysqli_query($conn, $query);
-
 ?>
-
 <div class="container my-4">
 
     <h4 class="card-title">Customers</h4>
@@ -56,7 +20,6 @@ $customers = mysqli_query($conn, $query);
             <input type="hidden" id="order_by" name="order_by" value="<?php echo e($_POST['order_by'] ?? 'id') ?>" />
             <input type="hidden" id="direction" name="direction"
                 value="<?php echo e($_POST['direction'] ?? 'desc') ?>" />
-
 
             <table class="table">
                 <thead>
@@ -120,26 +83,23 @@ $customers = mysqli_query($conn, $query);
                                         <div class="btn btn-primary">Edit</div>
                                     </a></td>
                                 <td>
-
-                                    <button type="submit" value="<?php echo $p['id']; ?>" name="delete"
+                                    <button type="button" onclick="deletecustomer(<?php echo $p['id']; ?>)" name="delete"
                                         class="btn btn-danger">Delete
                                     </button>
-
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 <?php } ?>
             </table>
-
             <br>
             <a href="createcustomer.php">
                 <div class="btn btn-primary">Add New Customers</div>
             </a>
             <?php if ($row = mysqli_num_rows($customers)): ?>
-
-                <form action="customers.php" method="POST">
-                    <button type="submit" name="deleteSelected" class="btn btn-danger">Delete
+                <form action="customers.php" name="deleteform" method="POST">
+                    <button type="button" onclick="deleteSelectedCustomers()" name="deleteSelected"
+                        class="btn btn-danger">Delete
                         Selected Customers
                     </button>
                 </form>
@@ -148,17 +108,16 @@ $customers = mysqli_query($conn, $query);
         <br><br>
     </div>
 </div>
-
 <?php $alert = "";
-if (isset($_POST['delete']) || isset($_POST['deleteSelected'])) {
+if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
 
     $where = " ";
-    if (isset($_POST['deleteSelected']) && !empty($_POST['ids'])) {
+    if (isset($_GET['DeleteAll']) && !empty($_POST['ids'])) {
         $ids = $_POST['ids']; // This will be an array of selected customer IDs
         $idsList = implode(',', $ids);
         $where = " WHERE id IN ($idsList) ";
     } else {
-        $id = $_POST['delete'];
+        $id = $_GET['id'];
         $where = " WHERE id = '$id' ";
     }
     $delQuery = "DELETE FROM customers " . $where;
@@ -169,18 +128,6 @@ if (isset($_POST['delete']) || isset($_POST['deleteSelected'])) {
         $alert = "Error deleting customer.";
     }
 }
-// if (isset($_POST['deleteSelected']) && !empty($_POST['ids'])) {
-//     $ids = $_POST['ids']; // This will be an array of selected customer IDs
-//     $idsList = implode(',', array_map('intval', $ids)); // Sanitizing the array of IDs
-//     $delQuery = "DELETE FROM customers WHERE id IN ($idsList)";
-//     $result = mysqli_query($conn, $delQuery);
-
-//     if ($result) {
-//         $alert = "Customer deleted successfully.";
-//     } else {
-//         $alert = "Error deleting customer.";
-//     }
-// }
 ?>
 <?php if (isset($alert) && $alert != ""): ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -200,16 +147,38 @@ if (isset($_POST['delete']) || isset($_POST['deleteSelected'])) {
         });
 
         // Select/Deselect checkboxes in the Customers group
-        $("input[name='selectCustomers[]']").click(function () {
-            $("input[name='company[]']").prop('checked', this.checked);
-        });
+        // $("input[name='selectCustomers[]']").click(function () {
+        //     $("input[name='company[]']").prop('checked', this.checked);
+        // });
 
         // Select/Deselect checkboxes in the Countries group
-        $("input[name='selectCountries[]']").click(function () {
-            $("input[name='country[]']").prop('checked', this.checked);
-        });
+        // $("input[name='selectCountries[]']").click(function () {
+        //     $("input[name='country[]']").prop('checked', this.checked);
+        // });
     });
+    function deleteSelectedCustomers() {
+        var form = document.getElementById('form');
+        var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("No customers selected");
+            form.action = "customers.php";
+        }
+        else {
+            if (confirm('Are you sure you want to delete this customers?')) {
+                <?php $id[0] = [0]; ?>
+                form.action = "customers.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.submit();
+            }
+        }
 
+    }
+    function deletecustomer(customerid) {
+        if (confirm('Are you sure you want to delete this customer?')) {
+            <?php $id[0] = [0]; ?>
+            form.action = "customers.php?id=" + customerid;
+            form.submit();
+        }
+    }
     function sortBy(column, direction) {
         // Update the hidden inputs with the selected sorting column and direction
         document.getElementById('order_by').value = column;
