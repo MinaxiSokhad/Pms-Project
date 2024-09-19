@@ -1,12 +1,8 @@
 <?php include "includes/_header.php"; ?>
 <?php
 // Enable error reporting for development purposes
-// error_reporting(-1); // Report all PHP errors, warnings, and notices
+// error_reporting(-1); // Report all PHP errors, warnings, and notices (also use E_ALL instead of -1)
 // ini_set('display_errors', '1'); // Display errors in the browser
-?>
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 ?>
 <title>Customers</title>
 <?php
