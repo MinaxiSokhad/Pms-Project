@@ -4,6 +4,7 @@
 // error_reporting(-1); // Report all PHP errors, warnings, and notices (also use E_ALL instead of -1)
 // ini_set('display_errors', '1'); // Display errors in the browser
 ?>
+
 <title>Customers</title>
 <?php
 // Build the base query
@@ -60,7 +61,9 @@ $countQuery = "SELECT COUNT(*) AS total FROM customers WHERE id > 0" . $searchTe
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
 $totalRecords = $countRow['total'];
+
 // $totalRecords = mysqli_num_rows($customers); // count records as limit that's why show only one page
+
 if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
@@ -135,7 +138,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                         <td><?php echo e($value); ?></td>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-                                <td><a href="editcustomers.php?id=<?php echo $p['id']; ?>">
+                                <td><a href="customer.php?id=<?php echo $p['id']; ?>">
                                         <div class="btn btn-primary">Edit</div>
                                     </a></td>
                                 <td>
@@ -149,7 +152,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                 <?php } ?>
             </table>
             <br>
-            <a href="createcustomer.php">
+            <a href="customer.php">
                 <div class="btn btn-primary">Add New Customers</div>
             </a>
             <?php if ($row = mysqli_num_rows($customers)): ?>

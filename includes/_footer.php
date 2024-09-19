@@ -65,7 +65,7 @@
         else {
             if (confirm('Are you sure you want to delete this customers?')) {
                 <?php $id[0] = [0]; ?>
-                form.action = "deletecustomers.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.action = "customer.php?DeleteAll=<?php echo e($id[0][0]); ?>";
                 form.submit();
             }
         }
@@ -74,7 +74,7 @@
     function deletecustomer(customerid) {
         if (confirm('Are you sure you want to delete this customer?')) {
             <?php $id[0] = [0]; ?>
-            form.action = "deletecustomers.php?id=" + customerid;
+            form.action = "customer.php?delete=" + customerid;
             form.submit();
         }
     }

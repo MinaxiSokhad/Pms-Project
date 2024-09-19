@@ -4,7 +4,10 @@ $oldFormData = $_POST;
 
 function redirectTo(string $path)
 {
-    header("Location:{$path}"); //redirection with headers
+    header("Location:{$path}"); //redirection with headers 
+    // No "headers already sent" error
+    // Now, flush the buffer and send output to the browser
+    ob_end_flush();
     exit;
 }
 function e(mixed $value): string
@@ -84,5 +87,44 @@ function validatehireDate(string $field, $params): bool
 
     $minHireDate = (clone $dob)->add(new DateInterval('P18Y'));
     return $date <= $now && $date >= $minHireDate;
+}
+function validateCustomer($data)
+{
+    $errors = "";
+    $company = $_POST['company'];
+    $website = $_POST['website'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $country = $_POST['country'];
+    $address = $_POST['address'];
+
+    $fields = [
+        'company' => $company,
+        'website' => $website,
+        'email' => $email,
+        'phone' => $phone,
+        'country' => $country,
+        'address' => $address
+    ];
+    if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
+
+    } else if (!validateName($company)) {
+        $errors = "Company name must contain only letters and spaces!";
+
+    } else if (!validateURL($website)) {
+        $errors = "Invalid URL";
+
+    } else if (!validateEmail($email)) {
+        $errors = "Invalid email format";
+
+    } else if (!validateMobile($phone)) {
+        $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
+
+    } else if (!validateSelection($country, ['USA', 'Canada', 'Mexico', 'India', 'Russia'])) {
+        $errors = " Invalid Selection!";
+
+    }
+    return $errors;
 }
 ?>
