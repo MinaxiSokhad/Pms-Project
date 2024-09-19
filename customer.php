@@ -1,6 +1,11 @@
 <?php ob_start();
+if (isset($_GET['id'])) {
+    $title = "Update Customer";
+
+} else {
+    $title = "Add Customer";
+}
 include "includes/_header.php"; ?>
-<title>Customers</title>
 <?php
 if (isset($_POST['add']) || isset($_POST['updateCustomer'])) {
     $company = $_POST['company'];
@@ -103,6 +108,7 @@ if (isset($_GET['delete']) || isset($_GET['DeleteAll'])) {
     </div>
 <?php endif; ?>
 <?php if (isset($_GET['id'])): ?>
+
     <div class="container my-4">
         <h1 class="text-center">Edit Customer</h1>
         <form action="" method="POST">

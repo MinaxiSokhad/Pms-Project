@@ -1,3 +1,4 @@
+<?php $title = "Customers"; ?>
 <?php include "includes/_header.php"; ?>
 <?php
 // Enable error reporting for development purposes
@@ -5,7 +6,6 @@
 // ini_set('display_errors', '1'); // Display errors in the browser
 ?>
 
-<title>Customers</title>
 <?php
 // Build the base query
 $basequery = "SELECT * FROM customers WHERE id > 0";
