@@ -10,9 +10,7 @@ ini_set('display_errors', '1');
 <html lang="en">
 
 <head>
-    <!-- <title>Add Customer</title>
-    <title>Edit Customer</title>
-    <title>Customers</title> -->
+
     <title><?php echo isset($title) ? $title : "PMS"; ?></title>
 
     <!-- Required meta tags -->

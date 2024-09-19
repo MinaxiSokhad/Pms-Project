@@ -1,0 +1,686 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Sep 19, 2024 at 02:17 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.1.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pms`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attechments`
+--
+
+CREATE TABLE `attechments` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `file_name` varchar(100) NOT NULL,
+  `file_path` varchar(150) NOT NULL,
+  `upload_date` date NOT NULL,
+  `uploaded_by` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `commented_by` int(11) NOT NULL,
+  `comment_date` datetime NOT NULL,
+  `comment_text` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `company` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` int(10) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `company`, `website`, `email`, `phone`, `country`, `address`, `created_at`, `updated_at`) VALUES
+(87, 'solar', 'https://www.temp.com/', 'ss@gmail.com', 1234567890, 'USA', 'sad', '2024-09-18', '2024-09-18'),
+(88, 'Myr', 'https://www.myr.com/', 'mi@gmail.com', 1234567894, 'Canada', 'sd', '2024-09-18', '2024-09-18'),
+(89, 'solarsd', 'https://www.tempsdasd.com/', 'ssads@gmail.com', 1234562890, 'USA', 'sad', '2024-09-18', '2024-09-18'),
+(90, 'Myrsd', 'https://www.smyr.com/', 'ssds@gmail.com', 1234562894, 'USA', 'sd', '2024-09-18', '2024-09-18'),
+(92, 'asdf', 'https://www.tdemp.com/', 'sss@gmail.com', 1234567891, 'USA', 'sw', '2024-09-19', '2024-09-19'),
+(93, 'solarsdgf', 'https://www.tefmp.com/', 'ffss@gmail.com', 1234563890, 'USA', 'f', '2024-09-19', '2024-09-19'),
+(97, 'solard', 'https://www.tedmp.com/', 'sds@gmail.com', 1234567893, 'USA', 's', '2024-09-19', '2024-09-19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project`
+--
+
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` text NOT NULL,
+  `customer` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `deadline` date NOT NULL,
+  `status` enum('S','P','H','C','F') NOT NULL DEFAULT 'P',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_member`
+--
+
+CREATE TABLE `project_member` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_tags`
+--
+
+CREATE TABLE `project_tags` (
+  `id` int(11) NOT NULL,
+  `tags_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_team`
+--
+
+CREATE TABLE `project_team` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `total_member` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tags`
+--
+
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `name`) VALUES
+(1, 'Back-End Devlopment'),
+(2, 'Front-End Integration'),
+(3, 'Front-End HTML'),
+(4, 'UI Design'),
+(5, 'IOS Devlopment'),
+(6, 'Android Devlopment');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task`
+--
+
+CREATE TABLE `task` (
+  `id` int(11) NOT NULL,
+  `project` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `due_date` datetime NOT NULL,
+  `status` enum('S','P','C','T') NOT NULL,
+  `priority` enum('H','M','L') NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_member`
+--
+
+CREATE TABLE `task_member` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_tags`
+--
+
+CREATE TABLE `task_tags` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `tags_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `gender` enum('M','F','O') NOT NULL,
+  `maritalStatus` enum('S','M','W','D') NOT NULL,
+  `mobileNo` varchar(10) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `hireDate` date NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1',
+  `user_type` enum('E','A') NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `image` varchar(255) DEFAULT NULL,
+  `storage_filename` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `country`, `state`, `city`, `gender`, `maritalStatus`, `mobileNo`, `address`, `dob`, `hireDate`, `status`, `user_type`, `created_at`, `updated_at`, `image`, `storage_filename`) VALUES
+(1, 'John Doe', 'john.doe@example.com', '$2y$12$I.4n0EfE9327Q4X/PAhz6uav9xT2SLYHSNAvKmYQQSXbRG0avbG3i', 'Canada', 'New York', 'New York City', 'M', 'M', '1234567890', '123 Main St', '1990-01-01', '2022-01-01', '1', 'A', '2024-07-17 11:57:05', '2024-09-06 13:40:21', 'image.jpg', 'd94593b4824cc634161394cd19f132ff.jpg'),
+(2, 'Alice Smith', 'alice.smith@example.com', 'password456', 'UK', 'London', 'London', 'F', 'S', '9876543210', '456 Park Ave', '1985-05-15', '2021-12-15', '1', 'E', '2024-07-17 11:57:05', '2024-07-17 11:57:05', NULL, ''),
+(3, 'Bob Johnson', 'bob.johnson@example.com', 'password789', 'Canada', 'Toronto', 'Toronto', 'M', 'M', '5678901234', '789 Elm St', '1988-09-30', '2022-02-28', '1', 'E', '2024-07-17 11:57:05', '2024-07-17 11:57:05', NULL, ''),
+(4, 'Eve Brown', 'ma@gmail.com', '$2y$12$KaHwxdetlOTh/5b7DkgYaeTnF./FoDTwt0pVyermRUFUiIwyiW4Hy', 'Russia\r\n', 'Sydney', 'Sydney', 'F', 'S', '3456789012', '321 Oak St', '1992-07-10', '2023-03-15', '1', 'E', '2024-07-17 11:57:05', '2024-09-06 10:40:51', 'img.jpg', '66b28ee74f7a0c36ff70198b37042469.jpg'),
+(12, 'Suman Jambudiya', 's@gmail.com', '$2y$12$86YsTMTzlQuAJ9prrF.8IO7RdylPbHu3ueCHgYtmJ8hjae0LO7eym', 'India', 'Gujarat', 'Rajkot', 'F', 'M', '0123456789', 'asdasd', '2000-02-02', '2024-07-04', '1', 'E', '2024-07-18 11:57:22', '2024-09-06 16:00:41', NULL, ''),
+(22, 'Minaxi Prajapati', 'mi@gmail.com', '$2y$12$nd1xCT3WhOAGwd0MQpchpOm/6Jhoba.R0O9RG9Rk05XNanSelmdIm', 'Canada', 'Gujarat', 'Rajkot', 'F', 'M', '0123456743', 'qweqer', '2003-02-02', '2023-02-02', '1', 'A', '2024-07-24 11:58:02', '2024-09-09 17:57:19', 'img.jpg', 'b3ea4e755d722df86c34e2433d9f3310.jpg'),
+(29, 'Minaxi S', 'minaxi@gmail.com', '$2y$12$IVLaED83UyIzRCaNiNJXU.hS3qK5D/LzOZdjTMGoRw6Zk7XjcW..6', 'India', 'Gujarat', 'Rajkot', 'F', 'S', '0123456489', 'af', '2004-02-02', '2023-02-02', '1', 'E', '2024-09-05 19:16:01', '2024-09-06 11:10:59', 'img.jpg', '3adf365f8c0dedb80c854cecef84a9b0.jpg'),
+(30, 'Alice Brown', 'alice.brown@example.com', 'hashedpassword789', 'USA', 'Texas', 'Dallas', 'F', 'S', '1231231234', '789 Oak St', '1988-12-05', '2024-02-01', '1', 'E', '2024-09-11 13:30:51', '2024-09-11 13:30:51', NULL, ''),
+(31, 'Carol Williams', 'carol.williams@example.com', 'hashedpassword654', 'Canada', 'Ontario', 'Toronto', 'F', 'W', '5675675678', '202202 Birch St', '1985-08-22', '2024-04-01', '1', 'E', '2024-09-11 13:30:51', '2024-09-11 13:30:51', NULL, ''),
+(32, 'David Brown', 'david.brown@example.com', 'hashedpassword987', 'USA', 'California', 'San Francisco', 'M', 'S', '8765432109', '303 Cedar St', '1995-11-30', '2024-05-01', '1', 'E', '2024-09-11 13:30:51', '2024-09-11 13:30:51', NULL, ''),
+(33, 'Emma White', 'emma.white@example.com', 'hashedpassword456', 'USA', 'New York', 'New York', 'F', 'M', '5432167890', '404 Maple St', '1993-06-18', '2024-06-01', '1', 'A', '2024-09-11 13:30:51', '2024-09-11 13:30:51', NULL, ''),
+(40, 'John Smith', 'john.smith@example.com', '$2y$10$CwTyc4e0tTsyMz3W5n0WlOtMbFZT1g.X6Hk6Krq03rONPWT4x1dTq', 'USA', 'California', 'Los Angeles', 'M', 'S', '3105551234', '123 Elm St', '1990-03-15', '2024-07-01', '1', 'E', '2024-09-11 13:32:50', '2024-09-11 13:32:50', NULL, ''),
+(41, 'Linda Green', 'linda.green@example.com', '$2y$10$5FPOpxAq0eZkAKbZhz2IleFzLZMPteYZHJ5HbnO6XnnkwYidBsQd6', 'UK', 'London', 'London', 'F', 'M', '0207946000', '456 Pine Ave', '1988-09-10', '2024-08-01', '1', 'A', '2024-09-11 13:32:50', '2024-09-11 13:32:50', NULL, ''),
+(42, 'Michael Davis', 'michael.davis@example.com', '$2y$10$LXyyM6WFS5Z9DgR2QciP5e5IguoNGZJ9CkK/Hb56TR59c8/7FQ8Iq', 'Australia', 'New South Wales', 'Sydney', 'M', 'M', '0298765432', '789 Oak Lane', '1982-11-20', '2024-09-01', '1', 'E', '2024-09-11 13:32:50', '2024-09-11 13:32:50', NULL, ''),
+(43, 'Sophia Martinez', 'sophia.martinez@example.com', '$2y$10$F7g7Q8nVTxtrWzjll1S9J.LJcAqYw5eAEJzexyFRY.x1w/KeRaQ32', 'USA', 'Texas', 'Houston', 'F', 'S', '7135556789', '321 Birch St', '1994-02-25', '2024-10-01', '1', 'E', '2024-09-11 13:32:50', '2024-09-11 13:32:50', NULL, ''),
+(44, 'James Wilson', 'james.wilson@example.com', '$2y$10$gJ6P62A6ZORR/EInHMpCjexKDxdLVOnYyKDhIojF4bY2GzFHxzIJuG', 'Canada', 'Quebec', 'Montreal', 'M', 'M', '5145559876', '654 Maple St', '1989-12-12', '2024-11-01', '1', 'A', '2024-09-11 13:32:50', '2024-09-11 13:32:50', NULL, ''),
+(45, 'Jennifer Adams', 'jennifer.adams@example.com', '$2y$10$E/3n9W2B6kSE2vs04B1.AuA1uJxUp1F/6D6gB8Kk2gf5r1A5lgD1S', 'USA', 'California', 'Los Angeles', 'F', 'S', '3105559876', '567 Sunset Blvd', '1989-01-15', '2024-07-01', '1', 'E', '2024-09-11 13:34:08', '2024-09-11 13:34:08', NULL, ''),
+(46, 'Michael Clark', 'michael.clark@example.com', '$2y$10$Ik8zAdk0O8J3bPCQxIjQeu29YczIl5uI6Zy5Rf5I2FqZiwD1i71ie', 'USA', 'New York', 'Brooklyn', 'M', 'M', '7185551234', '789 Kings Hwy', '1990-05-25', '2024-08-01', '1', 'A', '2024-09-11 13:34:08', '2024-09-11 13:34:08', NULL, ''),
+(47, 'Natalie Turner', 'natalie.turner@example.com', '$2y$10$PgRf0B.fUhWdvU2VcVZ2z.4RyVXQgRi7FfF0fsPshpSsh2y2bPi1G', 'Canada', 'British Columbia', 'Vancouver', 'F', 'M', '6045556789', '345 Oak St', '1984-09-30', '2024-09-01', '1', 'E', '2024-09-11 13:34:08', '2024-09-11 13:34:08', NULL, ''),
+(48, 'Liam Johnson', 'liam.johnson@example.com', '$2y$10$NwYQJAYxkThnNo1D4JHQu.z6n5SvCwHtFZ4Dp5fPYV4b9jXbG8zgy', 'USA', 'Texas', 'Houston', 'M', 'S', '7135554321', '123 Main St', '1991-11-20', '2024-10-01', '1', 'E', '2024-09-11 13:34:08', '2024-09-11 13:34:08', NULL, ''),
+(49, 'Sophia Lee', 'sophia.lee@example.com', '$2y$10$gI1b5VpWc5ZC1dM2bV0wU1Hf3E8CzEn7HddmNoS95YI0cUJ86i1Ae', 'Australia', 'Victoria', 'Melbourne', 'F', 'W', '0398765432', '456 Collins St', '1986-03-10', '2024-11-01', '1', 'A', '2024-09-11 13:34:08', '2024-09-11 13:34:08', NULL, ''),
+(52, 'Alice Brown', 'alicce.brown@example.com', 'hashedpassword789', 'USA', 'Texas', 'Dallas', 'F', 'S', '1031231234', '789 Oak St', '1988-12-05', '2024-02-01', '1', 'E', '2024-09-11 13:36:08', '2024-09-11 13:36:08', NULL, ''),
+(57, 'Carol Jones', 'carol.jones@example.com', 'hashedpassword654', 'Canada', 'British Columbia', 'Vancouver', 'F', 'W', '3456089012', '456 Maple St', '1982-09-10', '2024-04-20', '1', 'E', '2024-09-11 13:37:48', '2024-09-11 13:37:48', NULL, ''),
+(58, 'David Wilson', 'david.wilson@example.com', 'hashedpassword987', 'USA', 'New York', 'Brooklyn', 'M', 'S', '0567890123', '789 Pine St', '1994-11-15', '2024-05-10', '1', 'E', '2024-09-11 13:37:48', '2024-09-11 13:37:48', NULL, ''),
+(59, 'Emma Davis', 'emma.davis@example.com', 'hashedpassword456', 'USA', 'Florida', 'Miami', 'F', 'M', '5678901294', '101 Birch St', '1991-07-30', '2024-06-05', '1', 'A', '2024-09-11 13:37:48', '2024-09-11 13:37:48', NULL, ''),
+(110, 'George Martin', 'george.martin@example.com', 'hashedpassword135', 'USA', 'Texas', 'Houston', 'M', 'S', '6789012340', '234 Oak St', '1980-02-17', '2024-07-01', '1', 'E', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(111, 'Hannah Lee', 'hannah.lee@example.com', 'hashedpassword246', 'USA', 'Nevada', 'Las Vegas', 'F', 'M', '7890123451', '345 Cedar St', '1987-10-08', '2024-08-15', '1', 'A', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(112, 'Ian Clark', 'ian.clark@example.com', 'hashedpassword357', 'Canada', 'Quebec', 'Montreal', 'M', 'W', '8901234562', '456 Oak St', '1993-01-21', '2024-09-05', '1', 'E', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(113, 'Jasmine Patel', 'jasmine.patel@example.com', 'hashedpassword468', 'USA', 'Illinois', 'Chicago', 'F', 'S', '9012345673', '567 Pine St', '1985-03-30', '2024-10-20', '1', 'A', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(114, 'Kevin Harris', 'kevin.harris@example.com', 'hashedpassword579', 'USA', 'Georgia', 'Atlanta', 'M', 'M', '0123456784', '678 Birch St', '1990-11-12', '2024-11-15', '1', 'E', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(115, 'Lily Adams', 'lily.adams@example.com', 'hashedpassword680', 'Canada', 'Ontario', 'Ottawa', 'F', 'W', '1234567895', '789 Maple St', '1988-05-05', '2024-12-01', '1', 'A', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(116, 'Michael Scott', 'michael.scott@example.com', 'hashedpassword791', 'USA', 'Michigan', 'Detroit', 'M', 'S', '2345678906', '890 Elm St', '1982-06-15', '2024-01-10', '1', 'E', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(117, 'Natalie Green', 'natalie.green@example.com', 'hashedpassword802', 'USA', 'New Jersey', 'Jersey City', 'F', 'M', '3456789017', '901 Cedar St', '1995-09-30', '2024-02-20', '1', 'A', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(118, 'Oliver White', 'oliver.white@example.com', 'hashedpassword913', 'Canada', 'British Columbia', 'Victoria', 'M', 'W', '4567890128', '123 Pine St', '1983-04-25', '2024-03-15', '1', 'E', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(119, 'Peyton Mitchell', 'peyton.mitchell@example.com', 'hashedpassword024', 'USA', 'North Carolina', 'Charlotte', 'F', 'S', '5678901235', '234 Birch St', '1987-12-10', '2024-04-05', '1', 'A', '2024-09-11 13:40:10', '2024-09-11 13:40:10', NULL, ''),
+(130, 'Alice Cooper', 'alice.cooper@example.com', 'hashedpassword941', 'USA', 'Nevada', 'Las Vegas', 'F', 'S', '1122334455', '888 Sunset Blvd', '1990-05-11', '2024-02-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(131, 'Bradley Davis', 'bradley.davis@example.com', 'hashedpassword852', 'USA', 'Oregon', 'Portland', 'M', 'M', '2233445566', '999 Downtown Ave', '1982-07-22', '2024-03-01', '1', 'A', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(132, 'Cassandra Moore', 'cassandra.moore@example.com', 'hashedpassword763', 'Canada', 'British Columbia', 'Vancouver', 'F', 'W', '3344556677', '555 Central St', '1994-08-15', '2024-04-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(133, 'Derek Harris', 'derek.harris@example.com', 'hashedpassword674', 'USA', 'Michigan', 'Detroit', 'M', 'S', '4455667788', '777 North St', '1986-10-30', '2024-05-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(134, 'Emily Johnson', 'emily.johnson@example.com', 'hashedpassword585', 'USA', 'Georgia', 'Atlanta', 'F', 'M', '5566778899', '444 South St', '1991-12-11', '2024-06-01', '1', 'A', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(135, 'Franklin Lewis', 'franklin.lewis@example.com', 'hashedpassword496', 'Canada', 'Manitoba', 'Winnipeg', 'M', 'W', '6677889900', '333 Main St', '1988-03-25', '2024-07-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(136, 'Grace Turner', 'grace.turner@example.com', 'hashedpassword407', 'USA', 'California', 'Los Angeles', 'F', 'S', '7788990011', '222 Beach Blvd', '1995-09-09', '2024-08-01', '1', 'A', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(137, 'Henry Clark', 'henry.clark@example.com', 'hashedpassword318', 'USA', 'New Jersey', 'Newark', 'M', 'M', '8899001122', '111 Park Ave', '1980-11-05', '2024-09-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(138, 'Irene Scott', 'irene.scott@example.com', 'hashedpassword229', 'Canada', 'Quebec', 'Montreal', 'F', 'W', '9900112233', '666 River Rd', '1987-04-17', '2024-10-01', '1', 'A', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(139, 'Jack Wilson', 'jack.wilson@example.com', 'hashedpassword140', 'USA', 'Illinois', 'Chicago', 'M', 'S', '1011223344', '555 Summit Ave', '1992-06-28', '2024-11-01', '1', 'E', '2024-09-11 13:42:37', '2024-09-11 13:42:37', NULL, ''),
+(140, 'Karen Fisher', 'karen.fisher@example.com', 'hashedpassword831', 'USA', 'Texas', 'Houston', 'F', 'S', '1222333445', '2002 Lakeview Dr', '1989-01-16', '2024-12-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(141, 'Liam Adams', 'liam.adams@example.com', 'hashedpassword742', 'Canada', 'Ontario', 'Ottawa', 'M', 'M', '2333445566', '101 River St', '1984-09-27', '2024-01-01', '1', 'A', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(142, 'Mia Nelson', 'mia.nelson@example.com', 'hashedpassword653', 'USA', 'California', 'San Diego', 'F', 'W', '3444556677', '300 Beach Blvd', '1996-05-14', '2024-02-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(143, 'Noah Martinez', 'noah.martinez@example.com', 'hashedpassword564', 'USA', 'Nevada', 'Reno', 'M', 'S', '4555667788', '450 Hilltop Ave', '1990-03-05', '2024-03-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(144, 'Olivia Taylor', 'olivia.taylor@example.com', 'hashedpassword475', 'Canada', 'Alberta', 'Calgary', 'F', 'M', '5666778899', '1234 Elm St', '1992-10-22', '2024-04-01', '1', 'A', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(145, 'Paul Robinson', 'paul.robinson@example.com', 'hashedpassword386', 'USA', 'Florida', 'Orlando', 'M', 'W', '6777889900', '777 Main St', '1987-07-30', '2024-05-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(146, 'Quinn Brown', 'quinn.brown@example.com', 'hashedpassword297', 'USA', 'New York', 'Buffalo', 'F', 'S', '7888990011', '888 State St', '1994-11-11', '2024-06-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(147, 'Rachel Green', 'rachel.green@example.com', 'hashedpassword208', 'Canada', 'British Columbia', 'Victoria', 'F', 'M', '8999001122', '999 Oak Dr', '1981-04-09', '2024-07-01', '1', 'A', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(148, 'Samuel Wright', 'samuel.wright@example.com', 'hashedpassword119', 'USA', 'Michigan', 'Ann Arbor', 'M', 'S', '9100112233', '600 Willow St', '1993-06-14', '2024-08-01', '1', 'E', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(149, 'Tina Lewis', 'tina.lewis@example.com', 'hashedpassword530', 'Canada', 'Quebec', 'Quebec City', 'F', 'W', '0211223344', '500 River Ave', '1986-12-21', '2024-09-01', '1', 'A', '2024-09-11 13:43:12', '2024-09-11 13:43:12', NULL, ''),
+(150, 'Victor King', 'victor.king@example.com', 'hashedpassword641', 'USA', 'Texas', 'Austin', 'M', 'S', '1212121212', '6006 Sunset Blvd', '1982-02-25', '2024-10-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(151, 'Wendy Clark', 'wendy.clark@example.com', 'hashedpassword752', 'USA', 'New York', 'Albany', 'F', 'M', '2323232323', '789 Elm St', '1990-04-12', '2024-11-01', '1', 'A', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(152, 'Xander Lee', 'xander.lee@example.com', 'hashedpassword863', 'Canada', 'Ontario', 'Ottawa', 'M', 'W', '3434343434', '456 Maple Ave', '1988-06-18', '2024-12-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(153, 'Yara Martinez', 'yara.martinez@example.com', 'hashedpassword974', 'USA', 'California', 'Sacramento', 'F', 'S', '4545454545', '321 Birch St', '1991-08-27', '2025-01-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(154, 'Zane Anderson', 'zane.anderson@example.com', 'hashedpassword085', 'USA', 'Florida', 'Tampa', 'M', 'M', '5656565656', '654 Pine St', '1985-09-30', '2025-02-01', '1', 'A', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(155, 'Ava Robinson', 'ava.robinson@example.com', 'hashedpassword196', 'Canada', 'Alberta', 'Edmonton', 'F', 'W', '6767676767', '987 Cedar St', '1993-11-22', '2025-03-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(156, 'Ben Harris', 'ben.harris@example.com', 'hashedpassword207', 'USA', 'Nevada', 'Las Vegas', 'M', 'S', '7878787878', '321 Oak St', '1994-12-15', '2025-04-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(157, 'Celia Walker', 'celia.walker@example.com', 'hashedpassword318', 'Canada', 'British Columbia', 'Vancouver', 'F', 'M', '8989898989', '543 Pine Ave', '1987-05-10', '2025-05-01', '1', 'A', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(158, 'Daniel Wright', 'daniel.wright@example.com', 'hashedpassword429', 'USA', 'Michigan', 'Detroit', 'M', 'W', '9090909090', '654 Willow Ave', '1992-07-20', '2025-06-01', '1', 'E', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(159, 'Eva Turner', 'eva.turner@example.com', 'hashedpassword530', 'USA', 'New Jersey', 'Jersey City', 'F', 'S', '0101010101', '789 Oak St', '1984-11-11', '2025-07-01', '1', 'A', '2024-09-11 13:43:44', '2024-09-11 13:43:44', NULL, ''),
+(170, 'George Adams', 'george.adams@example.com', 'hashedpassword641', 'USA', 'Arizona', 'Phoenix', 'M', 'M', '2121212122', '1111 Desert Rd', '1989-03-19', '2025-08-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(171, 'Hannah Evans', 'hannah.evans@example.com', 'hashedpassword752', 'Canada', 'Quebec', 'Montreal', 'F', 'W', '3232323233', '2222 Maple Rd', '1992-06-30', '2025-09-01', '1', 'A', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(172, 'Ian Taylor', 'ian.taylor@example.com', 'hashedpassword863', 'USA', 'Colorado', 'Denver', 'M', 'S', '4343434344', '3333 Summit Ave', '1987-10-11', '2025-10-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(173, 'Julia Scott', 'julia.scott@example.com', 'hashedpassword974', 'Canada', 'Nova Scotia', 'Halifax', 'F', 'M', '5454545455', '4444 Ocean Dr', '1985-12-05', '2025-11-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(174, 'Kevin Morgan', 'kevin.morgan@example.com', 'hashedpassword085', 'USA', 'Oregon', 'Portland', 'M', 'W', '6565656566', '5555 River St', '1990-04-17', '2025-12-01', '1', 'A', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(175, 'Lily Murphy', 'lily.murphy@example.com', 'hashedpassword196', 'USA', 'Utah', 'Salt Lake City', 'F', 'S', '7676767677', '6666 Canyon Rd', '1993-08-23', '2026-01-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(176, 'Matthew Bennett', 'matthew.bennett@example.com', 'hashedpassword207', 'Canada', 'Saskatchewan', 'Regina', 'M', 'M', '8787878788', '7777 Prairie Ave', '1994-09-30', '2026-02-01', '1', 'A', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(177, 'Nora Harris', 'nora.harris@example.com', 'hashedpassword318', 'USA', 'Indiana', 'Indianapolis', 'F', 'W', '9898989899', '8888 Forest Rd', '1988-11-15', '2026-03-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(178, 'Oscar Reed', 'oscar.reed@example.com', 'hashedpassword429', 'USA', 'Minnesota', 'Minneapolis', 'M', 'S', '1010101011', '9999 North Ave', '1995-12-29', '2026-04-01', '1', 'A', '2024-09-11 13:50:41', '2024-09-11 13:50:41', NULL, ''),
+(179, 'Pia Sanders', 'pia.sanders@example.com', '$2y$12$j/IervoyEPMPtjVFdEWGsO/ruSDuZWxr/d81qyoGmglBTljqU0uLO', 'Canada', 'Manitoba', 'Winnipeg', 'F', 'M', '2121212123', '10000 Birch St', '1992-07-19', '2021-05-01', '1', 'E', '2024-09-11 13:50:41', '2024-09-12 10:07:10', NULL, ''),
+(383, 'Adam West', 'adam.west@example.com', 'hashedpassword101', 'USA', 'Nevada', 'Las Vegas', 'M', 'S', '1232121212', '1 Main St', '1988-05-01', '2024-01-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(384, 'Brenda Lee', 'brenda.lee@example.com', 'hashedpassword102', 'USA', 'Nevada', 'Las Vegas', 'F', 'M', '2323432323', '2 Main St', '1990-07-12', '2024-02-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(385, 'Charles King', 'charles.king@example.com', 'hashedpassword103', 'USA', 'Georgia', 'Atlanta', 'M', 'W', '3434333434', '3 Peach St', '1985-03-21', '2024-03-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(386, 'Diana Ross', 'diana.ross@example.com', 'hashedpassword104', 'USA', 'Georgia', 'Atlanta', 'F', 'S', '4545454445', '4 Peach St', '1992-06-10', '2024-04-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(387, 'Edward Green', 'edward.green@example.com', 'hashedpassword105', 'USA', 'Ohio', 'Cleveland', 'M', 'M', '5656665656', '5 Lake St', '1987-09-30', '2024-05-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(388, 'Fiona Hall', 'fiona.hall@example.com', 'hashedpassword106', 'Canada', 'Alberta', 'Edmonton', 'F', 'M', '6767676765', '6 River Rd', '1991-12-22', '2024-06-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(389, 'George Young', 'george.young@example.com', 'hashedpassword107', 'USA', 'Texas', 'Austin', 'M', 'S', '7878783878', '7 Cedar Ave', '1994-04-17', '2024-07-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(390, 'Helen Clark', 'helen.clark@example.com', 'hashedpassword108', 'Canada', 'British Columbia', 'Vancouver', 'F', 'M', '8989398989', '8 Oak St', '1989-08-14', '2024-08-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(391, 'Isaac Reed', 'isaac.reed@example.com', 'hashedpassword109', 'USA', 'Michigan', 'Detroit', 'M', 'W', '9090929090', '9 Pine St', '1992-11-05', '2024-09-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(392, 'Julia Evans', 'julia.evans@example.com', 'hashedpassword110', 'USA', 'Michigan', 'Detroit', 'F', 'S', '1010141011', '10 Maple St', '1995-01-12', '2024-10-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(393, 'Kyle Ward', 'kyle.ward@example.com', 'hashedpassword111', 'USA', 'Illinois', 'Chicago', 'M', 'M', '1111111512', '11 Lincoln St', '1987-02-25', '2024-11-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(394, 'Laura Hill', 'laura.hill@example.com', 'hashedpassword112', 'Canada', 'Ontario', 'Toronto', 'F', 'W', '2222224223', '12 Bloor St', '1988-09-15', '2024-12-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(395, 'Michael Price', 'michael.price@example.com', 'hashedpassword113', 'USA', 'Florida', 'Tampa', 'M', 'S', '3343333334', '13 Gulf Rd', '1993-03-04', '2025-01-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(396, 'Nancy Wright', 'nancy.wright@example.com', 'hashedpassword114', 'USA', 'Florida', 'Tampa', 'F', 'M', '4444544445', '14 Beach Dr', '1990-07-18', '2025-02-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(397, 'Oliver Lewis', 'oliver.lewis@example.com', 'hashedpassword115', 'Canada', 'Quebec', 'Montreal', 'M', 'S', '5535555556', '15 Mont-Royal Ave', '1992-05-22', '2025-03-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(398, 'Patricia Martin', 'patricia.martin@example.com', 'hashedpassword116', 'USA', 'New York', 'Buffalo', 'F', 'M', '6666366667', '16 Elm St', '1991-09-10', '2025-04-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(399, 'Quincy Scott', 'quincy.scott@example.com', 'hashedpassword117', 'USA', 'Ohio', 'Columbus', 'M', 'W', '7777777378', '17 Broad St', '1994-12-08', '2025-05-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(400, 'Rachel Baker', 'rachel.baker@example.com', 'hashedpassword118', 'Canada', 'Nova Scotia', 'Halifax', 'F', 'S', '8838388889', '18 Coastline Dr', '1993-11-13', '2025-06-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(401, 'Steven Perez', 'steven.perez@example.com', 'hashedpassword119', 'USA', 'California', 'Los Angeles', 'M', 'M', '9999949990', '19 Hollywood Blvd', '1986-10-19', '2025-07-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(402, 'Tina Brooks', 'tina.brooks@example.com', 'hashedpassword120', 'USA', 'California', 'San Diego', 'F', 'W', '1211211513', '20 Coast Blvd', '1992-12-25', '2025-08-01', '1', 'A', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(403, 'Ulysses Davis', 'ulysses.davis@example.com', 'hashedpassword121', 'USA', 'Colorado', 'Boulder', 'M', 'S', '2323532325', '21 Mountain Rd', '1990-04-02', '2025-09-01', '1', 'E', '2024-09-12 10:22:48', '2024-09-12 10:22:48', NULL, ''),
+(404, 'Violet Moore', 'violet.moore@example.com', 'hashedpassword122', 'USA', 'Washington', 'Seattle', 'F', 'S', '3131313132', '22 Pine St', '1989-01-12', '2025-10-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(405, 'William Johnson', 'william.johnson@example.com', 'hashedpassword123', 'USA', 'New Jersey', 'Newark', 'M', 'M', '4141414143', '23 Oak St', '1986-03-23', '2025-11-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(406, 'Xander Fisher', 'xander.fisher@example.com', 'hashedpassword124', 'USA', 'Texas', 'Houston', 'M', 'S', '5151515154', '24 Maple St', '1994-02-05', '2025-12-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(407, 'Yasmin Harris', 'yasmin.harris@example.com', 'hashedpassword125', 'Canada', 'Ontario', 'Ottawa', 'F', 'M', '6161616165', '25 River Rd', '1990-09-15', '2026-01-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(408, 'Zachary Adams', 'zachary.adams@example.com', 'hashedpassword126', 'USA', 'Illinois', 'Springfield', 'M', 'W', '7171717176', '26 Broadway St', '1988-07-10', '2026-02-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(409, 'Amelia Turner', 'amelia.turner@example.com', 'hashedpassword127', 'USA', 'Texas', 'Dallas', 'F', 'M', '8181818187', '27 Cedar St', '1993-06-18', '2026-03-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(410, 'Benjamin Brooks', 'benjamin.brooks@example.com', 'hashedpassword128', 'USA', 'Florida', 'Orlando', 'M', 'S', '9191919198', '28 Cypress Ave', '1992-01-20', '2026-04-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(411, 'Charlotte Taylor', 'charlotte.taylor@example.com', 'hashedpassword129', 'Canada', 'British Columbia', 'Victoria', 'F', 'W', '1010101021', '29 Douglas St', '1985-05-30', '2026-05-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(412, 'Daniel White', 'daniel.white@example.com', 'hashedpassword130', 'USA', 'California', 'San Jose', 'M', 'M', '1111111122', '30 First St', '1991-08-08', '2026-06-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(413, 'Eleanor Lewis', 'eleanor.lewis@example.com', 'hashedpassword131', 'Canada', 'Manitoba', 'Winnipeg', 'F', 'S', '1212121223', '31 Elm St', '1993-10-17', '2026-07-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(414, 'Frederick Lee', 'frederick.lee@example.com', 'hashedpassword132', 'USA', 'Virginia', 'Richmond', 'M', 'W', '1313131324', '32 Ash St', '1995-12-01', '2026-08-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(415, 'Gabriella Martin', 'gabriella.martin@example.com', 'hashedpassword133', 'USA', 'Georgia', 'Atlanta', 'F', 'M', '1414141425', '33 Cypress St', '1990-11-11', '2026-09-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(416, 'Henry Scott', 'henry.scott@example.com', 'hashedpassword134', 'Canada', 'Quebec', 'Quebec City', 'M', 'S', '1515151526', '34 King St', '1987-12-20', '2026-10-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(417, 'Isabella Wright', 'isabella.wright@example.com', 'hashedpassword135', 'USA', 'Michigan', 'Detroit', 'F', 'S', '1616161627', '35 Queen St', '1989-03-03', '2026-11-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(418, 'Jack Green', 'jack.green@example.com', 'hashedpassword136', 'USA', 'North Carolina', 'Charlotte', 'M', 'M', '1717171728', '36 Pine St', '1992-09-22', '2026-12-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(419, 'Katherine Young', 'katherine.young@example.com', 'hashedpassword137', 'USA', 'Ohio', 'Cleveland', 'F', 'W', '1818181829', '37 Oak St', '1990-04-10', '2027-01-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(420, 'Liam Hall', 'liam.hall@example.com', 'hashedpassword138', 'Canada', 'Nova Scotia', 'Halifax', 'M', 'S', '1919191930', '38 Maple St', '1988-05-19', '2027-02-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(421, 'Madison Harris', 'madison.harris@example.com', 'hashedpassword139', 'USA', 'New York', 'Albany', 'F', 'M', '2020202031', '39 Beach Ave', '1985-07-04', '2027-03-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(422, 'Nathan Turner', 'nathan.turner@example.com', 'hashedpassword140', 'USA', 'Florida', 'Jacksonville', 'M', 'M', '2121212132', '40 First Ave', '1986-12-25', '2027-04-01', '1', 'A', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(423, 'Olivia Adams', 'olivia.adams@example.com', 'hashedpassword141', 'Canada', 'Ontario', 'Toronto', 'F', 'W', '2222222233', '41 Douglas St', '1992-11-14', '2027-05-01', '1', 'E', '2024-09-12 10:27:16', '2024-09-12 10:27:16', NULL, ''),
+(424, 'Paul Anderson', 'paul.anderson@example.com', 'hashedpassword142', 'USA', 'Colorado', 'Denver', 'M', 'S', '2323232334', '42 Oak Ave', '1983-05-22', '2027-06-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(425, 'Quinn Baker', 'quinn.baker@example.com', 'hashedpassword143', 'USA', 'Oregon', 'Portland', 'F', 'M', '2424242435', '43 Maple Ave', '1994-07-19', '2027-07-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(426, 'Riley Carter', 'riley.carter@example.com', 'hashedpassword144', 'Canada', 'Alberta', 'Calgary', 'M', 'W', '2525252546', '44 Pine Ave', '1988-11-30', '2027-08-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(427, 'Samantha Davis', 'samantha.davis@example.com', 'hashedpassword145', 'USA', 'Arizona', 'Phoenix', 'F', 'S', '2626262657', '45 Cedar Ave', '1991-04-02', '2027-09-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(428, 'Thomas Edwards', 'thomas.edwards@example.com', 'hashedpassword146', 'Canada', 'Manitoba', 'Winnipeg', 'M', 'M', '2727272768', '46 Birch Ave', '1987-10-15', '2027-10-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(429, 'Uma Ferguson', 'uma.ferguson@example.com', 'hashedpassword147', 'USA', 'Nevada', 'Las Vegas', 'F', 'M', '2828282879', '47 Maple Rd', '1990-02-21', '2027-11-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(430, 'Victor Gray', 'victor.gray@example.com', 'hashedpassword148', 'USA', 'Minnesota', 'Minneapolis', 'M', 'W', '2929292980', '48 Oak Rd', '1986-09-05', '2027-12-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(431, 'Wendy Harris', 'wendy.harris@example.com', 'hashedpassword149', 'Canada', 'Newfoundland and Labrador', 'St. John\'s', 'F', 'S', '3030303091', '49 Pine Rd', '1994-06-30', '2028-01-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(432, 'Xavier Jones', 'xavier.jones@example.com', 'hashedpassword150', 'USA', 'Alabama', 'Birmingham', 'M', 'M', '3131313192', '50 Cedar Rd', '1989-12-25', '2028-02-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(433, 'Yara King', 'yara.king@example.com', 'hashedpassword151', 'USA', 'Indiana', 'Indianapolis', 'F', 'W', '3232323293', '51 Oak St', '1992-05-11', '2028-03-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(434, 'Zane Lee', 'zane.lee@example.com', 'hashedpassword152', 'Canada', 'Saskatchewan', 'Saskatoon', 'M', 'S', '3333333304', '52 Birch St', '1984-07-19', '2028-04-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(435, 'Ava Mitchell', 'ava.mitchell@example.com', 'hashedpassword153', 'USA', 'South Carolina', 'Charleston', 'F', 'M', '3434343415', '53 Maple St', '1986-08-30', '2028-05-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(436, 'Boris Nelson', 'boris.nelson@example.com', 'hashedpassword154', 'USA', 'Mississippi', 'Jackson', 'M', 'W', '3535353526', '54 Cedar St', '1995-11-22', '2028-06-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(437, 'Clara Olson', 'clara.olson@example.com', 'hashedpassword155', 'Canada', 'Prince Edward Island', 'Charlottetown', 'F', 'S', '3636363637', '55 Oak Ave', '1991-04-18', '2028-07-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(438, 'Daniel Parker', 'daniel.parker@example.com', 'hashedpassword156', 'USA', 'West Virginia', 'Charleston', 'M', 'M', '3737373748', '56 Maple Ave', '1989-03-15', '2028-08-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(439, 'Eva Quinn', 'eva.quinn@example.com', 'hashedpassword157', 'USA', 'Iowa', 'Des Moines', 'F', 'W', '3838383859', '57 Pine Ave', '1993-10-05', '2028-09-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(440, 'Felix Reed', 'felix.reed@example.com', 'hashedpassword158', 'Canada', 'New Brunswick', 'Fredericton', 'M', 'S', '3939393960', '58 Birch Ave', '1992-01-30', '2028-10-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(441, 'Grace Scott', 'grace.scott@example.com', 'hashedpassword159', 'USA', 'Kentucky', 'Louisville', 'F', 'M', '4040404071', '59 Cedar Ave', '1987-12-12', '2028-11-01', '1', 'E', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(442, 'Henry Taylor', 'henry.taylor@example.com', 'hashedpassword160', 'USA', 'Nebraska', 'Omaha', 'M', 'W', '4141414182', '60 Maple Rd', '1994-08-25', '2028-12-01', '1', 'A', '2024-09-12 11:21:19', '2024-09-12 11:21:19', NULL, ''),
+(443, 'Ivy Adams', 'ivy.adams@example.com', 'hashedpassword161', 'USA', 'Tennessee', 'Nashville', 'F', 'M', '4242424293', '61 Oak St', '1991-11-02', '2029-01-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(444, 'Jack Baker', 'jack.baker@example.com', 'hashedpassword162', 'USA', 'Georgia', 'Atlanta', 'M', 'S', '4343434314', '62 Maple St', '1988-06-19', '2029-02-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(445, 'Kylie Campbell', 'kylie.campbell@example.com', 'hashedpassword163', 'Canada', 'Nova Scotia', 'Halifax', 'F', 'W', '4444444425', '63 Pine St', '1994-03-11', '2029-03-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(446, 'Leo Davidson', 'leo.davidson@example.com', 'hashedpassword164', 'USA', 'Maryland', 'Baltimore', 'M', 'M', '4545454536', '64 Birch St', '1990-05-22', '2029-04-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(447, 'Mia Evans', 'mia.evans@example.com', 'hashedpassword165', 'Canada', 'Quebec', 'Montreal', 'F', 'S', '4646464647', '65 Cedar St', '1989-08-30', '2029-05-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(448, 'Nathan Foster', 'nathan.foster@example.com', 'hashedpassword166', 'USA', 'South Dakota', 'Sioux Falls', 'M', 'M', '4747474758', '66 Maple Ave', '1986-12-15', '2029-06-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(449, 'Olivia Grant', 'olivia.grant@example.com', 'hashedpassword167', 'USA', 'North Carolina', 'Charlotte', 'F', 'W', '4848484869', '67 Oak Ave', '1993-09-25', '2029-07-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(450, 'Paul Hall', 'paul.hall@example.com', 'hashedpassword168', 'Canada', 'British Columbia', 'Vancouver', 'M', 'S', '4949494970', '68 Pine Ave', '1988-04-12', '2029-08-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(451, 'Quinn Irwin', 'quinn.irwin@example.com', 'hashedpassword169', 'USA', 'Washington', 'Seattle', 'F', 'M', '5050505081', '69 Birch Ave', '1992-07-18', '2029-09-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(452, 'Riley Jackson', 'riley.jackson@example.com', 'hashedpassword170', 'USA', 'Nebraska', 'Lincoln', 'M', 'W', '5151515192', '70 Cedar Ave', '1990-10-07', '2029-10-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(453, 'Sophia Kelly', 'sophia.kelly@example.com', 'hashedpassword171', 'Canada', 'Ontario', 'Ottawa', 'F', 'S', '5252525203', '71 Oak St', '1995-01-30', '2029-11-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(454, 'Thomas Lewis', 'thomas.lewis@example.com', 'hashedpassword172', 'USA', 'Alaska', 'Anchorage', 'M', 'M', '5353535314', '72 Maple St', '1984-06-14', '2029-12-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(455, 'Ursula Martinez', 'ursula.martinez@example.com', 'hashedpassword173', 'USA', 'Hawaii', 'Honolulu', 'F', 'W', '5454545425', '73 Pine St', '1987-11-23', '2030-01-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(456, 'Victor Nelson', 'victor.nelson@example.com', 'hashedpassword174', 'Canada', 'Yukon', 'Whitehorse', 'M', 'S', '5555555536', '74 Birch St', '1991-05-16', '2030-02-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(457, 'Wendy Oliver', 'wendy.oliver@example.com', 'hashedpassword175', 'USA', 'Montana', 'Billings', 'F', 'M', '5656565647', '75 Cedar St', '1986-08-28', '2030-03-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(458, 'Xander Peters', 'xander.peters@example.com', 'hashedpassword176', 'USA', 'Wyoming', 'Cheyenne', 'M', 'W', '5757575758', '76 Maple Ave', '1992-04-14', '2030-04-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(459, 'Yara Quinn', 'yara.quinn@example.com', 'hashedpassword177', 'Canada', 'Northwest Territories', 'Yellowknife', 'F', 'S', '5858585869', '77 Oak Ave', '1995-02-12', '2030-05-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(460, 'Zachary Ross', 'zachary.ross@example.com', 'hashedpassword178', 'USA', 'Idaho', 'Boise', 'M', 'M', '5959595970', '78 Pine Ave', '1989-09-30', '2030-06-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(461, 'Ava Stewart', 'ava.stewart@example.com', 'hashedpassword179', 'Canada', 'Nunavut', 'Iqaluit', 'F', 'W', '6060606081', '79 Birch St', '1993-07-14', '2030-07-01', '1', 'E', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(462, 'Brian Taylor', 'brian.taylor@example.com', 'hashedpassword180', 'USA', 'Michigan', 'Detroit', 'M', 'S', '6161616192', '80 Cedar Ave', '1991-11-25', '2030-08-01', '1', 'A', '2024-09-12 11:55:09', '2024-09-12 11:55:09', NULL, ''),
+(469, 'Minaxi Sokhad', 'johna.doe@example.com', '12345', 'USA', 'Gujarat', 'Rajkot', 'F', 'S', '0123456709', 'sd', '2003-02-02', '2023-02-02', '1', 'E', '2024-09-16 12:36:45', '2024-09-16 12:36:45', NULL, ''),
+(471, 'Minaxi Sokhad f', 'johafna.doe@example.com', '12345', 'USA', 'Gujarat', 'Rajkot', 'F', 'S', '0123436789', 'saf', '2003-02-02', '2023-02-02', '1', 'E', '2024-09-16 19:02:27', '2024-09-16 19:02:27', NULL, ''),
+(472, 'Minaxi Sokhad', 'josadhna.doe@example.com', '$2y$10$pVyDxzCwfErIozwNPTpnducl1ziFBWP4yx9cP5DTMMjEflqLK1OQW', 'USA', 'Gujarat', 'Rajkot', 'F', 'S', '0123456389', 'asd', '2003-02-02', '2023-02-02', '1', 'E', '2024-09-17 15:51:03', '2024-09-17 15:51:03', NULL, '');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `attechments`
+--
+ALTER TABLE `attechments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `uploaded_by` (`uploaded_by`);
+
+--
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `commented_by` (`commented_by`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`,`phone`),
+  ADD UNIQUE KEY `company` (`company`,`website`);
+
+--
+-- Indexes for table `project`
+--
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `customer` (`customer`);
+
+--
+-- Indexes for table `project_member`
+--
+ALTER TABLE `project_member`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_member_ibfk_1` (`user_id`),
+  ADD KEY `project_member_ibfk_2` (`project_id`);
+
+--
+-- Indexes for table `project_tags`
+--
+ALTER TABLE `project_tags`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `tags_id` (`tags_id`);
+
+--
+-- Indexes for table `project_team`
+--
+ALTER TABLE `project_team`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `tags`
+--
+ALTER TABLE `tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `task`
+--
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project` (`project`);
+
+--
+-- Indexes for table `task_member`
+--
+ALTER TABLE `task_member`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `task_tags`
+--
+ALTER TABLE `task_tags`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `tags_id` (`tags_id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `mobileNo` (`mobileNo`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `assignments`
+--
+ALTER TABLE `assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `attechments`
+--
+ALTER TABLE `attechments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+
+--
+-- AUTO_INCREMENT for table `project`
+--
+ALTER TABLE `project`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=677;
+
+--
+-- AUTO_INCREMENT for table `project_member`
+--
+ALTER TABLE `project_member`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=555;
+
+--
+-- AUTO_INCREMENT for table `project_tags`
+--
+ALTER TABLE `project_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=692;
+
+--
+-- AUTO_INCREMENT for table `project_team`
+--
+ALTER TABLE `project_team`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `task`
+--
+ALTER TABLE `task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1057;
+
+--
+-- AUTO_INCREMENT for table `task_member`
+--
+ALTER TABLE `task_member`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1490;
+
+--
+-- AUTO_INCREMENT for table `task_tags`
+--
+ALTER TABLE `task_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2878;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignments_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `attechments`
+--
+ALTER TABLE `attechments`
+  ADD CONSTRAINT `attechments_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`),
+  ADD CONSTRAINT `attechments_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`),
+  ADD CONSTRAINT `attechments_ibfk_3` FOREIGN KEY (`uploaded_by`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`),
+  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`commented_by`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`);
+
+--
+-- Constraints for table `project`
+--
+ALTER TABLE `project`
+  ADD CONSTRAINT `project_ibfk_5` FOREIGN KEY (`customer`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `project_member`
+--
+ALTER TABLE `project_member`
+  ADD CONSTRAINT `project_member_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `project_member_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `project_tags`
+--
+ALTER TABLE `project_tags`
+  ADD CONSTRAINT `project_tags_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `project_tags_ibfk_2` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `project_team`
+--
+ALTER TABLE `project_team`
+  ADD CONSTRAINT `project_team_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`),
+  ADD CONSTRAINT `project_team_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `task`
+--
+ALTER TABLE `task`
+  ADD CONSTRAINT `task_ibfk_1` FOREIGN KEY (`project`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `task_member`
+--
+ALTER TABLE `task_member`
+  ADD CONSTRAINT `task_member_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `task_member_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `task_member_ibfk_3` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `task_tags`
+--
+ALTER TABLE `task_tags`
+  ADD CONSTRAINT `task_tags_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `task_tags_ibfk_2` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `task_tags_ibfk_3` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
