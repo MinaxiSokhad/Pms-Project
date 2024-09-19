@@ -1,6 +1,16 @@
 <?php include "includes/_header.php"; ?>
+<?php
+// Enable error reporting for development purposes
+// error_reporting(-1); // Report all PHP errors, warnings, and notices
+// ini_set('display_errors', '1'); // Display errors in the browser
+?>
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+?>
 <title>Customers</title>
 <?php
+
 // Build the base query
 $basequery = "SELECT * FROM customers WHERE id > 0";
 // Sorting
@@ -112,6 +122,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                 </thead>
                 <tbody>
                     <?php
+
                     if ($row = mysqli_num_rows($customers)) {
                         ?>
                         <?php foreach ($customers as $p): ?>
