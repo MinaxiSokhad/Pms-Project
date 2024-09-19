@@ -41,3 +41,8 @@
             text-align: center;
         }
     </style>
+    <?php
+    session_start();
+    if (isset($_SESSION['userid'])) {
+        redirectTo("index.php");
+    } ?>

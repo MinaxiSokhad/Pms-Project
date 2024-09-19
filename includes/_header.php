@@ -49,3 +49,4 @@
 
 
 <body>
+    <?php start_session(); ?>

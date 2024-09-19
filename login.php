@@ -1,10 +1,7 @@
 <?php include "includes/_header_login.php"; ?>
 <title>Login</title>
 <?php
-session_start();
-if (isset($_SESSION['userid'])) {
-    redirectTo("index.php");
-}
+
 if (isset($_POST['submit'])) {
     $showError = "";
     $email = $_POST['email'];
