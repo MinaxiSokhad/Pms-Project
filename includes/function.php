@@ -1,8 +1,6 @@
 <?php
-
 $_SESSION['oldFormData'] = $_POST;
 $oldFormData = $_POST;
-// $_SESSION['errors'] = $errors;
 
 function redirectTo(string $path)
 {

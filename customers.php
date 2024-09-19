@@ -8,7 +8,7 @@ $order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction'] ?? 'desc'; // Default sort direction
 $order = " ORDER BY $order_by $direction";
 
-// Searching by input (optional search functionality)
+// Searching by input
 $searchTerm = "";
 if (!empty($_POST['s'])) {
     $search = $_POST['s'];
@@ -55,11 +55,12 @@ $countQuery = "SELECT COUNT(*) AS total FROM customers WHERE id > 0" . $searchTe
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
 $totalRecords = $countRow['total'];
+// $totalRecords = mysqli_num_rows($customers); // count records as limit that's why show only one page
 if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
 $customersFilter = mysqli_query($conn, $basequery);
-$_POST['record'] = $totalRecords;
+$_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
 ?>
 
 <div class="container my-4">

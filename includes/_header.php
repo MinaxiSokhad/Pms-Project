@@ -26,7 +26,15 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="customers.php">Customers</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="customers.php">Members</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="customers.php">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="customers.php">Tasks</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>

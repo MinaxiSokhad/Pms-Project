@@ -1,11 +1,5 @@
 <!-- Previous Page Link -->
-
-<!-- Preserve other query parameters in the form action -->
-<?php //include "includes/_search.php"; 
-// var_dump($_POST['record']); ?>
-
-<?php $record = isset($_POST['record']) ? $_POST['record'] : '';
-// var_dump($record); ?>
+<?php $record = isset($_POST['record']) ? $_POST['record'] : ''; ?>
 
 <?php if ($selectedValue = (isset($_POST['select_limit'])) && $_POST['select_limit'] != "1" && ($record) >= 3): ?>
     <input type="hidden" id="p" name="p" value="<?php echo e($currentPage); ?>">
@@ -18,7 +12,6 @@
     } else if ($currentPage <= 0) {
         $currentPage = 1;
     }
-    // dd($viewproject);
     ?>
     <?php if ($currentPage > 1): ?>
 
@@ -74,9 +67,3 @@
                     </form>
                     </div>
                 <?php endif; ?>
-                <?php
-
-                ?>
-                <script>
-
-                </script>
