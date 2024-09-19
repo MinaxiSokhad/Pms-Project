@@ -1,3 +1,15 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+?>
+<?php
+session_start();
+if (isset($_SESSION['userid'])) {
+    redirectTo("index.php");
+} ?>
+<?php include "includes/database.php"; ?>
+<?php include "includes/function.php"; ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -8,11 +20,6 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
-<body>
-    <?php include "includes/database.php"; ?>
-    <?php include "includes/function.php"; ?>
     <style>
         .form-label {
             font-weight: bold;
@@ -41,12 +48,6 @@
             text-align: center;
         }
     </style>
-    <?php
-    session_start();
-    if (isset($_SESSION['userid'])) {
-        redirectTo("index.php");
-    } ?>
-    <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', '1');
-    ?>
+</head>
+
+<body>

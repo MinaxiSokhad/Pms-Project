@@ -6,7 +6,6 @@
 ?>
 <title>Customers</title>
 <?php
-
 // Build the base query
 $basequery = "SELECT * FROM customers WHERE id > 0";
 // Sorting
