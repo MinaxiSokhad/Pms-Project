@@ -22,8 +22,7 @@ if (isset($_POST['updateCustomer'])) {
 
     if ($updateResult) {
         $alert = "Customer updated successfully.";
-        header("Location: customers.php");
-        exit;
+        redirectTo("customers.php");
     } else {
         $alert = "Error updating customer: " . mysqli_error($conn);
     }

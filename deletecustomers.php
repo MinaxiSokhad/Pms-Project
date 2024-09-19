@@ -15,8 +15,7 @@ if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
     $delQuery = "DELETE FROM customers " . $where;
     $result = mysqli_query($conn, $delQuery);
     if ($result) {
-        header("Location: customers.php");
-        exit;
+        redirectTo("customers.php");
     } else {
         $alert = "Error deleting customer.";
     }

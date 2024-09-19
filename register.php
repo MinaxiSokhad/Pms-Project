@@ -1,7 +1,6 @@
 <?php include "includes/_header_login.php"; ?>
 <title>Register</title>
 <?php
-
 if (isset($_POST['submit'])) {
     $errors = "";
     $name = $_POST['name'];
