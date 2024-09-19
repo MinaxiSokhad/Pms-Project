@@ -7,7 +7,6 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, $query);
     $customer = mysqli_fetch_assoc($result);
 }
-
 if (isset($_POST['updateCustomer'])) {
     $id = $_POST['id'];
     $company = $_POST['company'];
@@ -28,7 +27,6 @@ if (isset($_POST['updateCustomer'])) {
     }
 }
 ?>
-
 <div class="container my-4">
     <h1 class="text-center">Edit Customer</h1>
     <form action="editcustomers.php" method="POST">
@@ -54,7 +52,4 @@ if (isset($_POST['updateCustomer'])) {
         <button type="submit" name="updateCustomer" class="btn btn-primary">Update</button>
     </form>
 </div>
-
-<?php
-include "includes/_footer.php";
-?>
+<?php include "includes/_footer.php"; ?>

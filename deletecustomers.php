@@ -2,7 +2,6 @@
 <title>Customers</title>
 <?php
 if (isset($_GET['id']) || isset($_GET['DeleteAll'])) {
-
     $where = " ";
     if (isset($_GET['DeleteAll']) && !empty($_POST['ids'])) {
         $ids = $_POST['ids']; // This will be an array of selected customer IDs

@@ -14,7 +14,7 @@
 <script>
     const filterform = document.getElementById('filterform');
     function form_submit() {
-        // document.getElementById('p').value = 1;
+        document.getElementById('p').value = 1;
         filterform.submit();
     }
     function limit_submit() {
@@ -40,15 +40,44 @@
         console.log(order_by, direction);
         document.getElementById('p').value = 1; filterform.submit();
     }
-    function sortBy(order_by = 'id', direction = 'desc') {
-        const filterform = document.getElementById('filterform');
-        const field_order_by = document.getElementById('order_by');
-        const field_direction = document.getElementById('direction');
-        field_order_by.value = order_by;
-        field_direction.value = direction;
-        console.log(order_by, direction);
-        document.getElementById('p').value = 1;
-        filterform.submit();
+    $(document).ready(function () {
+        // Select/Deselect all checkboxes
+        $("#selectAll").click(function () {
+            $("input[name='ids[]']").prop('checked', this.checked);
+        });
+
+        // Select / Deselect checkboxes in the Customers group
+        $("input[name='selectCustomers[]']").click(function () {
+            $("input[name='company[]']").prop('checked', this.checked);
+        });
+
+        // Select / Deselect checkboxes in the Countries group
+        $("input[name='selectCountries[]']").click(function () {
+            $("input[name='country[]']").prop('checked', this.checked);
+        });
+    });
+    function deleteSelectedCustomers() {
+        var form = document.getElementById('form');
+        var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("No customers selected");
+            form.action = "customers.php";
+        }
+        else {
+            if (confirm('Are you sure you want to delete this customers?')) {
+                <?php $id[0] = [0]; ?>
+                form.action = "deletecustomers.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.submit();
+            }
+        }
+
+    }
+    function deletecustomer(customerid) {
+        if (confirm('Are you sure you want to delete this customer?')) {
+            <?php $id[0] = [0]; ?>
+            form.action = "deletecustomers.php?id=" + customerid;
+            form.submit();
+        }
     }
 </script>
 <style>
