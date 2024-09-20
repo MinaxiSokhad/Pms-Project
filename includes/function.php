@@ -88,6 +88,17 @@ function validatehireDate(string $field, $params): bool
     $minHireDate = (clone $dob)->add(new DateInterval('P18Y'));
     return $date <= $now && $date >= $minHireDate;
 }
+function deadlineRule(string $field, $params): bool
+{
+    $dateString = $field;
+    if (!$dateString) {
+        return true;
+    }
+    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+    $start_date = DateTime::createFromFormat('Y-m-d', $params);
+    return $date > $start_date;
+}
+
 function validateCustomer($data)
 {
     $errors = "";
@@ -123,6 +134,39 @@ function validateCustomer($data)
 
     } else if (!validateSelection($country, ['USA', 'Canada', 'Mexico', 'India', 'Russia'])) {
         $errors = " Invalid Selection!";
+
+    }
+    return $errors;
+}
+function validateProject($data)
+{
+    $errors = "";
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $customer = $_POST['customer'];
+    $start_date = $_POST['start_date'];
+    $deadline = $_POST['deadline'];
+    $status = $_POST['status'];
+    $tag = $_POST['tags'];
+    $member = $_POST['members'];
+    $fields = [
+        'name' => $name,
+        'description' => $description,
+        'customer' => $customer,
+        'start_date' => $start_date,
+        'status' => $status,
+        'tags' => $tag,
+        'members' => $member
+
+    ];
+    if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
+
+    } else if (!validateName($name)) {
+        $errors = "Company name must contain only letters and spaces!";
+
+    } else if (!deadlineRule($deadline, $_POST['start_date'])) {
+        $errors = "Invalid date!";
 
     }
     return $errors;

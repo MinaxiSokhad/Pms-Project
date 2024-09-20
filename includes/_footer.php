@@ -78,6 +78,29 @@
             form.submit();
         }
     }
+    function deleteSelectedProjects() {
+        var form = document.getElementById('form');
+        var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("No projects selected");
+            form.action = "projects.php";
+        }
+        else {
+            if (confirm('Are you sure you want to delete this customers?')) {
+                <?php $id[0] = [0]; ?>
+                form.action = "project.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.submit();
+            }
+        }
+
+    }
+    function deleteproject(projectid) {
+        if (confirm('Are you sure you want to delete this customer?')) {
+            <?php $id[0] = [0]; ?>
+            form.action = "project.php?delete=" + projectid;
+            form.submit();
+        }
+    }
 </script>
 </body>
 

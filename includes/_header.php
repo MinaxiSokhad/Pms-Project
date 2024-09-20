@@ -146,3 +146,4 @@ ini_set('display_errors', '1');
 </head>
 
 <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

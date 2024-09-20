@@ -16,7 +16,10 @@
         Search
     </button>
     <?php
-
+    $statusfilter = [];
+    if (array_key_exists('status', $_POST)) {
+        $statusfilter = array_merge($statusfilter, $_POST['status']);
+    }
     $companies = [];
     if (array_key_exists('company', $_POST)) {
         $companies = array_merge($companies, $_POST['company']); // Use companies from POST if available
@@ -29,39 +32,60 @@
     <div class="dropdown">
         <button class="dropdown-button">Filter Options</button>
         <div class="dropdown-content">
-            <label>
-                <input type="checkbox" name="selectCustomers[]" value="cutomers"> Customers
-            </label>
+            <?php if (isset($customersFilter)): ?>
+                <label>
+                    <input type="checkbox" name="selectCustomers[]" value="cutomers"> Customers
+                </label>
 
-            <div class="dropdown-submenu">
-                <?php foreach ($customersFilter as $c): ?>
-                    <?php if (in_array($c['company'], $companies)): ?>
-                        <label><input type="checkbox" name="company[]" value="<?php echo $c['company']; ?>"
-                                checked><?php echo $c['company']; ?></label>
-                    <?php else: ?>
-                        <label><input type="checkbox" name="company[]"
-                                value="<?php echo $c['company']; ?>"><?php echo $c['company']; ?></label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
+                <div class="dropdown-submenu">
+                    <?php foreach ($customersFilter as $c): ?>
+                        <?php if (in_array($c['company'], $companies)): ?>
+                            <label><input type="checkbox" name="company[]" value="<?php echo $c['company']; ?>"
+                                    checked><?php echo $c['company']; ?></label>
+                        <?php else: ?>
+                            <label><input type="checkbox" name="company[]"
+                                    value="<?php echo $c['company']; ?>"><?php echo $c['company']; ?></label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
 
-            <label>
-                <input type="checkbox" name="selectCountries[]" value="country"> Country
-            </label>
+                <label>
+                    <input type="checkbox" name="selectCountries[]" value="country"> Country
+                </label>
 
-            <div class="dropdown-submenu">
-                <?php $country = ['India', 'USA', 'Canada', 'Russia', 'Maxico']; ?>
-                <?php foreach ($country as $o): ?>
-                    <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && in_array($o, $countries)): ?>
+                <div class="dropdown-submenu">
+                    <?php $country = ['India', 'USA', 'Canada', 'Russia', 'Maxico']; ?>
+                    <?php foreach ($country as $o): ?>
+                        <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && in_array($o, $countries)): ?>
 
-                        <label><input type="checkbox" name="country[]" value="<?php echo (string) $o; ?>"
-                                checked><?php echo (string) $o; ?></label>
-                    <?php else: ?>
-                        <label><input type="checkbox" name="country[]"
-                                value="<?php echo (string) $o; ?>"><?php echo (string) $o; ?></label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
+                            <label><input type="checkbox" name="country[]" value="<?php echo (string) $o; ?>"
+                                    checked><?php echo (string) $o; ?></label>
+                        <?php else: ?>
+                            <label><input type="checkbox" name="country[]"
+                                    value="<?php echo (string) $o; ?>"><?php echo (string) $o; ?></label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($projectsFilter)): ?>
+                <label>
+                    <input type="checkbox" name="selectStatus[]" value="status"> Status
+                </label>
+
+                <div class="dropdown-submenu">
+                    <?php $status = ['S' => 'Not Started', 'H' => 'On Hold', 'P' => 'In Progress', 'C' => 'Cancelled', 'F' => 'Finished']; ?>
+                    <?php foreach ($status as $s => $value): ?>
+                        <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && in_array($s, $statusfilter)): ?>
+
+                            <label><input type="checkbox" name="status[]" value="<?php echo (string) $s; ?>"
+                                    checked><?php echo (string) $value; ?></label>
+                        <?php else: ?>
+                            <label><input type="checkbox" name="status[]"
+                                    value="<?php echo (string) $s; ?>"><?php echo (string) $value; ?></label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
 
 
@@ -85,6 +109,11 @@
         <?php endforeach; ?>
     <?php endif;
     ?>
+    <?php if (array_key_exists('statusfilter', $_POST)):
+        foreach ($_POST['statusfilter'] as $sts): ?>
+            <input type="hidden" id="_filter_status_[]" name="_filter_status_[]" value="<?php echo e($sts ?? ''); ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 </form>
 <?php //include "includes/_footer.php"; ?>

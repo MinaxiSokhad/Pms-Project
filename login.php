@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
         if (password_verify($password, $rows['password'])) {
             // Password matches, set session and redirect to index.php
             $_SESSION['userid'] = $rows['id'];
+            $_SESSION['user_type'] = $rows['user_type'];
             redirectTo("index.php");
         } else {
             // Password doesn't match
