@@ -17,29 +17,30 @@ if (isset($_POST['submit'])) {
     $hireDate = $_POST['hireDate'];
 
     $errors = validateRegister($_POST);
+    if (empty($errors)) {
+        $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `mobileNo` = '$mobileNo'") or die("Failed");
+        if (mysqli_num_rows($selectData) > 0) {
+            $errors = "Failed to register";
 
-    $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `mobileNo` = '$mobileNo'") or die("Failed");
-    if (mysqli_num_rows($selectData) > 0) {
-        $errors = "Failed to register";
+        } else if (isExists('user', 'email', $_POST['email'])) {
+            $errors = "Email already exists";
 
-    } else if (isExists('user', 'email', $_POST['email'])) {
-        $errors = "Email already exists";
+        } else if (isExists('user', 'mobileNo', $_POST['mobileNo'])) {
+            $errors = 'Mobile number already exists';
 
-    } else if (isExists('user', 'mobileNo', $_POST['mobileNo'])) {
-        $errors = 'Mobile number already exists';
-
-    } else {
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $formattedDate = "{$_POST['dob']} 00:00:00";
-        $hireDate = "{$_POST['hireDate']} 00:00:00";
-        $sql = "INSERT INTO user(
+        } else {
+            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $formattedDate = "{$_POST['dob']} 00:00:00";
+            $hireDate = "{$_POST['hireDate']} 00:00:00";
+            $sql = "INSERT INTO user(
             name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate)
             VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate')";
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            redirectTo("login.php");
-        } else {
-            $errors = "Error!";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                redirectTo("login.php");
+            } else {
+                $errors = "Error!";
+            }
         }
     }
 }

@@ -190,15 +190,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 <td><?php echo e($p['start_date']); ?></td>
                                 <td><?php echo e($p['deadline']); ?></td>
                                 <td><?php echo e($p['status']); ?></td>
-                                <?php
-                                $project_member_id = explode(",", $p['project_member_id']);
-                                $project_member_name = explode(",", $p['project_member_name']); ?>
-                                <?php
-                                $project_members = array_combine($project_member_id, $project_member_name); ?>
-                                <td><?php foreach ($project_members as $p_id => $p_name): ?>
-                                        <a href="profile.php?profile=<?php echo e($p_id); ?>">
-                                            <?php echo e($p_name) ?></a>
-                                    <?php endforeach; ?>
+                                <td><?php echo e($p['project_member_name']); ?>
                                 </td>
 
                                 <?php //endforeach; ?>

@@ -74,7 +74,7 @@ if (isset($_POST['add']) || isset($_POST['updateTask'])) {
             $updateResult = mysqli_query($conn, $update_task);
             if ($updateResult) {
                 //delete tags 
-                $delete_tags = "DELETE FROM task_tags WHERE id = $id";
+                $delete_tags = "DELETE FROM task_tags WHERE task_id = $id";
                 $deletetag = mysqli_query($conn, $delete_tags);
 
                 //insert tags
@@ -83,7 +83,7 @@ if (isset($_POST['add']) || isset($_POST['updateTask'])) {
                 $result_tags = mysqli_query($conn, $tag_sql);
 
                 //delete members
-                $delete_members = "DELETE FROM task_member WHERE id = $id";
+                $delete_members = "DELETE FROM task_member WHERE task_id = $id";
                 $deletemember = mysqli_query($conn, $delete_members);
 
                 //insert members

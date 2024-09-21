@@ -82,23 +82,23 @@ if (isset($_POST['add']) || isset($_POST['updateProject'])) {
                 $updateResult = mysqli_query($conn, $update_project);
                 if ($updateResult) {
                     //delete tags 
-                    $delete_tags = "DELETE FROM project_tags WHERE id = $id";
+                    $delete_tags = "DELETE FROM project_tags WHERE project_id = $id";
                     $deletetag = mysqli_query($conn, $delete_tags);
-
-                    //insert tags
-                    $tag_ids = implode(',', $_POST['tags']);
-                    $tag_sql = "INSERT INTO project_tags(project_id,tags_id) SELECT '$id',id FROM tags WHERE id IN ($tag_ids)";
-                    $result_tags = mysqli_query($conn, $tag_sql);
-
+                    if ($deletetag) {
+                        //insert tags
+                        $tag_ids = implode(',', $_POST['tags']);
+                        $tag_sql = "INSERT INTO project_tags(project_id,tags_id) SELECT '$id',id FROM tags WHERE id IN ($tag_ids)";
+                        $result_tags = mysqli_query($conn, $tag_sql);
+                    }
                     //delete members
-                    $delete_members = "DELETE FROM project_member WHERE id = $id";
+                    $delete_members = "DELETE FROM project_member WHERE project_id = $id";
                     $deletemember = mysqli_query($conn, $delete_members);
-
-                    //insert members
-                    $m_ids = implode(',', $_POST['members']);
-                    $member_sql = "INSERT INTO project_member(project_id,user_id) SELECT '$id' , id FROM user WHERE id IN ($m_ids)";
-                    $result_members = mysqli_query($conn, $member_sql);
-
+                    if ($deletemember) {
+                        //insert members
+                        $m_ids = implode(',', $_POST['members']);
+                        $member_sql = "INSERT INTO project_member(project_id,user_id) SELECT '$id' , id FROM user WHERE id IN ($m_ids)";
+                        $result_members = mysqli_query($conn, $member_sql);
+                    }
                     if ($result_members && $result_tags) {
                         $alert = "Project updated successfully.";
                         redirectTo("projects.php");
