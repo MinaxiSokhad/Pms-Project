@@ -101,7 +101,7 @@ WHERE task.id > 0 " . $searchTerm . $filterStatus;
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
 $totalRecords = $countRow['total'];
-print_r($totalRecords);
+
 // $totalRecords = mysqli_num_rows($customers); // count records as limit that's why show only one page
 
 if ($showRecord != "1") {

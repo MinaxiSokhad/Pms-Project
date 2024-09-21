@@ -3,10 +3,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ?>
 <?php
-session_start();
-if (isset($_SESSION['userid'])) {
-    redirectTo("index.php");
-} ?>
+// session_start();
+// if (isset($_SESSION['userid'])) {
+//     redirectTo("index.php");
+// }
+?>
 <?php include "includes/database.php"; ?>
 <?php include "includes/function.php"; ?>
 

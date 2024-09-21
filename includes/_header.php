@@ -97,6 +97,23 @@ ini_set('display_errors', '1');
         .dropdown:hover .dropdown-button {
             background-color: #0056b3;
         }
+
+        table th,
+        table td {
+            white-space: nowrap;
+            /* Prevent text from breaking into new lines */
+            width: auto;
+            /* Ensure the width of columns adapts to content */
+        }
+
+        table td {
+            padding: 8px 12px;
+            /* Add padding for better readability */
+        }
+
+        th {
+            font-weight: bold;
+        }
     </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">

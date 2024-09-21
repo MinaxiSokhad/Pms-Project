@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
             VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate')";
             $result = mysqli_query($conn, $sql);
             if ($result) {
-                redirectTo("login.php");
+                redirectTo("index.php");
             } else {
                 $errors = "Error!";
             }
