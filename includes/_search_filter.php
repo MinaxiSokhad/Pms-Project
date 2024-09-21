@@ -86,7 +86,25 @@
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+            <?php if (isset($tasksFilter)): ?>
+                <label>
+                    <input type="checkbox" name="selectStatus[]" value="status"> Status
+                </label>
 
+                <div class="dropdown-submenu">
+                    <?php $status = ['S' => 'Not Started', 'P' => 'In Progress', 'C' => 'Complete', 'T' => 'Testing']; ?>
+                    <?php foreach ($status as $s => $value): ?>
+                        <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && in_array($s, $statusfilter)): ?>
+
+                            <label><input type="checkbox" name="status[]" value="<?php echo (string) $s; ?>"
+                                    checked><?php echo (string) $value; ?></label>
+                        <?php else: ?>
+                            <label><input type="checkbox" name="status[]"
+                                    value="<?php echo (string) $s; ?>"><?php echo (string) $value; ?></label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
 
             <!-- Filter Button -->

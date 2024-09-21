@@ -23,9 +23,7 @@ $basequery = "SELECT
                 END AS `status`,
               GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') as `task_tags_name`,
               GROUP_CONCAT(DISTINCT `user`.name  ORDER BY user.id SEPARATOR ',')as `task_member_name`,
-              GROUP_CONCAT(DISTINCT `user`.id  ORDER BY user.id SEPARATOR ',')as `task_member_id`,
-              GROUP_CONCAT(DISTINCT `user`.image  ORDER BY `user`.id SEPARATOR ',')as `task_member_image`,
-              GROUP_CONCAT(DISTINCT `user`.storage_filename  ORDER BY `user`.id SEPARATOR ',')as `task_member_imgFile`
+              GROUP_CONCAT(DISTINCT `user`.id  ORDER BY user.id SEPARATOR ',')as `task_member_id`
             FROM task
             JOIN task_tags
               ON task.id = task_tags.task_id
@@ -51,6 +49,7 @@ if (!empty($_POST['s'])) {
     $search = $_POST['s'];
     $searchTerm = "  AND  (task.name LIKE '%{$search}%'
             OR task.priority LIKE '%{$search}%'
+            OR project.name LIKE '%{$search}%'
             OR tags.name LIKE '%{$search}%'
             OR user.name LIKE '%{$search}%') ";
 }
@@ -108,7 +107,7 @@ print_r($totalRecords);
 if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
-$projectsFilter = mysqli_query($conn, $basequery);
+$tasksFilter = mysqli_query($conn, $basequery);
 $_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
 ?>
 
@@ -129,6 +128,11 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                     <input type="checkbox" class="form-check-input" id="selectAll" name="selectAll[]">
                                 </label>
                             </div>
+                        </th>
+                        <th>
+                            <a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
+                            Project Name
+                            <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
                         </th>
                         <th>
                             <a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
@@ -186,6 +190,8 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                                 name="ids[]">
                                         </label>
                                     </div>
+                                </td>
+                                <td> <?php echo e($t['project']); ?>
                                 </td>
                                 <td> <?php echo e($t['name']); ?>
                                 </td>

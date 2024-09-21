@@ -86,7 +86,7 @@
             form.action = "projects.php";
         }
         else {
-            if (confirm('Are you sure you want to delete this customers?')) {
+            if (confirm('Are you sure you want to delete this projects?')) {
                 <?php $id[0] = [0]; ?>
                 form.action = "project.php?DeleteAll=<?php echo e($id[0][0]); ?>";
                 form.submit();
@@ -95,9 +95,32 @@
 
     }
     function deleteproject(projectid) {
-        if (confirm('Are you sure you want to delete this customer?')) {
+        if (confirm('Are you sure you want to delete this project?')) {
             <?php $id[0] = [0]; ?>
             form.action = "project.php?delete=" + projectid;
+            form.submit();
+        }
+    }
+    function deleteSelectedTasks() {
+        var form = document.getElementById('form');
+        var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("No tasks selected");
+            form.action = "tasks.php";
+        }
+        else {
+            if (confirm('Are you sure you want to delete this tasks?')) {
+                <?php $id[0] = [0]; ?>
+                form.action = "task.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.submit();
+            }
+        }
+
+    }
+    function deletetask(taskid) {
+        if (confirm('Are you sure you want to delete this task?')) {
+            <?php $id[0] = [0]; ?>
+            form.action = "task.php?delete=" + taskid;
             form.submit();
         }
     }

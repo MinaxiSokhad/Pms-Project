@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2024 at 02:17 PM
+-- Generation Time: Sep 21, 2024 at 07:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -91,13 +91,65 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `company`, `website`, `email`, `phone`, `country`, `address`, `created_at`, `updated_at`) VALUES
+(1, 'Russel LLC', 'http://mail.ru/ligula.json', 'lmerrill0@wp.com', 2147483647, 'Norway', '142 Kropf Circle', '2024-09-20', '2024-09-20'),
+(2, 'asdfg', 'http://paypal.com/nunc/proin/at/turpis/a.jpg', 'saaas@gmail.com', 1235567893, 'India', 'Peru', '2024-09-20', '2024-09-20'),
+(3, 'Auer-Mertz', 'http://icq.com/vestibulum.jpg', 'srizzi2@economist.com', 2147483647, 'United Kingdom', '71 4th Point', '2024-09-20', '2024-09-20'),
+(4, 'Carroll-Lehner', 'https://gmpg.org/eu/mi/nulla/ac/enim/in.html', 'tbalaizot3@wikispaces.com', 2147483647, 'Portugal', '1051 Ryan Circle', '2024-09-20', '2024-09-20'),
+(5, 'Kunze-Lang', 'http://ucoz.ru/cubilia/curae/nulla/dapibus/dolor.jsp', 'ppetric4@addthis.com', 2147483647, 'Netherlands', '74446 Reindahl Road', '2024-09-20', '2024-09-20'),
+(6, 'Gislason-McGlynn', 'https://yahoo.com/et/ultrices/posuere.jsp', 'rdales5@cnn.com', 2147483647, 'Japan', '4489 Rieder Court', '2024-09-20', '2024-09-20'),
+(7, '\"Howell', ' Brakus and Brown\"', 'https://soundcloud.com/dictumst/etiam/faucibus/cursus/urna.html', 0, '2069906883', 'Brazil', '2024-09-20', '2024-09-20'),
+(8, '\"Waelchi', ' Wisoky and Klocko\"', 'https://geocities.com/praesent/id/massa/id/nisl/venenatis/lacinia.png', 0, '9684996161', 'China', '2024-09-20', '2024-09-20'),
+(9, 'Runte LLC', 'http://eepurl.com/tellus/nisi/eu/orci/mauris.jsp', 'jsimnell8@loc.gov', 2147483647, 'Yemen', '8638 Fairview Road', '2024-09-20', '2024-09-20'),
+(10, 'Smith Inc', 'https://geocities.jp/orci/vehicula/condimentum/curabitur/in.xml', 'dgerling9@sciencedirect.com', 1547103483, 'Peru', '17 Shoshone Avenue', '2024-09-20', '2024-09-20'),
+(11, 'Murphy-Konopelski', 'http://ihg.com/ante.jsp', 'hstanislawa@twitpic.com', 2147483647, 'Nigeria', '54561 Comanche Way', '2024-09-20', '2024-09-20'),
+(12, '\"Tremblay', ' Roob and Sawayn\"', 'http://hibu.com/amet/turpis.aspx', 0, '1018825601', 'Indonesia', '2024-09-20', '2024-09-20'),
+(13, 'Hauck LLC', 'http://w3.org/turpis/integer.png', 'smacaleesc@pagesperso-orange.fr', 2147483647, 'China', '04514 Fremont Junction', '2024-09-20', '2024-09-20'),
+(14, 'Nader LLC', 'http://wikimedia.org/sed/vestibulum/sit/amet/cursus/id.js', 'tshined@trellian.com', 1366687821, 'Peru', '363 Chinook Place', '2024-09-20', '2024-09-20'),
+(15, 'Rath-Stiedemann', 'https://si.edu/rutrum/rutrum/neque.aspx', 'lbartlomieczake@goo.gl', 2147483647, 'Jordan', '1 Swallow Circle', '2024-09-20', '2024-09-20'),
+(16, '\"Metz', ' Watsica and Blick\"', 'http://soundcloud.com/sapien/placerat.png', 0, '3231238523', 'Cuba', '2024-09-20', '2024-09-20'),
+(17, '\"Wolf', ' Runte and Hoeger\"', 'https://privacy.gov.au/pulvinar/nulla/pede/ullamcorper/augue/a/suscipit.jsp', 0, '2134536177', 'Argentina', '2024-09-20', '2024-09-20'),
+(18, '\"Trantow', ' Paucek and Glover\"', 'http://sphinn.com/in/quam.aspx', 0, '4697974870', 'Argentina', '2024-09-20', '2024-09-20'),
+(19, 'Dickens-Frami', 'https://weibo.com/lacinia/eget/tincidunt/eget.jsp', 'sbyrdi@technorati.com', 2147483647, 'Indonesia', '66 Grover Alley', '2024-09-20', '2024-09-20'),
+(20, 'Schroeder-Swift', 'https://geocities.com/leo/rhoncus/sed/vestibulum/sit/amet/cursus.xml', 'arashleighj@yolasite.com', 1123676274, 'Russia', '3 Anthes Center', '2024-09-20', '2024-09-20'),
+(21, 'Reichel-Cummerata', 'https://blogger.com/et/commodo/vulputate/justo/in.html', 'ygoldhawkk@oaic.gov.au', 1758948214, 'Thailand', '13647 Mitchell Street', '2024-09-20', '2024-09-20'),
+(22, 'Daugherty-Maggio', 'http://constantcontact.com/lobortis/est.jsp', 'vsibbsl@buzzfeed.com', 2147483647, 'Poland', '7102 Annamark Avenue', '2024-09-20', '2024-09-20'),
+(23, '\"Kerluke', ' Christiansen and Beer\"', 'http://usa.gov/vel/enim.html', 0, '7142726034', 'China', '2024-09-20', '2024-09-20'),
+(24, 'Rippin Group', 'https://va.gov/ligula.json', 'mborgnen@altervista.org', 2147483647, 'Russia', '97572 Autumn Leaf Alley', '2024-09-20', '2024-09-20'),
+(25, '\"D\'Amore', ' Pacocha and Wolf\"', 'http://unc.edu/varius/integer/ac/leo/pellentesque/ultrices/mattis.png', 0, '2384021607', 'Russia', '2024-09-20', '2024-09-20'),
+(26, '\"Trantow', ' Hudson and Considine\"', 'http://t.co/semper/interdum.js', 0, '3242065552', 'Japan', '2024-09-20', '2024-09-20'),
+(27, 'Jacobs-Doyle', 'http://sina.com.cn/elit/sodales/scelerisque/mauris/sit/amet/eros.xml', 'djeacockq@multiply.com', 2147483647, 'Russia', '164 Logan Center', '2024-09-20', '2024-09-20'),
+(28, 'Barton Group', 'http://artisteer.com/lacus/morbi.jpg', 'mlabbezr@wix.com', 1733689511, 'Indonesia', '10 Kingsford Point', '2024-09-20', '2024-09-20'),
+(29, 'Huel-Hilpert', 'https://comsenz.com/felis/donec/semper/sapien.xml', 'mkybirds@wordpress.com', 2147483647, 'Philippines', '82207 Maple Plaza', '2024-09-20', '2024-09-20'),
+(30, 'Deckow-Reynolds', 'https://people.com.cn/at/velit/eu.aspx', 'amaddraht@deviantart.com', 2147483647, 'Czech Republic', '5 Graceland Avenue', '2024-09-20', '2024-09-20'),
+(31, 'O\'Connell Group', 'https://phoca.cz/quisque/ut/erat/curabitur/gravida.json', 'bhowardgateru@google.cn', 2147483647, 'China', '21 Menomonie Crossing', '2024-09-20', '2024-09-20'),
+(32, 'Stanton-Harber', 'http://woothemes.com/venenatis/tristique/fusce.jsp', 'mcowopev@jigsy.com', 2147483647, 'Sweden', '07 Westport Lane', '2024-09-20', '2024-09-20'),
+(33, 'Schroeder-Green', 'https://ameblo.jp/in/libero/ut/massa.png', 'rbulbeckw@bluehost.com', 2147483647, 'Colombia', '06 High Crossing Point', '2024-09-20', '2024-09-20'),
+(34, 'Langosh-Hickle', 'http://t.co/diam/vitae.xml', 'lalelsandrovichx@drupal.org', 2147483647, 'China', '43812 Buhler Trail', '2024-09-20', '2024-09-20'),
+(35, 'Gorczany LLC', 'https://cyberchimps.com/praesent/blandit/lacinia/erat.html', 'vbarringtony@howstuffworks.com', 2147483647, 'Indonesia', '8 Monument Place', '2024-09-20', '2024-09-20'),
+(36, 'Rempel-Kuvalis', 'http://engadget.com/risus/dapibus.aspx', 'eblorez@google.com.br', 2147483647, 'Philippines', '17335 Heffernan Terrace', '2024-09-20', '2024-09-20'),
+(37, 'Leuschke-Kuhn', 'http://sohu.com/quis/tortor/id/nulla/ultrices.jpg', 'epoxon10@geocities.com', 2147483647, 'Ukraine', '0 Texas Way', '2024-09-20', '2024-09-20'),
+(38, 'Kuhic LLC', 'https://statcounter.com/sagittis/nam/congue/risus/semper/porta.jpg', 'mlong11@prnewswire.com', 2147483647, 'China', '347 Sundown Pass', '2024-09-20', '2024-09-20'),
+(39, '\"Dickens', ' Emard and Larkin\"', 'https://sun.com/turpis/adipiscing/lorem.jpg', 0, '8024314273', 'China', '2024-09-20', '2024-09-20'),
+(40, 'Shanahan-Hoppe', 'http://nytimes.com/maecenas/tristique/est/et/tempus/semper/est.png', 'gbaxstar13@utexas.edu', 2147483647, 'Russia', '826 Pawling Road', '2024-09-20', '2024-09-20'),
+(41, 'Jenkins-Murphy', 'https://com.com/metus/vitae/ipsum/aliquam/non/mauris/morbi.jpg', 'cszymaniak14@symantec.com', 2147483647, 'Sweden', '174 Bobwhite Trail', '2024-09-20', '2024-09-20'),
+(42, 'Kirlin-Jones', 'https://telegraph.co.uk/mollis/molestie/lorem/quisque/ut/erat.jsp', 'edoogood15@ftc.gov', 2147483647, 'Belarus', '2 Spaight Hill', '2024-09-20', '2024-09-20'),
+(43, '\"Runolfsdottir', ' Bergnaum and Turcotte\"', 'http://foxnews.com/diam/vitae/quam.jpg', 0, '1367454006', 'Russia', '2024-09-20', '2024-09-20'),
+(44, '\"Hilpert', ' White and Greenfelder\"', 'http://pen.io/amet/diam/in/magna/bibendum/imperdiet/nullam.jpg', 0, '3304394529', 'Belarus', '2024-09-20', '2024-09-20'),
+(45, 'Schmeler LLC', 'http://cloudflare.com/commodo/vulputate/justo.jpg', 'bwakenshaw18@rakuten.co.jp', 2147483647, 'Greece', '31472 Hoard Court', '2024-09-20', '2024-09-20'),
+(46, '\"Morissette', ' Muller and Bednar\"', 'http://google.com/pellentesque/at/nulla/suspendisse/potenti/cras/in.png', 0, '9858827490', 'China', '2024-09-20', '2024-09-20'),
+(47, 'Lemke Group', 'http://bbc.co.uk/tellus.js', 'scolumbell1a@flickr.com', 2147483647, 'United States', '724 Eastwood Lane', '2024-09-20', '2024-09-20'),
+(48, 'Schuster-Lakin', 'https://digg.com/nibh/in/hac/habitasse/platea/dictumst/aliquam.png', 'kdebroke1b@pbs.org', 2147483647, 'Greece', '5251 Ilene Plaza', '2024-09-20', '2024-09-20'),
+(49, 'Douglas Inc', 'https://vistaprint.com/ligula/sit.png', 'rmcevay1c@amazonaws.com', 2147483647, 'Mexico', '1522 Granby Place', '2024-09-20', '2024-09-20'),
+(50, 'Kautzer-Haag', 'http://opera.com/suscipit.xml', 'mgraundisson1d@artisteer.com', 2147483647, 'Madagascar', '3487 Jana Junction', '2024-09-20', '2024-09-20'),
 (87, 'solar', 'https://www.temp.com/', 'ss@gmail.com', 1234567890, 'USA', 'sad', '2024-09-18', '2024-09-18'),
 (88, 'Myr', 'https://www.myr.com/', 'mi@gmail.com', 1234567894, 'Canada', 'sd', '2024-09-18', '2024-09-18'),
 (89, 'solarsd', 'https://www.tempsdasd.com/', 'ssads@gmail.com', 1234562890, 'USA', 'sad', '2024-09-18', '2024-09-18'),
 (90, 'Myrsd', 'https://www.smyr.com/', 'ssds@gmail.com', 1234562894, 'USA', 'sd', '2024-09-18', '2024-09-18'),
 (92, 'asdf', 'https://www.tdemp.com/', 'sss@gmail.com', 1234567891, 'USA', 'sw', '2024-09-19', '2024-09-19'),
 (93, 'solarsdgf', 'https://www.tefmp.com/', 'ffss@gmail.com', 1234563890, 'USA', 'f', '2024-09-19', '2024-09-19'),
-(97, 'solard', 'https://www.tedmp.com/', 'sds@gmail.com', 1234567893, 'USA', 's', '2024-09-19', '2024-09-19');
+(97, 'solard', 'https://www.tedmp.com/', 'sds@gmail.com', 1234567893, 'USA', 's', '2024-09-19', '2024-09-19'),
+(98, 'myrA', 'https://www.twedmp.com/', 'ds@gmail.com', 123452789, 'India', 'a', '2024-09-20', '2024-09-20'),
+(99, 'company', 'https://www.tesmp.com/', 'email@gmail.com', 1214567893, 'India', 'address', '2024-09-20', '2024-09-20');
 
 -- --------------------------------------------------------
 
@@ -117,6 +169,15 @@ CREATE TABLE `project` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`id`, `name`, `description`, `customer`, `start_date`, `deadline`, `status`, `created_at`, `updated_at`) VALUES
+(677, 'solar', 'solar', 1, '2024-08-31', '0000-00-00', 'P', '2024-09-20 11:06:53', '2024-09-20 11:06:53'),
+(688, 'sadsa', 'dfds', 14, '2020-02-02', '0000-00-00', 'S', '2024-09-20 17:43:45', '2024-09-20 17:43:45'),
+(689, 'sad', 'dsf', 13, '2023-02-02', '0000-00-00', 'C', '2024-09-20 17:44:56', '2024-09-20 17:44:56');
+
 -- --------------------------------------------------------
 
 --
@@ -129,6 +190,17 @@ CREATE TABLE `project_member` (
   `project_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `project_member`
+--
+
+INSERT INTO `project_member` (`id`, `user_id`, `project_id`) VALUES
+(555, 444, 677),
+(561, 444, 677),
+(563, 2, 688),
+(564, 1, 689),
+(565, 3, 689);
+
 -- --------------------------------------------------------
 
 --
@@ -140,6 +212,19 @@ CREATE TABLE `project_tags` (
   `tags_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `project_tags`
+--
+
+INSERT INTO `project_tags` (`id`, `tags_id`, `project_id`) VALUES
+(692, 1, 677),
+(701, 1, 677),
+(702, 1, 677),
+(704, 3, 688),
+(705, 1, 689),
+(706, 2, 689),
+(707, 3, 689);
 
 -- --------------------------------------------------------
 
@@ -195,6 +280,17 @@ CREATE TABLE `task` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `task`
+--
+
+INSERT INTO `task` (`id`, `project`, `name`, `start_date`, `due_date`, `status`, `priority`, `created_at`, `updated_at`) VALUES
+(1057, 677, 'sad', '2020-02-02', '0000-00-00 00:00:00', 'S', 'L', '2024-09-21 10:32:01', '2024-09-21 10:32:01'),
+(1058, 677, 'sad', '2020-02-02', '0000-00-00 00:00:00', 'P', 'L', '2024-09-21 10:32:24', '2024-09-21 10:46:32'),
+(1060, 688, 'sadas', '2023-02-02', '0000-00-00 00:00:00', 'P', 'M', '2024-09-21 10:55:16', '2024-09-21 10:55:16'),
+(1061, 677, 'asd', '2020-02-02', '0000-00-00 00:00:00', 'P', 'M', '2024-09-21 10:55:42', '2024-09-21 10:55:42'),
+(1062, 677, 'sd', '2020-02-02', '0000-00-00 00:00:00', 'S', 'L', '2024-09-21 10:55:56', '2024-09-21 10:55:56');
+
 -- --------------------------------------------------------
 
 --
@@ -208,6 +304,18 @@ CREATE TABLE `task_member` (
   `task_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `task_member`
+--
+
+INSERT INTO `task_member` (`id`, `project_id`, `user_id`, `task_id`) VALUES
+(1490, 688, 2, 1058),
+(1491, 688, 2, 1058),
+(1492, 677, 2, 1058),
+(1500, 688, 2, 1060),
+(1501, 677, 2, 1061),
+(1502, 677, 2, 1062);
+
 -- --------------------------------------------------------
 
 --
@@ -220,6 +328,18 @@ CREATE TABLE `task_tags` (
   `tags_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `task_tags`
+--
+
+INSERT INTO `task_tags` (`id`, `project_id`, `tags_id`, `task_id`) VALUES
+(2878, 688, 2, 1058),
+(2879, 688, 2, 1058),
+(2880, 677, 2, 1058),
+(2884, 688, 2, 1060),
+(2885, 677, 3, 1061),
+(2886, 677, 3, 1062);
 
 -- --------------------------------------------------------
 
@@ -548,25 +668,25 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=677;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=690;
 
 --
 -- AUTO_INCREMENT for table `project_member`
 --
 ALTER TABLE `project_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=555;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=566;
 
 --
 -- AUTO_INCREMENT for table `project_tags`
 --
 ALTER TABLE `project_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=692;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=708;
 
 --
 -- AUTO_INCREMENT for table `project_team`
@@ -584,19 +704,19 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1057;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1063;
 
 --
 -- AUTO_INCREMENT for table `task_member`
 --
 ALTER TABLE `task_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1490;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1503;
 
 --
 -- AUTO_INCREMENT for table `task_tags`
 --
 ALTER TABLE `task_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2878;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2887;
 
 --
 -- AUTO_INCREMENT for table `user`

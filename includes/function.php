@@ -171,4 +171,37 @@ function validateProject($data)
     }
     return $errors;
 }
+function validateTask($data)
+{
+    $errors = "";
+    $project = $_POST['project'];
+    $name = $_POST['name'];
+    $start_date = $_POST['start_date'];
+    $due_date = $_POST['due_date'];
+    $status = $_POST['status'];
+    $priority = $_POST['priority'];
+    $tag = $_POST['tags'];
+    $member = $_POST['members'];
+    $fields = [
+        'project' => $project,
+        'name' => $name,
+        'start_date' => $start_date,
+        'status' => $status,
+        'priority' => $priority,
+        'tags' => $tag,
+        'members' => $member
+
+    ];
+    if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
+
+    } else if (!validateName($name)) {
+        $errors = "Company name must contain only letters and spaces!";
+
+    } else if (!deadlineRule($due_date, $_POST['start_date'])) {
+        $errors = "Invalid date!";
+
+    }
+    return $errors;
+}
 ?>
