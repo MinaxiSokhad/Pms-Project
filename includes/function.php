@@ -204,4 +204,62 @@ function validateTask($data)
     }
     return $errors;
 }
+function validateRegister($data)
+{
+    $errors = "";
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $country = $_POST['country'];
+    $state = $_POST['state'];
+    $city = $_POST['city'];
+    $gender = $_POST['gender'];
+    $maritalStatus = $_POST['maritalStatus'];
+    $mobileNo = $_POST['mobileNo'];
+    $address = $_POST['address'];
+    $dob = $_POST['dob'];
+    $hireDate = $_POST['hireDate'];
+
+    $fields = [
+        'name' => $name,
+        'email' => $email,
+        'password' => $password,
+        'country' => $country,
+        'state' => $state,
+        'city' => $city,
+        'gender' => $gender,
+        'maritalStatus' => $maritalStatus,
+        'mobileNo' => $mobileNo,
+        'address' => $address,
+        'dob' => $dob,
+        'hireDate' => $hireDate
+    ];
+    if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
+
+    } else if (!validateName($name)) {
+        $errors = "Name must contain only letters and spaces!";
+
+    } else if (!validateSelection($country, ['USA', 'Canada', 'Mexico', 'India', 'Russia'])) {
+        $errors = " Invalid Selection!";
+
+    } else if (!validateName($state)) {
+        $errors = " State name must contain only letters and spaces!";
+
+    } else if (!validateName($city)) {
+        $errors = "City name must contain only letters and spaces!";
+
+    } else if (!validateEmail($email)) {
+        $errors = "Invalid email format";
+
+    } else if (!validateMobile($mobileNo)) {
+        $errors = "Your Mobile Number Must Contain Exactly 10 Digits!";
+
+    } else if (!validateDate($dob)) {
+        $errors = "You must be 18 years old to register.";
+    } else if (!validatehireDate($hireDate, $_POST['dob'])) {
+        $errors = "Invalid date For Hiring.";
+    }
+    return $errors;
+}
 ?>
