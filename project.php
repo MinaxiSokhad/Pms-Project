@@ -29,8 +29,8 @@ if ($_SESSION['user_type'] == "A") {
         $formattedStartDate = "{$_POST['start_date']} 00:00:00";
         $formattedEndDate = "{$_POST['deadline']} 00:00:00";
         $status = $_POST['status'];
-        $tag = $_POST['tags'];
-        $member = $_POST['members'];
+        // $tag = $_POST['tags'];
+        // $member = $_POST['members'];
 
         $errors = validateProject($_POST);
 

@@ -147,16 +147,16 @@ function validateProject($data)
     $start_date = $_POST['start_date'];
     $deadline = $_POST['deadline'];
     $status = $_POST['status'];
-    $tag = $_POST['tags'];
-    $member = $_POST['members'];
+    //  $tag = $_POST['tags'];
+    // $member = $_POST['members'];
     $fields = [
         'name' => $name,
         'description' => $description,
         'customer' => $customer,
         'start_date' => $start_date,
         'status' => $status,
-        'tags' => $tag,
-        'members' => $member
+        //  'tags' => $tag,
+        // 'members' => $member
 
     ];
     if ($missingField = isEmptyFields($fields)) {
@@ -180,16 +180,16 @@ function validateTask($data)
     $due_date = $_POST['due_date'];
     $status = $_POST['status'];
     $priority = $_POST['priority'];
-    $tag = $_POST['tags'];
-    $member = $_POST['members'];
+    // $tag = $_POST['tags'];
+    // $member = $_POST['members'];
     $fields = [
         'project' => $project,
         'name' => $name,
         'start_date' => $start_date,
         'status' => $status,
         'priority' => $priority,
-        'tags' => $tag,
-        'members' => $member
+        //'tags' => $tag,
+        //'members' => $member
 
     ];
     if ($missingField = isEmptyFields($fields)) {

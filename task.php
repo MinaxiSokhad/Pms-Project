@@ -30,8 +30,8 @@ if ($_SESSION['user_type'] == "A") {
         $formattedDueDate = "{$_POST['due_date']} 00:00:00";
         $status = $_POST['status'];
         $priority = $_POST['priority'];
-        $tag = $_POST['tags'];
-        $member = $_POST['members'];
+        // $tag = $_POST['tags'];
+        //  $member = $_POST['members'];
 
         $errors = validateTask($_POST);
 
@@ -105,33 +105,33 @@ if ($_SESSION['user_type'] == "A") {
     if (isset($_GET['id'])) {
         $id = mysqli_real_escape_string($conn, $_GET['id']);
         $query = "SELECT
-task.id,
-project.name as `project`,
-task.name,
-task.start_date,
-task.due_date,
-task.priority,
-CASE 
-WHEN task.status = 'S' THEN 'Not Started'
-WHEN task.status = 'P' THEN 'In Progress'
-WHEN task.status = 'C' THEN 'Complete'
-WHEN task.status = 'T' THEN 'Testing'
-ELSE task.status
-END AS `status`,
-GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') AS `task_tags_name`,
-GROUP_CONCAT(DISTINCT user.id ORDER BY user.id SEPARATOR ',') AS `task_member_id`,
-GROUP_CONCAT(DISTINCT user.name ORDER BY user.id SEPARATOR ',') AS `task_member_name`
-FROM task
-JOIN task_tags
-ON task.id = task_tags.task_id
-JOIN task_member
-ON task.id = task_member.task_id 
-JOIN tags
-ON task_tags.tags_id = tags.id
-JOIN user
-ON task_member.user_id = user.id
-JOIN project
-ON task.project = project.id WHERE task.id = '$id' GROUP BY task.id";
+                task.id,
+                project.name as `project`,
+                task.name,
+                task.start_date,
+                task.due_date,
+                task.priority,
+                CASE 
+                WHEN task.status = 'S' THEN 'Not Started'
+                WHEN task.status = 'P' THEN 'In Progress'
+                WHEN task.status = 'C' THEN 'Complete'
+                WHEN task.status = 'T' THEN 'Testing'
+                ELSE task.status
+                END AS `status`,
+                GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') AS `task_tags_name`,
+                GROUP_CONCAT(DISTINCT user.id ORDER BY user.id SEPARATOR ',') AS `task_member_id`,
+                GROUP_CONCAT(DISTINCT user.name ORDER BY user.id SEPARATOR ',') AS `task_member_name`
+                FROM task
+                JOIN task_tags
+                ON task.id = task_tags.task_id
+                JOIN task_member
+                ON task.id = task_member.task_id 
+                JOIN tags
+                ON task_tags.tags_id = tags.id
+                JOIN user
+                ON task_member.user_id = user.id
+                JOIN project
+                ON task.project = project.id WHERE task.id = '$id' GROUP BY task.id";
         $result = mysqli_query($conn, $query);
         $task = mysqli_fetch_assoc($result);
     }
