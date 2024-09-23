@@ -12,8 +12,8 @@ project.deadline,
 CASE 
 WHEN project.status = 'S' THEN 'Not Started'
 WHEN project.status = 'P' THEN 'In Progress'
-WHEN project.status = 'O' THEN 'On Hold'
-WHEN project.status = 'C' THEN 'Completed'
+WHEN project.status = 'H' THEN 'On Hold'
+WHEN project.status = 'C' THEN 'Cancelled'
 WHEN project.status = 'F' THEN 'Finished'
 ELSE project.status
 END AS `status`,
@@ -192,7 +192,9 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                         </label>
                                     </div>
                                 </td>
-                                <td><?php echo e($p['name']); ?></td>
+                                <td><a
+                                        href="userproject.php?userproject=<?php echo e($p['id']); ?>"><?php echo e($p['name']); ?></a>
+                                </td>
                                 <td><?php echo e($p['description']); ?></td>
                                 <td><?php echo e($p['customer']); ?></td>
                                 <td><?php echo e($p['project_tags_name']); ?>
@@ -200,7 +202,14 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 <td><?php echo e($p['start_date']); ?></td>
                                 <td><?php echo e($p['deadline']); ?></td>
                                 <td><?php echo e($p['status']); ?></td>
-                                <td><?php echo e($p['project_member_name']); ?>
+                                <?php $project_member_id = explode(",", $p['project_member_id']);
+                                $project_member_name = explode(",", $p['project_member_name']);
+                                $project_member = array_combine($project_member_id, $project_member_name);
+                                ?>
+                                <td><?php foreach ($project_member as $project_m_id => $project_m_name): ?>
+                                        <a href="userprofile.php?profile=<?php echo e($project_m_id); ?>">
+                                            <?php echo e($project_m_name); ?></a>
+                                    <?php endforeach; ?>
                                 </td>
 
                                 <?php if ($_SESSION['user_type'] == "A"): ?>

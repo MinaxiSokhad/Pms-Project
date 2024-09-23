@@ -20,11 +20,11 @@
     if (array_key_exists('status', $_POST)) {
         $statusfilter = array_merge($statusfilter, $_POST['status']);
     }
-    $companies = [];
-    if (array_key_exists('company', $_POST)) {
-        $companies = array_merge($companies, $_POST['company']); // Use companies from POST if available
-    }
-
+    // $companies = [];
+    // if (array_key_exists('company', $_POST)) {
+    //     $companies = array_merge($companies, $_POST['company']); // Use companies from POST if available
+    // }
+    
     $countries = [];
     if (array_key_exists('country', $_POST)) {
         $countries = array_merge($countries, $_POST['country']);
@@ -33,21 +33,21 @@
         <button class="dropdown-button">Filter Options</button>
         <div class="dropdown-content">
             <?php if (isset($customersFilter)): ?>
-                <label>
+                <!-- <label>
                     <input type="checkbox" name="selectCustomers[]" value="cutomers"> Customers
                 </label>
 
                 <div class="dropdown-submenu">
-                    <?php foreach ($customersFilter as $c): ?>
-                        <?php if (in_array($c['company'], $companies)): ?>
-                            <label><input type="checkbox" name="company[]" value="<?php echo $c['company']; ?>"
-                                    checked><?php echo $c['company']; ?></label>
-                        <?php else: ?>
+                    <?php //foreach ($customersFilter as $c): ?>
+                        <?php //if (in_array($c['company'], $companies)): ?>
+                            <label><input type="checkbox" name="company[]" value="<?php //echo $c['company']; ?>"
+                                    checked><?php //echo $c['company']; ?></label>
+                        <?php //else: ?>
                             <label><input type="checkbox" name="company[]"
-                                    value="<?php echo $c['company']; ?>"><?php echo $c['company']; ?></label>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
+                                    value="<?php // echo $c['company']; ?>"><?php //echo $c['company']; ?></label>
+                        <?php //endif; ?>
+                    <?php // endforeach; ?>
+                </div> -->
 
                 <label>
                     <input type="checkbox" name="selectCountries[]" value="country"> Country

@@ -205,13 +205,20 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 </td>
                                 <td> <?php echo e($t['project']); ?>
                                 </td>
-                                <td> <?php echo e($t['name']); ?>
+                                <td> <a href="usertask.php?taskid=<?php echo e($t['id']); ?>">
+                                        <?php echo e($t['name']); ?></a>
                                 </td>
-                                <?php $task_member_id = explode(",", $t['task_member_id']); ?>
-                                <?php $task_member_name = explode(",", $t['task_member_name']);
-                                $task_members = array_combine($task_member_id, $task_member_name);
+                                <?php $task_members_id = explode(",", $t['task_member_id']); ?>
+                                <?php $task_members_name = explode(",", $t['task_member_name']);
+                                if (count($task_members_id) === count($task_members_name)) {
+                                    $task_members = array_combine($task_members_id, $task_members_name);
+                                }
                                 // dd($task_member_name); ?>
-                                <td> <?php echo e($t['task_member_name']); ?>
+                                <td>
+                                    <?php foreach ($task_members as $task_member_id => $task_member_name): ?>
+                                        <a href="userprofile.php?profile=<?php echo e($task_member_id); ?>">
+                                            <?php echo e($task_member_name); ?></a>
+                                    <?php endforeach; ?>
                                 </td>
                                 <td><?php echo e($t['task_tags_name']); ?>
                                 </td>
