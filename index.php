@@ -12,30 +12,43 @@
 // require('non_existent_file.php'); // This will be reported as a fatal error
 
 ?>
-<div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-9">
-                    <div class="d-flex align-items-center align-self-start">
-                        <h3 class="mb-0">Total Tasks</h3>
+<?php if ($_SESSION['user_type'] == "A"): ?>
+    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                            <h3 class="mb-0">Total Tasks</h3>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="icon icon-box-success ">
+                            <!-- <span class="mdi mdi-arrow-top-right icon-item"></span> -->
+                        </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="icon icon-box-success ">
-                        <!-- <span class="mdi mdi-arrow-top-right icon-item"></span> -->
-                    </div>
-                </div>
+
+                <h4 class="mb-0"><?php if (isset($totalRecords)) { ?>
+                        <?php echo e($totalRecords); ?>
+                    <?php } ?>
+                </h4>
+
             </div>
-            <?php if ($_SESSION['user_type'] == "A"): ?>
-                <h4 class="mb-0"><?php echo e($totalRecords); ?></h4>
-            <?php endif; ?>
         </div>
     </div>
-</div>
+<?php endif; ?>
 <?php $title = "Dashboard"; ?>
 <div class="container my-4">
-    <h1 class="text-center">Dashboard </h1>
-    <?php //include "tasks.php"; ?>
+    <div class="card-body">
+        <?php if ($_SESSION['user_type'] == "A"): ?>
+            <h4 class="card-title">Latest Projects</h4>
+        <?php else: ?>
+            <h4 class="card-title">My Projects</h4>
+        <?php endif; ?>
+        <div class="table-responsive">
+            <?php include "includes/taskForm.php"; ?>
+        </div>
+    </div>
 </div>
 <?php include "includes/_footer.php"; ?>
