@@ -44,17 +44,28 @@ if ($_SESSION['user_type'] == "A") {
                 $result_task = mysqli_query($conn, $task_sql);
                 if ($result_task) {
                     //last inserted id
-
                     $task_id = $conn->insert_id;
 
                     //tags
-
                     $tag_ids = implode(',', $_POST['tags']);
                     $tag_sql = "INSERT INTO task_tags(task_id,project_id,tags_id) SELECT '$task_id','$project',id FROM tags WHERE id IN ($tag_ids)";
                     $result_tags = mysqli_query($conn, $tag_sql);
-                    //members
 
+                    // members
                     $m_ids = implode(',', $_POST['members']);
+
+                    //check if the user is assigned to the project
+                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$m_ids' AND project_id = '$project'";
+                    $result = mysqli_query($conn, $checkProjectAssignment);
+
+                    if (mysqli_num_rows($result) == 0) {
+                        // If user is not assigned , assign them to project
+                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($m_ids)";
+                        mysqli_query($conn, $assignUserToProject);
+                    }
+
+                    // now proceed with assigning the task
+
                     $member_sql = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$task_id','$project' , id FROM user WHERE id IN ($m_ids)";
                     $result_members = mysqli_query($conn, $member_sql);
                     if ($result_tags && $result_members) {
@@ -87,8 +98,21 @@ if ($_SESSION['user_type'] == "A") {
                     $delete_members = "DELETE FROM task_member WHERE task_id = $id";
                     $deletemember = mysqli_query($conn, $delete_members);
 
-                    //insert members
+                    // members
                     $m_ids = implode(',', $_POST['members']);
+
+                    //check if the user is assigned to the project
+                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$m_ids' AND project_id = '$project'";
+                    $result = mysqli_query($conn, $checkProjectAssignment);
+
+                    if (mysqli_num_rows($result) == 0) {
+                        // If user is not assigned , assign them to project
+                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($m_ids)";
+                        mysqli_query($conn, $assignUserToProject);
+                    }
+
+                    // now proceed with assigning the task
+
                     $member_sql = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$id','$project', id FROM user WHERE id IN ($m_ids)";
                     $result_members = mysqli_query($conn, $member_sql);
 

@@ -21,8 +21,11 @@ $tags = mysqli_fetch_all($t_result, MYSQLI_ASSOC);
 $u_query = "SELECT * FROM user WHERE id > 0";
 $u_result = mysqli_query($conn, $u_query);
 $users = mysqli_fetch_all($u_result, MYSQLI_ASSOC);
+
 if ($_SESSION['user_type'] == "A") {
+
     if (isset($_POST['add']) || isset($_POST['updateProject'])) {
+
         $name = $_POST['name'];
         $description = $_POST['description'];
         $customer = $_POST['customer'];

@@ -42,9 +42,21 @@
 <div class="container my-4">
     <div class="card-body">
         <?php if ($_SESSION['user_type'] == "A"): ?>
-            <h4 class="card-title">Latest Projects</h4>
+            <h4 class="card-title">Latest Project</h4>
         <?php else: ?>
-            <h4 class="card-title">My Projects</h4>
+            <h4 class="card-title">My Project</h4>
+        <?php endif; ?>
+        <div class="table-responsive">
+            <?php include "includes/projectForm.php"; ?>
+        </div>
+    </div>
+</div>
+<div class="container my-4">
+    <div class="card-body">
+        <?php if ($_SESSION['user_type'] == "A"): ?>
+            <h4 class="card-title">Latest Task</h4>
+        <?php else: ?>
+            <h4 class="card-title">My Task</h4>
         <?php endif; ?>
         <div class="table-responsive">
             <?php include "includes/taskForm.php"; ?>
