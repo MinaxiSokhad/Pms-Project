@@ -13,6 +13,7 @@ echo $undefinedVariable;// not show warning because display errors value is set 
 // ini_set('display_errors', '0');
 // echo $undefinedVariable; // This will not be reported (no error output)
 // require('non_existent_file.php'); // This will be reported as a fatal error
+
 ?>
 <title>Home</title>
 <div class="container my-4">

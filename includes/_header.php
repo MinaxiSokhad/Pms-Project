@@ -5,7 +5,15 @@ ini_set('display_errors', '1');
 <?php include "includes/function.php"; ?>
 <?php include "includes/database.php"; ?>
 <?php start_session(); ?>
+<?php
+$userid = $_SESSION['userid'];
+$u_query = "SELECT * FROM user WHERE id = '$userid' ";
+$u_result = mysqli_query($conn, $u_query);
+$users = mysqli_fetch_all($u_result, MYSQLI_ASSOC);
+foreach ($users as $user) {
 
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -117,7 +125,7 @@ ini_set('display_errors', '1');
     </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">PMS Project</a>
+            <a class="navbar-brand" href="index.php"><?php echo $user['name']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -126,14 +134,16 @@ ini_set('display_errors', '1');
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                        <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="customers.php">Customers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="members.php">Members</a>
-                    </li>
+                    <?php if ($_SESSION['user_type'] == "A"): ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="customers.php">Customers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="members.php">Members</a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="projects.php">Projects</a>
                     </li>

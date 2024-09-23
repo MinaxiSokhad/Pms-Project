@@ -37,7 +37,11 @@ if (isset($_POST['submit'])) {
             VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate')";
             $result = mysqli_query($conn, $sql);
             if ($result) {
-                redirectTo("index.php");
+                if ($_SESSION['user_type'] != "A") {
+                    redirectTo("index.php");
+                } else {
+                    redirectTo("members.php");
+                }
             } else {
                 $errors = "Error!";
             }
@@ -51,6 +55,7 @@ if (isset($_POST['submit'])) {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
+
 <div class="container my-4">
     <h2 class="text-center">User Registration Form</h2>
     <hr>

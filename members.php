@@ -73,179 +73,184 @@ if ($showRecord != "1") {
 $membersFilter = mysqli_query($conn, $basequery);
 $_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
 ?>
+<?php if ($_SESSION['user_type'] == "A"): ?>
+    <div class="container my-4">
 
-<div class="container my-4">
+        <h4 class="card-title">Members</h4>
 
-    <h4 class="card-title">Members</h4>
+        <?php include "includes/_search_filter.php"; ?>
 
-    <?php include "includes/_search_filter.php"; ?>
+        <div class="table-responsive">
+            <form id="form" name="form" method="POST">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="form-check form-check-muted m-0">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" id="selectAll" name="selectAll[]">
+                                    </label>
+                                </div>
+                            </th>
 
-    <div class="table-responsive">
-        <form id="form" name="form" method="POST">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="form-check form-check-muted m-0">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" id="selectAll" name="selectAll[]">
-                                </label>
-                            </div>
-                        </th>
-
-                        <th>
-                            <a a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
-                            User Name
-                            <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('email','asc')">▲</a>
-                            Email
-                            <a href="#" class="sort-button" onclick="sortBy('email','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('country','asc')">
-                                ▲</a>
-                            Country
-                            <a href="#" class="sort-button" onclick="sortBy('country','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('state','asc')">▲</a>
-                            State
-                            <a href="#" class="sort-button" onclick="sortBy('state','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('city','asc')">▲</a>
-                            City
-                            <a href="#" class="sort-button" onclick="sortBy('city','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('gender','asc')">▲</a>
-                            Gender
-                            <a href="#" class="sort-button" onclick="sortBy('gender','desc')">
-                                ▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('maritalStatus','asc')">▲</a>
-                            Marital Status
-                            <a href="#" class="sort-button" onclick="sortBy('maritalStatus','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('mobileNo','asc')">▲</a>
-                            Mobile No.
-                            <a href="#" class="sort-button" onclick="sortBy('mobileNo','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('address','asc')">▲</a>
-                            Address
-                            <a href="#" class="sort-button" onclick="sortBy('address','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('dob','asc')">▲</a>
-                            Date of Birth
-                            <a href="#" class="sort-button" onclick="sortBy('dob','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('hireDate','asc')">▲</a>
-                            HireDate
-                            <a href="#" class="sort-button" onclick="sortBy('hireDate','desc')">▼</a>
-                        </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('status','asc')">▲</a>
-                            Status
-                            <a href="#" class="sort-button" onclick="sortBy('status','desc')">▼</a>
-                        </th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // print_r($projects);
-                    if ($row = mysqli_num_rows($members) > 0) {
-                        ?>
-                        <?php foreach ($members as $t):
+                            <th>
+                                <a a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
+                                User Name
+                                <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('email','asc')">▲</a>
+                                Email
+                                <a href="#" class="sort-button" onclick="sortBy('email','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('country','asc')">
+                                    ▲</a>
+                                Country
+                                <a href="#" class="sort-button" onclick="sortBy('country','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('state','asc')">▲</a>
+                                State
+                                <a href="#" class="sort-button" onclick="sortBy('state','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('city','asc')">▲</a>
+                                City
+                                <a href="#" class="sort-button" onclick="sortBy('city','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('gender','asc')">▲</a>
+                                Gender
+                                <a href="#" class="sort-button" onclick="sortBy('gender','desc')">
+                                    ▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('maritalStatus','asc')">▲</a>
+                                Marital Status
+                                <a href="#" class="sort-button" onclick="sortBy('maritalStatus','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('mobileNo','asc')">▲</a>
+                                Mobile No.
+                                <a href="#" class="sort-button" onclick="sortBy('mobileNo','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('address','asc')">▲</a>
+                                Address
+                                <a href="#" class="sort-button" onclick="sortBy('address','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('dob','asc')">▲</a>
+                                Date of Birth
+                                <a href="#" class="sort-button" onclick="sortBy('dob','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('hireDate','asc')">▲</a>
+                                HireDate
+                                <a href="#" class="sort-button" onclick="sortBy('hireDate','desc')">▼</a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-button" onclick="sortBy('status','asc')">▲</a>
+                                Status
+                                <a href="#" class="sort-button" onclick="sortBy('status','desc')">▼</a>
+                            </th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // print_r($projects);
+                        if ($row = mysqli_num_rows($members) > 0) {
                             ?>
-                            <tr>
-                                <td>
-                                    <div class="form-check form-check-muted m-0">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" value="<?php echo $t['id']; ?>"
-                                                name="ids[]">
-                                        </label>
-                                    </div>
-                                </td>
-                                <?php
-                                if ($t['gender'] === 'M') {
-                                    $t['gender'] = "Male";
-                                } else if ($t['gender'] === 'F') {
-                                    $t['gender'] = "Female";
-                                } else if ($t['gender'] === 'O') {
-                                    $t['gender'] = "Other";
-                                }
+                            <?php foreach ($members as $t):
                                 ?>
-                                <?php
-                                if ($t['maritalStatus'] === 'S') {
-                                    $t['maritalStatus'] = "Single";
-                                } else if ($t['maritalStatus'] === 'M') {
-                                    $t['maritalStatus'] = "Married";
-                                } else if ($t['maritalStatus'] === 'W') {
-                                    $t['maritalStatus'] = "Widowed";
-                                } else if ($t['maritalStatus'] === 'D') {
-                                    $t['maritalStatus'] = "Divorced";
-                                }
-                                ?>
-                                <td><?php echo e($t['name']); ?></td>
-                                <td><?php echo e($t['email']); ?></td>
-                                <td><?php echo e($t['country']); ?>
-                                </td>
-                                <td><?php echo e($t['state']); ?></td>
-                                <td><?php echo e($t['city']); ?></td>
-                                <td><?php echo e($t['gender']); ?></td>
-                                <td><?php echo e($t['maritalStatus']); ?>
-                                <td><?php echo e($t['mobileNo']); ?>
-                                <td><?php echo e($t['address']); ?>
-                                <td><?php echo e($t['dob']); ?>
-                                <td><?php echo e($t['hireDate']); ?>
-                                    <?php if ($t['status'] === '1'): ?>
+                                <tr>
                                     <td>
-                                        <div class="btn btn-success">Active</div>
+                                        <div class="form-check form-check-muted m-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" value="<?php echo $t['id']; ?>"
+                                                    name="ids[]">
+                                            </label>
+                                        </div>
                                     </td>
-                                <?php else: ?>
-                                    <td>
-                                        <div class="btn btn-danger">Not Active</div>
+                                    <?php
+                                    if ($t['gender'] === 'M') {
+                                        $t['gender'] = "Male";
+                                    } else if ($t['gender'] === 'F') {
+                                        $t['gender'] = "Female";
+                                    } else if ($t['gender'] === 'O') {
+                                        $t['gender'] = "Other";
+                                    }
+                                    ?>
+                                    <?php
+                                    if ($t['maritalStatus'] === 'S') {
+                                        $t['maritalStatus'] = "Single";
+                                    } else if ($t['maritalStatus'] === 'M') {
+                                        $t['maritalStatus'] = "Married";
+                                    } else if ($t['maritalStatus'] === 'W') {
+                                        $t['maritalStatus'] = "Widowed";
+                                    } else if ($t['maritalStatus'] === 'D') {
+                                        $t['maritalStatus'] = "Divorced";
+                                    }
+                                    ?>
+                                    <td><?php echo e($t['name']); ?></td>
+                                    <td><?php echo e($t['email']); ?></td>
+                                    <td><?php echo e($t['country']); ?>
                                     </td>
-                                <?php endif; ?>
+                                    <td><?php echo e($t['state']); ?></td>
+                                    <td><?php echo e($t['city']); ?></td>
+                                    <td><?php echo e($t['gender']); ?></td>
+                                    <td><?php echo e($t['maritalStatus']); ?>
+                                    <td><?php echo e($t['mobileNo']); ?>
+                                    <td><?php echo e($t['address']); ?>
+                                    <td><?php echo e($t['dob']); ?>
+                                    <td><?php echo e($t['hireDate']); ?>
+                                        <?php if ($t['status'] === '1'): ?>
+                                        <td>
+                                            <div class="btn btn-success">Active</div>
+                                        </td>
+                                    <?php else: ?>
+                                        <td>
+                                            <div class="btn btn-danger">Not Active</div>
+                                        </td>
+                                    <?php endif; ?>
 
-                                <?php //endforeach; ?>
-                                <td><a href="member.php?id=<?php echo $t['id']; ?>">
-                                        <div class="btn btn-primary">Edit</div>
-                                    </a></td>
-                                <td>
-                                    <button type="button" onclick="deletemember(<?php echo $t['id']; ?>)" name="delete"
-                                        class="btn btn-danger">Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                <?php } ?>
-            </table>
-            <br>
-            <a href="register.php">
-                <div class="btn btn-primary">Add New Member</div>
-            </a>
-            <?php if ($row = mysqli_num_rows($members)): ?>
-                <form action="members.php" name="deleteform" method="POST">
-                    <button type="button" onclick="deleteSelectedMembers()" name="deleteSelected"
-                        class="btn btn-danger">Delete
-                        Selected Members
-                    </button>
-                </form>
-            <?php endif; ?>
-        </form>
-        <br><br>
-        <?php include "includes/_pagination.php"; ?>
+                                    <td><a href="member.php?id=<?php echo $t['id']; ?>">
+                                            <div class="btn btn-primary">Edit</div>
+                                        </a></td>
+                                    <td>
+                                        <button type="button" onclick="deletemember(<?php echo $t['id']; ?>)" name="delete"
+                                            class="btn btn-danger">Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    <?php } ?>
+                </table>
+                <br>
+                <a href="register.php">
+                    <div class="btn btn-primary">Add New Member</div>
+                </a>
+                <?php if ($row = mysqli_num_rows($members)): ?>
+                    <form action="members.php" name="deleteform" method="POST">
+                        <button type="button" onclick="deleteSelectedMembers()" name="deleteSelected"
+                            class="btn btn-danger">Delete
+                            Selected Members
+                        </button>
+                    </form>
+                <?php endif; ?>
+            </form>
+            <br><br>
+            <?php include "includes/_pagination.php"; ?>
+        </div>
     </div>
-</div>
+<?php else: ?>
+    <div class="container my-4 ">
+        <h1 class="text-center"> <span style="color: red;">Sorry ! Authorization Required </span> </h1>
+    </div>
+<?php endif; ?>
 <?php include "includes/_footer.php"; ?>

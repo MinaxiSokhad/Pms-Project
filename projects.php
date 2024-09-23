@@ -33,7 +33,11 @@ JOIN customers
 ON project.customer = customers.id ";
 
 $where = " WHERE project.id > 0 ";
-
+$employeeProjectCount = "";
+if ($_SESSION['user_type'] != "A") {
+    $userid = $_SESSION['userid'];
+    $employeeProjectCount = " HAVING COUNT(CASE WHEN project_member.user_id = '$userid' THEN 1 ELSE NULL END) > 0 ";
+}
 // Sorting
 $order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction'] ?? 'desc'; // Default sort direction
@@ -77,9 +81,13 @@ if ($limit != '') {
     $limit_offset = "";
 }
 
-$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY project.id " . $order . $limit_offset;
+$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY project.id " . $employeeProjectCount . $order . $limit_offset;
 $projects = mysqli_query($conn, $query);
-
+$countUserProject = "";
+if ($_SESSION['user_type'] != "A") {
+    $userid = $_SESSION['userid'];
+    $countUserProject = " AND project_member.user_id = '$userid' ";
+}
 $countQuery = "SELECT COUNT(DISTINCT project.id) AS total
 FROM project
 JOIN customers ON project.customer = customers.id
@@ -87,7 +95,7 @@ JOIN project_tags ON project.id = project_tags.project_id
 JOIN tags ON project_tags.tags_id = tags.id
 JOIN project_member ON project.id = project_member.project_id
 JOIN user ON project_member.user_id = user.id
-WHERE project.id > 0 " . $searchTerm . $filterStatus;
+WHERE project.id > 0  " . $countUserProject . $searchTerm . $filterStatus;
 
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
@@ -162,8 +170,10 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                             Members
                             <a href="#" class="sort-button" onclick="sortBy('project_member_name','desc')">▼</a>
                         </th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <?php if ($_SESSION['user_type'] == "A"): ?>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -193,31 +203,34 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 <td><?php echo e($p['project_member_name']); ?>
                                 </td>
 
-                                <?php //endforeach; ?>
-                                <td><a href="project.php?id=<?php echo $p['id']; ?>">
-                                        <div class="btn btn-primary">Edit</div>
-                                    </a></td>
-                                <td>
-                                    <button type="button" onclick="deleteproject(<?php echo $p['id']; ?>)" name="delete"
-                                        class="btn btn-danger">Delete
-                                    </button>
-                                </td>
+                                <?php if ($_SESSION['user_type'] == "A"): ?>
+                                    <td><a href="project.php?id=<?php echo $p['id']; ?>">
+                                            <div class="btn btn-primary">Edit</div>
+                                        </a></td>
+                                    <td>
+                                        <button type="button" onclick="deleteproject(<?php echo $p['id']; ?>)" name="delete"
+                                            class="btn btn-danger">Delete
+                                        </button>
+                                    </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 <?php } ?>
             </table>
             <br>
-            <a href="project.php">
-                <div class="btn btn-primary">Add New Project</div>
-            </a>
-            <?php if ($row = mysqli_num_rows($projects)): ?>
-                <form action="projects.php" name="deleteform" method="POST">
-                    <button type="button" onclick="deleteSelectedProjects()" name="deleteSelected"
-                        class="btn btn-danger">Delete
-                        Selected Projects
-                    </button>
-                </form>
+            <?php if ($_SESSION['user_type'] == "A"): ?>
+                <a href="project.php">
+                    <div class="btn btn-primary">Add New Project</div>
+                </a>
+                <?php if ($row = mysqli_num_rows($projects)): ?>
+                    <form action="projects.php" name="deleteform" method="POST">
+                        <button type="button" onclick="deleteSelectedProjects()" name="deleteSelected"
+                            class="btn btn-danger">Delete
+                            Selected Projects
+                        </button>
+                    </form>
+                <?php endif; ?>
             <?php endif; ?>
         </form>
         <br><br>

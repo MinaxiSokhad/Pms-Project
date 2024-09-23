@@ -37,6 +37,11 @@ $basequery = "SELECT
               ON task.project = project.id ";
 
 $where = " WHERE task.id > 0 ";
+$employeeTaskCount = "";
+if ($_SESSION['user_type'] != "A") {
+    $userid = $_SESSION['userid'];
+    $employeeTaskCount = " HAVING COUNT(CASE WHEN task_member.user_id = '$userid' THEN 1 ELSE NULL END) > 0 ";
+}
 
 // Sorting
 $order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
@@ -81,9 +86,13 @@ if ($limit != '') {
     $limit_offset = "";
 }
 
-$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY task.id " . $order . $limit_offset;
+$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY task.id " . $employeeTaskCount . $order . $limit_offset;
 $tasks = mysqli_query($conn, $query);
-
+$countUserTask = "";
+if ($_SESSION['user_type'] != "A") {
+    $userid = $_SESSION['userid'];
+    $countUserTask = " AND task_member.user_id = '$userid'  ";
+}
 $countQuery = "SELECT COUNT(DISTINCT task.id) AS total
 FROM task
 JOIN task_tags
@@ -96,7 +105,7 @@ JOIN user
 ON task_member.user_id = `user`.id
 JOIN project
 ON task.project = project.id
-WHERE task.id > 0 " . $searchTerm . $filterStatus;
+WHERE task.id > 0  " . $countUserTask . $searchTerm . $filterStatus;
 
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
@@ -109,6 +118,7 @@ if ($showRecord != "1") {
 }
 $tasksFilter = mysqli_query($conn, $basequery);
 $_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
+
 ?>
 
 <div class="container my-4">
@@ -171,8 +181,10 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                             Priority
                             <a href="#" class="sort-button" onclick="sortBy('priority','desc')">▼</a>
                         </th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <?php if ($_SESSION['user_type'] == "A"): ?>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -209,31 +221,34 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 <td><?php echo e($t['priority']); ?>
                                 </td>
 
-                                <?php //endforeach; ?>
-                                <td><a href="task.php?id=<?php echo $t['id']; ?>">
-                                        <div class="btn btn-primary">Edit</div>
-                                    </a></td>
-                                <td>
-                                    <button type="button" onclick="deletetask(<?php echo $t['id']; ?>)" name="delete"
-                                        class="btn btn-danger">Delete
-                                    </button>
-                                </td>
+                                <?php if ($_SESSION['user_type'] == "A"): ?>
+                                    <td><a href="task.php?id=<?php echo $t['id']; ?>">
+                                            <div class="btn btn-primary">Edit</div>
+                                        </a></td>
+                                    <td>
+                                        <button type="button" onclick="deletetask(<?php echo $t['id']; ?>)" name="delete"
+                                            class="btn btn-danger">Delete
+                                        </button>
+                                    </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 <?php } ?>
             </table>
             <br>
-            <a href="task.php">
-                <div class="btn btn-primary">Add New Task</div>
-            </a>
-            <?php if ($row = mysqli_num_rows($tasks)): ?>
-                <form action="tasks.php" name="deleteform" method="POST">
-                    <button type="button" onclick="deleteSelectedTasks()" name="deleteSelected"
-                        class="btn btn-danger">Delete
-                        Selected Tasks
-                    </button>
-                </form>
+            <?php if ($_SESSION['user_type'] == "A"): ?>
+                <a href="task.php">
+                    <div class="btn btn-primary">Add New Task</div>
+                </a>
+                <?php if ($row = mysqli_num_rows($tasks)): ?>
+                    <form action="tasks.php" name="deleteform" method="POST">
+                        <button type="button" onclick="deleteSelectedTasks()" name="deleteSelected"
+                            class="btn btn-danger">Delete
+                            Selected Tasks
+                        </button>
+                    </form>
+                <?php endif; ?>
             <?php endif; ?>
         </form>
         <br><br>
