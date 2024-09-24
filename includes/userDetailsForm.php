@@ -87,8 +87,27 @@
             <input type="date" class="form-control" id="hireDate"
                 value="<?php echo e($oldFormData['hireDate'] ?? ''); ?>" name="hireDate">
         </div>
-        <button type="submit" name="register" class="btn btn-primary">Register</button>
-        <br /><br />
-        <p>Already registered? <a href="login.php">Click here</a></p>
 
+        <?php if (isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
+            <?php if ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_GET['id'])): ?>
+                <div class="mb-3">
+                    <label for="usertype" class="form-label">User Type <span style="color: red;"> * </span></label>
+                    <select id="usertype" name="usertype" class="form-control">
+                        <option value="E" <?php echo ($oldFormData['usertype'] ?? '') === 'E' ? 'selected' : ''; ?>>
+                            Employee
+                        </option>
+                        <option value="A" <?php echo ($oldFormData['usertype'] ?? '') === 'A' ? 'selected' : ''; ?>>
+                            Admin
+                        </option>
+                    </select>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['id'])): ?>
+            <button type="submit" name="register" class="btn btn-primary">Update</button>
+        <?php else: ?>
+            <button type="submit" name="register" class="btn btn-primary">Register</button>
+
+        <?php endif; ?>
 </form>

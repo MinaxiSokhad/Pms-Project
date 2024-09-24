@@ -13,5 +13,7 @@
     <hr>
     <h5 class="text-center"><span style="color: red;"> * </span> Indicates required question</h5>
     <?php include "includes/userDetailsForm.php"; ?>
+    <br /><br />
+    <p>Already registered? <a href="login.php">Click here</a></p>
 </div>
 <?php include "includes/_footer.php"; ?>

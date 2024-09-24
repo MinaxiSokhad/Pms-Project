@@ -1,13 +1,8 @@
 <?php $title = "Add User"; ?>
 <?php include "includes/_header.php"; ?>
 <?php include "includes/registerQuery.php"; ?>
+<?php include "includes/showError.php"; ?>
 <?php if ($_SESSION['user_type'] == "A"): ?>
-    <?php if (isset($errors) && $errors != ""): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error! </strong> <?php echo $errors; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
 
     <div class="container my-4">
         <h2 class="text-center">Add User</h2>

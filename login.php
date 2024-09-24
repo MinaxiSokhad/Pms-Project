@@ -30,12 +30,7 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-<?php if (isset($showError) && $showError != ""): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error! </strong> <?php echo $showError; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
+<?php include "includes/showError.php"; ?>
 <div class="container my-4">
     <h1 class="text-center">Login</h1>
     <form action="login.php" method="POST">

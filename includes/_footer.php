@@ -134,7 +134,7 @@
         else {
             if (confirm('Are you sure you want to delete this members?')) {
                 <?php $id[0] = [0]; ?>
-                form.action = "member.php?DeleteAll=<?php echo e($id[0][0]); ?>";
+                form.action = "editProfile.php?DeleteAll=<?php echo e($id[0][0]); ?>";
                 form.submit();
             }
         }
@@ -143,7 +143,7 @@
     function deletemember(memberid) {
         if (confirm('Are you sure you want to delete this member?')) {
             <?php $id[0] = [0]; ?>
-            form.action = "member.php?delete=" + memberid;
+            form.action = "editProfile.php?delete=" + memberid;
             form.submit();
         }
     }

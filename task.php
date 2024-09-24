@@ -6,21 +6,9 @@ if (isset($_GET['id'])) {
     $title = "Add Task";
 }
 include "includes/_header.php"; ?>
+<?php include "includes/getData.php"; ?>
 <?php
-//get all the customers
-$c_query = "SELECT * FROM project WHERE id > 0";
-$c_result = mysqli_query($conn, $c_query);
-$projects = mysqli_fetch_all($c_result, MYSQLI_ASSOC);
 
-//get all the tags
-$t_query = "SELECT * FROM tags WHERE id > 0";
-$t_result = mysqli_query($conn, $t_query);
-$tags = mysqli_fetch_all($t_result, MYSQLI_ASSOC);
-
-//get all the users
-$u_query = "SELECT * FROM user WHERE id > 0";
-$u_result = mysqli_query($conn, $u_query);
-$users = mysqli_fetch_all($u_result, MYSQLI_ASSOC);
 if ($_SESSION['user_type'] == "A") {
     if (isset($_POST['add']) || isset($_POST['updateTask'])) {
 
@@ -183,12 +171,7 @@ if ($_SESSION['user_type'] == "A") {
     }
 }
 ?>
-<?php if (isset($errors) && $errors != ""): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error! </strong> <?php echo $errors; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
+<?php include "includes/showError.php"; ?>
 <?php if ($_SESSION['user_type'] == "A"): ?>
     <?php if (isset($_GET['id'])): ?>
 

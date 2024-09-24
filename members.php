@@ -2,7 +2,34 @@
 <?php include "includes/_header.php"; ?>
 <?php
 // Build the base query
-$basequery = "SELECT * FROM user ";
+$basequery = "SELECT 
+id,
+name,email,country,state,city,
+CASE 
+WHEN `user`.gender = 'M' THEN 'Male'
+WHEN `user`.gender = 'F' THEN 'Female'
+WHEN `user`.gender = 'O' THEN 'Other'
+ELSE `user`.gender
+END AS `gender`,
+CASE
+WHEN `user`.maritalStatus = 'S' THEN 'Single'
+WHEN `user`.maritalStatus = 'M' THEN 'Married'
+WHEN `user`.maritalStatus = 'D' THEN 'Divorced'
+WHEN `user`.maritalStatus = 'W' THEN 'Widowed'
+ELSE `user`.maritalStatus
+END AS `maritalStatus`,
+address,mobileNo,dob,hireDate,
+CASE 
+WHEN `user`.status = '1' THEN 'Active'
+WHEN `user`.status = '0' THEN 'Not Active'
+ELSE `user`.status
+END AS `status`,
+CASE 
+WHEN `user`.user_type = 'E' THEN 'Employee'
+WHEN `user`.user_type = 'A' THEN 'Admin'
+ELSE `user`.user_type
+END AS `user_type`
+ FROM user ";
 
 $where = " WHERE `user`.id > 0 ";
 
@@ -24,7 +51,8 @@ if (!empty($_POST['s'])) {
              OR maritalStatus LIKE '%{$search}%'
              OR address LIKE '%{$search}%'
              OR mobileNo LIKE '%{$search}%'
-             OR address LIKE '%{$search}%' ) ";
+             OR address LIKE '%{$search}%'
+              OR user_type LIKE '%{$search}%' ) ";
 }
 
 // Filtering by status
@@ -73,6 +101,7 @@ if ($showRecord != "1") {
 $membersFilter = mysqli_query($conn, $basequery);
 $_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
 ?>
+
 <?php if ($_SESSION['user_type'] == "A"): ?>
     <div class="container my-4">
 
@@ -151,10 +180,16 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 <a href="#" class="sort-button" onclick="sortBy('hireDate','desc')">▼</a>
                             </th>
                             <th>
+                                <a href="#" class="sort-button" onclick="sortBy('user_type','asc')">▲</a>
+                                User Type
+                                <a href="#" class="sort-button" onclick="sortBy('user_type','desc')">▼</a>
+                            </th>
+                            <th>
                                 <a href="#" class="sort-button" onclick="sortBy('status','asc')">▲</a>
                                 Status
                                 <a href="#" class="sort-button" onclick="sortBy('status','desc')">▼</a>
                             </th>
+
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -176,24 +211,24 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                         </div>
                                     </td>
                                     <?php
-                                    if ($t['gender'] === 'M') {
-                                        $t['gender'] = "Male";
-                                    } else if ($t['gender'] === 'F') {
-                                        $t['gender'] = "Female";
-                                    } else if ($t['gender'] === 'O') {
-                                        $t['gender'] = "Other";
-                                    }
+                                    // if ($t['gender'] === 'M') {
+                                    //     $t['gender'] = "Male";
+                                    // } else if ($t['gender'] === 'F') {
+                                    //     $t['gender'] = "Female";
+                                    // } else if ($t['gender'] === 'O') {
+                                    //     $t['gender'] = "Other";
+                                    // }
                                     ?>
                                     <?php
-                                    if ($t['maritalStatus'] === 'S') {
-                                        $t['maritalStatus'] = "Single";
-                                    } else if ($t['maritalStatus'] === 'M') {
-                                        $t['maritalStatus'] = "Married";
-                                    } else if ($t['maritalStatus'] === 'W') {
-                                        $t['maritalStatus'] = "Widowed";
-                                    } else if ($t['maritalStatus'] === 'D') {
-                                        $t['maritalStatus'] = "Divorced";
-                                    }
+                                    // if ($t['maritalStatus'] === 'S') {
+                                    //     $t['maritalStatus'] = "Single";
+                                    // } else if ($t['maritalStatus'] === 'M') {
+                                    //     $t['maritalStatus'] = "Married";
+                                    // } else if ($t['maritalStatus'] === 'W') {
+                                    //     $t['maritalStatus'] = "Widowed";
+                                    // } else if ($t['maritalStatus'] === 'D') {
+                                    //     $t['maritalStatus'] = "Divorced";
+                                    // }
                                     ?>
                                     <td><?php echo e($t['name']); ?></td>
                                     <td><?php echo e($t['email']); ?></td>
@@ -207,15 +242,12 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                     <td><?php echo e($t['address']); ?>
                                     <td><?php echo e($t['dob']); ?>
                                     <td><?php echo e($t['hireDate']); ?>
-                                        <?php if ($t['status'] === '1'): ?>
-                                        <td>
-                                            <div class="btn btn-success">Active</div>
-                                        </td>
-                                    <?php else: ?>
-                                        <td>
-                                            <div class="btn btn-danger">Not Active</div>
-                                        </td>
-                                    <?php endif; ?>
+                                    <td>
+                                        <div class="btn btn-light"><?php echo e($t['user_type']); ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="btn btn-outline-success"><?php echo e($t['status']); ?></div>
+                                    </td>
 
                                     <td><a href="editProfile.php?id=<?php echo $t['id']; ?>">
                                             <div class="btn btn-primary">Edit</div>
