@@ -3,10 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ?>
 <?php
-// session_start();
-// if (isset($_SESSION['userid'])) {
-//     redirectTo("index.php");
-// }
+session_start();
+if (isset($_SESSION['userid'])) {
+    redirectTo("index.php");
+}
 ?>
 <?php include "includes/database.php"; ?>
 <?php include "includes/function.php"; ?>
@@ -15,6 +15,7 @@ ini_set('display_errors', '1');
 <html lang="en">
 
 <head>
+    <title> <?php echo isset($title) ? $title : "PMS"; ?></title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

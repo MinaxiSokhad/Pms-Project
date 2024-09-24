@@ -1,10 +1,6 @@
+<?php $title = "Login"; ?>
 <?php include "includes/_header_login.php"; ?>
-<title>Login</title>
 <?php
-session_start();
-if (isset($_SESSION['userid'])) {
-    redirectTo("index.php");
-}
 if (isset($_POST['submit'])) {
     $showError = "";
     $email = $_POST['email'];
@@ -21,11 +17,8 @@ if (isset($_POST['submit'])) {
             // Password matches, set session and redirect to index.php
             $_SESSION['userid'] = $rows['id'];
             $_SESSION['user_type'] = $rows['user_type'];
-            if ($_SESSION['user_type'] != "A") {
-                redirectTo("index.php");
-            } else {
-                redirectTo("members.php");
-            }
+            redirectTo("index.php");
+
         } else {
             // Password doesn't match
             $showError = "Incorrect email or password";

@@ -141,15 +141,17 @@ $currentId = $_SESSION['userid'];
                     </div>
                 <?php endif; ?>
                 <hr>
-                <?php if ($_SESSION['user_type'] == "A" || $profile['id'] == $currentId): ?>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <a class="btn btn-info " href="member.php?id=<?php echo e($profile['id']); ?>">Edit</a>
-                            <a class="btn btn-info " href="tasks.php">Back</a>
-                        </div>
-                    </div>
 
-                <?php endif; ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php if ($_SESSION['user_type'] == "A" || $profile['id'] == $currentId): ?>
+                            <a class="btn btn-info " href="editProfile.php?id=<?php echo e($profile['id']); ?>">Edit</a>
+                        <?php endif; ?>
+                        <a class="btn btn-info " href="tasks.php">Back</a>
+                    </div>
+                </div>
+
+
 
 
             </div>

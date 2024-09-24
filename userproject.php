@@ -1,7 +1,9 @@
 <?php include "includes/_header.php"; ?>
 <?php
 $userid = $_SESSION['userid'];
-$userproject_query = "SELECT
+if (isset($_GET['userproject'])) {
+    $userProject = $_GET['userproject'];
+    $userproject_query = "SELECT
 project.id,
 project.name,
 project.description,
@@ -30,14 +32,15 @@ JOIN user
 ON project_member.user_id = user.id
 JOIN customers
 ON project.customer = customers.id
-              WHERE project.id > 0
+              WHERE project.id = '$userProject'
               GROUP BY project.id ";
+}
 $userproject_result = mysqli_query($conn, $userproject_query);
 $users = mysqli_fetch_all($userproject_result, MYSQLI_ASSOC);
 foreach ($users as $userproject) {
 
 }
-
+// print_r($userproject);
 ?>
 <div class="container my-5">
     <div class="col-md-8">

@@ -1,4 +1,4 @@
-<?php include "includes/projectQuery.php"; ?>
+<?php //include "includes/projectQuery.php"; ?>
 <form id="form" name="form" method="POST">
     <table class="table">
         <thead>
@@ -85,12 +85,17 @@
                         <td><?php echo e($p['status']); ?></td>
                         <?php $project_member_id = explode(",", $p['project_member_id']);
                         $project_member_name = explode(",", $p['project_member_name']);
-                        $project_member = array_combine($project_member_id, $project_member_name);
+                        $project_member = [];
+                        if (count($project_member_id) === count($project_member_name)) {
+                            $project_member = array_combine($project_member_id, $project_member_name);
+                        }
                         ?>
-                        <td><?php foreach ($project_member as $project_m_id => $project_m_name): ?>
-                                <a href="userprofile.php?profile=<?php echo e($project_m_id); ?>">
-                                    <?php echo e($project_m_name); ?></a>
-                            <?php endforeach; ?>
+                        <td><?php if (is_array($project_member)): ?>
+                                <?php foreach ($project_member as $project_m_id => $project_m_name): ?>
+                                    <a href="userprofile.php?profile=<?php echo e($project_m_id); ?>">
+                                        <?php echo e($project_m_name); ?></a>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </td>
 
                         <?php if ($_SESSION['user_type'] == "A"): ?>

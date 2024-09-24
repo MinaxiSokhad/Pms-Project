@@ -217,7 +217,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                         </td>
                                     <?php endif; ?>
 
-                                    <td><a href="member.php?id=<?php echo $t['id']; ?>">
+                                    <td><a href="editProfile.php?id=<?php echo $t['id']; ?>">
                                             <div class="btn btn-primary">Edit</div>
                                         </a></td>
                                     <td>
@@ -232,7 +232,7 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                     <?php } ?>
                 </table>
                 <br>
-                <a href="register.php">
+                <a href="createuser.php">
                     <div class="btn btn-primary">Add New Member</div>
                 </a>
                 <?php if ($row = mysqli_num_rows($members)): ?>
