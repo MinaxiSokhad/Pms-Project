@@ -14,7 +14,7 @@
 
 ?>
 <?php if ($_SESSION['user_type'] == "A"): ?>
-    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+    <!-- <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -25,19 +25,19 @@
                     </div>
                     <div class="col-3">
                         <div class="icon icon-box-success ">
-                            <!-- <span class="mdi mdi-arrow-top-right icon-item"></span> -->
+                            <span class="mdi mdi-arrow-top-right icon-item"></span>
                         </div>
                     </div>
                 </div>
 
-                <h4 class="mb-0"><?php if (isset($totalRecords)) { ?>
-                        <?php echo e($totalRecords); ?>
-                    <?php } ?>
+                <h4 class="mb-0"><?php //if (isset($totalRecords)) { ?>
+                        <?php //echo e($totalRecords); ?>
+                    <?php //} ?>
                 </h4>
 
             </div>
         </div>
-    </div>
+    </div> -->
 <?php endif; ?>
 <?php $title = "Dashboard"; ?>
 <div class="container my-4">

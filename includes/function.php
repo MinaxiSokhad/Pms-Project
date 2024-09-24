@@ -262,4 +262,30 @@ function validateRegister($data)
     }
     return $errors;
 }
+function validateUser($data)
+{
+    $errors = "";
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+
+    $fields = [
+        'name' => $name,
+        'email' => $email,
+        'password' => $password,
+
+    ];
+    if ($missingField = isEmptyFields($fields)) {
+        $errors = "Please fill the required field: $missingField";
+
+    } else if (!validateName($name)) {
+        $errors = "Name must contain only letters and spaces!";
+
+    } else if (!validateEmail($email)) {
+        $errors = "Invalid email format";
+
+    }
+    return $errors;
+}
 ?>

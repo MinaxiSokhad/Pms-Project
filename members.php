@@ -42,7 +42,7 @@ $order = " ORDER BY $order_by $direction";
 $searchTerm = "";
 if (!empty($_POST['s'])) {
     $search = $_POST['s'];
-    $searchTerm = "   AND (name LIKE '%{$search}%'
+    $searchTerm = "  AND (name LIKE '%{$search}%'
              OR email LIKE '%{$search}%'
              OR country LIKE '%{$search}%'
              OR state LIKE '%{$search}%'
@@ -52,7 +52,7 @@ if (!empty($_POST['s'])) {
              OR address LIKE '%{$search}%'
              OR mobileNo LIKE '%{$search}%'
              OR address LIKE '%{$search}%'
-              OR user_type LIKE '%{$search}%' ) ";
+             OR user_type LIKE '%{$search}%' ) ";
 }
 
 // Filtering by status

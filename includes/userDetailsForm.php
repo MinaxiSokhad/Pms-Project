@@ -89,14 +89,14 @@
         </div>
 
         <?php if (isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
-            <?php if ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_GET['id'])): ?>
+            <?php if ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_GET['id']) && $currentId != $profileId): ?>
                 <div class="mb-3">
-                    <label for="usertype" class="form-label">User Type <span style="color: red;"> * </span></label>
-                    <select id="usertype" name="usertype" class="form-control">
-                        <option value="E" <?php echo ($oldFormData['usertype'] ?? '') === 'E' ? 'selected' : ''; ?>>
+                    <label for="user_type" class="form-label">User Type <span style="color: red;"> * </span></label>
+                    <select id="user_type" name="user_type" class="form-control">
+                        <option value="E" <?php echo ($oldFormData['user_type'] ?? '') === 'E' ? 'selected' : ''; ?>>
                             Employee
                         </option>
-                        <option value="A" <?php echo ($oldFormData['usertype'] ?? '') === 'A' ? 'selected' : ''; ?>>
+                        <option value="A" <?php echo ($oldFormData['user_type'] ?? '') === 'A' ? 'selected' : ''; ?>>
                             Admin
                         </option>
                     </select>
@@ -105,7 +105,7 @@
         <?php endif; ?>
 
         <?php if ($_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['id'])): ?>
-            <button type="submit" name="register" class="btn btn-primary">Update</button>
+            <button type="submit" name="update" class="btn btn-primary">Update</button>
         <?php else: ?>
             <button type="submit" name="register" class="btn btn-primary">Register</button>
 

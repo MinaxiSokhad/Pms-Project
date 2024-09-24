@@ -51,6 +51,7 @@ if ($_SESSION['user_type'] === "A") {
             <?php endif; ?>
             <?php include "includes/userDetailsForm.php"; ?>
         </div>
+
     <?php endif; ?>
 <?php else: ?>
     <div class="container my-4 ">
