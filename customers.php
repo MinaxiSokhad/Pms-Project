@@ -68,7 +68,7 @@ if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
 $customersFilter = mysqli_query($conn, $basequery); // use for filter
-$_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
+//$_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
 ?>
 
 <div class="container my-4">

@@ -1,6 +1,4 @@
-<?php ob_start(); ?>
 <?php
-
 if (isset($_POST['register']) || isset($_POST['update']) || isset($_POST['createuser'])) {
 
     $errors = "";
@@ -43,9 +41,16 @@ if (isset($_POST['register']) || isset($_POST['update']) || isset($_POST['create
                 $sql = "INSERT INTO user(
                         name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate)
                         VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate')";
-
+                if (isset($_SESSION['userid']) && $_SESSION['user_type'] === "A") {
+                    $sql = "INSERT INTO user(
+                                name,email,password,country,state,city,gender,maritalStatus,mobileNo,address,dob,hireDate,user_type)
+                                VALUES('$name','$email','$password','$country','$state','$city','$gender','$maritalStatus','$mobileNo','$address','$formattedDate','$hireDate','$usertype')";
+                }
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
+                    if (isset($_SESSION['userid']) && $_SESSION['user_type'] === "A") {
+                        redirectTo("members.php");
+                    }
                     redirectTo("login.php");
                 } else {
                     $errors = "Error!";

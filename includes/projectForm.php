@@ -1,4 +1,3 @@
-<?php //include "includes/projectQuery.php"; ?>
 <form id="form" name="form" method="POST">
     <table class="table">
         <thead>
@@ -37,7 +36,7 @@
         </thead>
         <tbody>
             <?php
-            // print_r($projects);
+
             if ($row = mysqli_num_rows($projects) > 0) {
                 ?>
                 <?php foreach ($projects as $p):

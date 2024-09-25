@@ -1,4 +1,3 @@
-<?php //include "includes/taskQuery.php"; ?>
 <form id="form" name="form" method="POST">
     <table class="table">
         <thead>
@@ -37,7 +36,7 @@
         </thead>
         <tbody>
             <?php
-            // print_r($projects);
+
             if ($row = mysqli_num_rows($tasks) > 0) {
                 ?>
                 <?php foreach ($tasks as $t):
@@ -64,7 +63,7 @@
                         if (count($task_members_id) === count($task_members_name)) {
                             $task_members = array_combine($task_members_id, $task_members_name);
                         }
-                        // dd($task_member_name); ?>
+                        ?>
 
                         <td>
                             <?php if (is_array($task_members)):

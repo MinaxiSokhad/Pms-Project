@@ -1,4 +1,3 @@
-<?php //include "includes/_header.php"; ?>
 <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search" action="" id="filterform" method="POST">
 
     <?php $select_limit = isset($_POST['select_limit']) ? $_POST['select_limit'] : 3; ?>
@@ -12,8 +11,10 @@
             <option value="10" <?php echo $select_limit == "10" ? 'selected' : ''; ?>>10</option>
             <option value="1" <?php echo $select_limit == "1" ? 'selected' : ''; ?>>All</option>
         </select>
+
         <input style="margin-left: 10px; width:500px;color:black;" type="text" name="s"
             value="<?php echo e($_POST['s'] ?? ''); ?>" class="form-control" placeholder="Search...">
+
         <button style="margin-right: 10px;width:90px;" type="button" onclick="form_submit()" style="color: black;">
             Search
         </button>
@@ -22,34 +23,16 @@
         if (array_key_exists('status', $_POST)) {
             $statusfilter = array_merge($statusfilter, $_POST['status']);
         }
-        // $companies = [];
-        // if (array_key_exists('company', $_POST)) {
-        //     $companies = array_merge($companies, $_POST['company']); // Use companies from POST if available
-        // }
-    
+
         $countries = [];
         if (array_key_exists('country', $_POST)) {
             $countries = array_merge($countries, $_POST['country']);
         } ?>
+
         <div class="dropdown">
             <button class="dropdown-button">Filter Options</button>
             <div class="dropdown-content">
-                <?php if (isset($customersFilter) || isset($membersFilter)): ?>
-                    <!-- <label>
-                    <input type="checkbox" name="selectCustomers[]" value="cutomers"> Customers
-                </label>
-
-                <div class="dropdown-submenu">
-                    <?php //foreach ($customersFilter as $c): ?>
-                        <?php //if (in_array($c['company'], $companies)): ?>
-                            <label><input type="checkbox" name="company[]" value="<?php //echo $c['company']; ?>"
-                                    checked><?php //echo $c['company']; ?></label>
-                        <?php //else: ?>
-                            <label><input type="checkbox" name="company[]"
-                                    value="<?php // echo $c['company']; ?>"><?php //echo $c['company']; ?></label>
-                        <?php //endif; ?>
-                    <?php // endforeach; ?>
-                </div> -->
+                <?php if (isset($customers) || isset($members)): ?>
 
                     <label>
                         <input type="checkbox" name="selectCountries[]" value="country"> Country
@@ -69,7 +52,8 @@
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if (isset($projectsFilter)): ?>
+
+                <?php if (isset($projects)): ?>
                     <label>
                         <input type="checkbox" name="selectStatus[]" value="status"> Status
                     </label>
@@ -88,7 +72,8 @@
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if (isset($tasksFilter)): ?>
+
+                <?php if (isset($tasks)): ?>
                     <label>
                         <input type="checkbox" name="selectStatus[]" value="status"> Status
                     </label>
@@ -111,10 +96,13 @@
 
                 <!-- Filter Button -->
                 <button type="button" onclick="form_submit()" class="submit-btn">Apply Filters</button>
+
             </div>
         </div>
     <?php endif; ?>
-    <input type="hidden" name="record" id="record" value="<?php echo e($_POST['record'] ?? ''); ?>" />
+
+    <!-- hidden fields -->
+    <!-- <input type="hidden" name="record" id="record" value="<?php //echo e($_POST['record'] ?? ''); ?>" /> -->
     <input type="hidden" id="p" name="p" value="<?php echo e($_POST['p'] ?? 1); ?>">
     <input type="hidden" id="search_input" name="search_input" value="<?php echo e($_POST['s'] ?? ''); ?>" />
     <input type="hidden" id="order_by" name="order_by" value="<?php echo e($_POST['order_by'] ?? 'id') ?>" />
@@ -137,4 +125,3 @@
     <?php endif; ?>
 
 </form>
-<?php //include "includes/_footer.php"; ?>

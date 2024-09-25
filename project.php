@@ -1,4 +1,4 @@
-<?php ob_start();
+<?php
 if (isset($_GET['id'])) {
     $title = "Update Project";
 

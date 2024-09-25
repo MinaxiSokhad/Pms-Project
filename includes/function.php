@@ -4,6 +4,7 @@ $oldFormData = $_POST;
 
 function redirectTo(string $path)
 {
+    ob_start();
     header("Location:{$path}"); //redirection with headers 
     // No "headers already sent" error
     // Now, flush the buffer and send output to the browser
