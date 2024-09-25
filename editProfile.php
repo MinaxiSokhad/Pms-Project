@@ -16,7 +16,6 @@ if (isset($_GET['id'])) {
     $member = mysqli_fetch_assoc($result);
 }
 
-
 ?>
 <?php
 if ($_SESSION['user_type'] === "A") {
@@ -44,14 +43,13 @@ if ($_SESSION['user_type'] === "A") {
     <?php if (isset($_GET['id'])): ?>
         <?php $oldFormData = $member; ?>
         <div class="container my-4">
-            <?php if ($_SESSION['user_type'] === "A"): ?>
+            <?php if ($_SESSION['user_type'] === "A" || $currentId == $profileId): ?>
                 <h1 class="text-center">Edit User</h1>
             <?php else: ?>
                 <h1 class="text-center">Edit Profile</h1>
             <?php endif; ?>
             <?php include "includes/userDetailsForm.php"; ?>
         </div>
-
     <?php endif; ?>
 <?php else: ?>
     <div class="container my-4 ">

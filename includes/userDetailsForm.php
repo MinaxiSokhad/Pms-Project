@@ -1,4 +1,7 @@
 <form id="register" action="" method="post">
+    <?php if (isset($_SESSION['userid']) || $_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['id'])): ?>
+        <input type="hidden" name="id" id="id" value="<?php echo e($member['id'] ?? ''); ?>" />
+    <?php endif; ?>
     <div class="mb-3">
         <label for="name" class="form-label">Full Name<span style="color: red;"> * </span></label>
         <input type="text" class="form-control" value="<?php echo e($oldFormData['name'] ?? ''); ?>" id="name"
@@ -104,10 +107,12 @@
             <?php endif; ?>
         <?php endif; ?>
 
-        <?php if ($_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['id'])): ?>
+        <?php if (isset($_SESSION['userid']) && $_SERVER['REQUEST_URI'] == "editProfile.php" || isset($_GET['id'])): ?>
             <button type="submit" name="update" class="btn btn-primary">Update</button>
+
+        <?php elseif ($_SERVER['REQUEST_URI'] == "createuser.php" || isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
+            <button type="submit" name="createuser" class="btn btn-primary">Create User</button>
         <?php else: ?>
             <button type="submit" name="register" class="btn btn-primary">Register</button>
-
         <?php endif; ?>
 </form>

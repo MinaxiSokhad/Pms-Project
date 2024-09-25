@@ -1,6 +1,7 @@
-<?php $title = "Add User"; ?>
+<?php //ob_start();
+$title = "Add User"; ?>
 <?php include "includes/_header.php"; ?>
-<?php include "includes/registerQuery.php"; ?>
+<?php include "includes/createUserQuery.php"; ?>
 <?php include "includes/showError.php"; ?>
 <?php if ($_SESSION['user_type'] == "A"): ?>
 

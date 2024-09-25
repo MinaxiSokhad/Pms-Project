@@ -1,6 +1,8 @@
 <?php ob_start(); ?>
 <?php
-if (isset($_POST['register']) || isset($_POST['update'])) {
+
+if (isset($_POST['register']) || isset($_POST['update']) || isset($_POST['createuser'])) {
+
     $errors = "";
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -21,28 +23,7 @@ if (isset($_POST['register']) || isset($_POST['update'])) {
 
     if (empty($errors)) {
 
-
-        if (isset($_POST['update'])) {
-
-            $id = $_POST['id'];
-
-            $update_member = "UPDATE user SET
-                      name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate' WHERE id='$id'";
-            $updateResult = mysqli_query($conn, $update_member);
-            if ($updateResult) {
-                $alert = "User updated successfully.";
-                if ($_SESSION['user_type'] === "A" && $_SESSION['userid'] != $_GET['id']) {
-                    redirectTo("members.php");
-                } else {
-                    redirectTo("userprofile.php");
-                }
-            } else {
-                $alert = "Error updating member: " . mysqli_error($conn);
-
-            }
-        }
-
-        if (isset($_POST['register'])) {
+        if (isset($_POST['register']) || isset($_POST['createuser'])) {
             $selectData = mysqli_query($conn, "SELECT * FROM `user` WHERE `email` = '$email' AND `mobileNo` = '$mobileNo'") or die("Failed");
             if (mysqli_num_rows($selectData) > 0) {
                 $errors = "User already exists ";
@@ -65,12 +46,38 @@ if (isset($_POST['register']) || isset($_POST['update'])) {
 
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
-                    // Redirect regular user to login page after registration
                     redirectTo("login.php");
                 } else {
                     $errors = "Error!";
                 }
 
+            }
+        }
+        if (isset($_POST['update'])) {
+            $currentId = isset($_SESSION['userid']) ? $_SESSION['userid'] : '';
+            $profileId = isset($_GET['id']) ? $_GET['id'] : '';
+            $id = $_POST['id'];
+            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $formattedDate = "{$_POST['dob']} 00:00:00";
+            $hireDate = "{$_POST['hireDate']} 00:00:00";
+
+            $update_member = "UPDATE user SET
+                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate' WHERE id='$id'";
+            if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
+                $update_member = "UPDATE user SET
+                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate',user_type='$usertype' WHERE id='$id'";
+            }
+            $updateResult = mysqli_query($conn, $update_member);
+
+            if ($updateResult) {
+                $alert = "User updated successfully.";
+                if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
+                    redirectTo("members.php");
+                }
+                redirectTo("userprofile.php");
+
+            } else {
+                $alert = "Error updating member: " . mysqli_error($conn);
 
             }
         }
