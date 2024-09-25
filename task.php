@@ -1,5 +1,4 @@
 <?php
-ob_start();
 if (isset($_GET['id'])) {
     $title = "Update Task";
 

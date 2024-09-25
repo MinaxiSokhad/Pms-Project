@@ -4,16 +4,13 @@ $oldFormData = $_POST;
 
 function redirectTo(string $path)
 {
-    // ob_start();
+    // print ($path);
     header("Location:{$path}"); //redirection with headers 
     // No "headers already sent" error
     // Now, flush the buffer and send output to the browser
     ob_end_flush();
     exit;
-    // if (!headers_sent()) {
-    //     header("Location: {$path}");
-    //     exit; 
-    // }
+
 }
 function e(mixed $value): string
 {

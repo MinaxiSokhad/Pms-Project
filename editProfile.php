@@ -6,8 +6,8 @@ $title = "Update Profile"; ?>
 <?php include "includes/showError.php"; ?>
 <?php include "includes/getData.php"; ?>
 <?php
-$currentId = $_SESSION['userid'];
-$profileId = $_GET['id'];
+$currentId = isset($_SESSION['userid']) ? $_SESSION['userid'] : '';
+$profileId = isset($_GET['id']) ?? $_GET['id'];
 
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($conn, $_GET['id']);
@@ -38,6 +38,7 @@ if ($_SESSION['user_type'] === "A") {
         }
     }
 }
+
 ?>
 <?php if ($_SESSION['user_type'] === "A" || $currentId == $profileId): ?>
     <?php if (isset($_GET['id'])): ?>

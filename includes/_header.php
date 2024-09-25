@@ -5,10 +5,11 @@ ini_set('display_errors', '1');
 <?php include "includes/function.php"; ?>
 <?php include "includes/database.php"; ?>
 <?php start_session(); ?>
-<?php //include "includes/getData.php"; ?>
+
 <?php
-$userid = $_SESSION['userid'];
-$where = "  WHERE id = '$userid' ";
+ob_start();
+
+$where = "  WHERE id = '$_SESSION[userid]' ";
 $u_query = "SELECT * FROM user " . $where;
 $u_result = mysqli_query($conn, $u_query);
 $users = mysqli_fetch_all($u_result, MYSQLI_ASSOC);
@@ -16,6 +17,7 @@ foreach ($users as $user) {
 
 }
 ?>
+
 <!doctype html>
 <html lang="en">
 

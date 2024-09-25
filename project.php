@@ -1,5 +1,4 @@
 <?php
-ob_start();
 if (isset($_GET['id'])) {
     $title = "Update Project";
 
@@ -157,6 +156,7 @@ if ($_SESSION['user_type'] == "A") {
         }
     }
 }
+
 ?>
 <?php include "includes/showError.php"; ?>
 <?php if ($_SESSION['user_type'] == "A"): ?>
