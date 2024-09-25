@@ -104,6 +104,5 @@ $totalRecords = $countRow['total'];
 if ($showRecord != "1") {
     $lastPage = ceil($totalRecords / $limit);//Find total page
 }
-$projectsFilter = mysqli_query($conn, $basequery);
-//$_POST['record'] = $totalRecords; // use in pagination condition (hidden value pass)
+
 ?>
