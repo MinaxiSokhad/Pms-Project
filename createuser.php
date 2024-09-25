@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $title = "Add User"; ?>
 <?php include "includes/_header.php"; ?>
 <?php include "includes/registerQuery.php"; ?>
