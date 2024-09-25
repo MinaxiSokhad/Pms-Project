@@ -1,4 +1,5 @@
 <?php
+// $section = "projects";
 // Build the base query
 $basequery = "SELECT
 project.id,
@@ -37,8 +38,8 @@ if ($_SESSION['user_type'] != "A") {
     $employeeProjectCount = " HAVING COUNT(CASE WHEN project_member.user_id = '$userid' THEN 1 ELSE NULL END) > 0 ";
 }
 // Sorting
-$order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
-$direction = $_POST['direction'] ?? 'desc'; // Default sort direction
+$order_by = $_POST['order_by_projects'] ?? 'id'; // Default column to sort by 'id'
+$direction = $_POST['direction_projects'] ?? 'desc'; // Default sort direction
 $order = " ORDER BY $order_by $direction";
 
 // Searching by input

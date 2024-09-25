@@ -23,9 +23,11 @@
                 ?>
                 <?php foreach ($columns as $displayName => $columnName): ?>
                     <th>
-                        <a href="#" class="sort-button" onclick="sortBy('<?php echo e($columnName); ?>','asc')">▲</a>
+                        <a href="#" class="sort-button"
+                            onclick="sortBy('<?php echo e($columnName); ?>','asc','tasks')">▲</a>
                         <?php echo e($displayName); ?>
-                        <a href="#" class="sort-button" onclick="sortBy('<?php echo e($columnName); ?>','desc')">▼</a>
+                        <a href="#" class="sort-button"
+                            onclick="sortBy('<?php echo e($columnName); ?>','desc','tasks')">▼</a>
                     </th>
                 <?php endforeach; ?>
                 <?php if ($_SESSION['user_type'] == "A"): ?>

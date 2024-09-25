@@ -1,4 +1,5 @@
 <?php
+// $section = "tasks";
 // Build the base query
 $basequery = "SELECT
               task.id,
@@ -42,8 +43,8 @@ if ($_SESSION['user_type'] != "A") {
 }
 
 // Sorting
-$order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
-$direction = $_POST['direction'] ?? 'desc'; // Default sort direction
+$order_by = $_POST['order_by_tasks'] ?? 'id'; // Default column to sort by 'id'
+$direction = $_POST['direction_tasks'] ?? 'desc'; // Default sort direction
 $order = " ORDER BY $order_by $direction";
 
 // Searching by input

@@ -30,19 +30,32 @@
             }
         }); filterform.submit();
     }
-    function sortBy(order_by = 'id', direction = 'desc') {
+    function sortBy(order_by = 'id', direction = 'desc', table = '') {
+        let field_order_by;
+        let field_direction;
+        if (table == "projects") {
+            field_order_by = document.getElementById('order_by_projects');
+            field_direction = document.getElementById('direction_projects');
+        }
+        else if (table == "tasks") {
+            field_order_by = document.getElementById('order_by_tasks');
+            field_direction = document.getElementById('direction_tasks');
+        }
+        else {
+            field_order_by = document.getElementById('order_by');
+            field_direction = document.getElementById('direction');
+        }
 
-        const field_order_by = document.getElementById('order_by');
-        const field_direction = document.getElementById('direction');
         field_order_by.value = order_by;
         field_direction.value = direction;
         console.log(order_by, direction);
-        document.getElementById('p').value = 1; filterform.submit();
+        document.getElementById('p').value = 1;
+        filterform.submit();
     }
     $(document).ready(function () {
         // Select/Deselect all checkboxes
         $("#selectAll").click(function () {
-            $("input[name='ids[]']").prop('checked', this.checked);
+            $("input[type='checkbox']").prop('checked', this.checked);
         });
 
         // Select / Deselect checkboxes in the Customers group
@@ -55,6 +68,7 @@
             $("input[name='country[]']").prop('checked', this.checked);
         });
     });
+
     function deleteSelectedCustomers() {
         var form = document.getElementById('form');
         var selectedCheckboxes = document.querySelectorAll("input[name^='ids']:checked");

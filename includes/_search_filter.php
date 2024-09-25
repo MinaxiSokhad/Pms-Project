@@ -107,6 +107,14 @@
     <input type="hidden" id="search_input" name="search_input" value="<?php echo e($_POST['s'] ?? ''); ?>" />
     <input type="hidden" id="order_by" name="order_by" value="<?php echo e($_POST['order_by'] ?? 'id') ?>" />
     <input type="hidden" id="direction" name="direction" value="<?php echo e($_POST['direction'] ?? 'desc') ?>" />
+    <input type="hidden" id="order_by_projects" name="order_by_projects"
+        value="<?php echo e($_POST['order_by_projects'] ?? 'id') ?>" />
+    <input type="hidden" id="direction_projects" name="direction_projects"
+        value="<?php echo e($_POST['direction_projects'] ?? 'desc') ?>" />
+    <input type="hidden" id="order_by_tasks" name="order_by_tasks"
+        value="<?php echo e($_POST['order_by_tasks'] ?? 'id') ?>" />
+    <input type="hidden" id="direction_tasks" name="direction_tasks"
+        value="<?php echo e($_POST['direction_tasks'] ?? 'desc') ?>" />
     <?php if (array_key_exists('companies', $_POST)):
         foreach ($_POST['companies'] as $com): ?>
             <input type="hidden" id="_filter_company_[]" name="_filter_company_[]" value="<?php echo e($com ?? ''); ?>">
