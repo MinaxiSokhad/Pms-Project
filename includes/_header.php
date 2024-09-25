@@ -10,9 +10,7 @@ ini_set('display_errors', '1');
 ob_start();
 
 $where = "  WHERE id = '$_SESSION[userid]' ";
-$u_query = "SELECT * FROM user " . $where;
-$u_result = mysqli_query($conn, $u_query);
-$users = mysqli_fetch_all($u_result, MYSQLI_ASSOC);
+$users = fetchData($conn, 'user', $where);
 foreach ($users as $user) {
 
 }
