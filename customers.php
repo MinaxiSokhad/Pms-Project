@@ -89,31 +89,25 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                 </label>
                             </div>
                         </th>
-                        <th>
-                            <a href="#" class="sort-button" onclick="sortBy('company','asc')">▲</a>
-                            Company Name
-                            <a href="#" class="sort-button" onclick="sortBy('company','desc')">▼</a>
-                        </th>
-                        <th> <a href="#" class="sort-button" onclick="sortBy('website','asc')">▲</a>
-                            Website
-                            <a href="#" class="sort-button" onclick="sortBy('website','desc')">▼</a>
-                        </th>
-                        <th><a href="#" class="sort-button" onclick="sortBy('email','asc')">▲</a>
-                            Email
-                            <a href="#" class="sort-button" onclick="sortBy('email','desc')">▼</a>
-                        </th>
-                        <th><a href="#" class="sort-button" onclick="sortBy('phone','asc')">▲</a>
-                            Phone
-                            <a href="#" class="sort-button" onclick="sortBy('phone','desc')">▼</a>
-                        </th>
-                        <th><a href="#" class="sort-button" onclick="sortBy('country','asc')">▲</a>
-                            Country
-                            <a href="#" class="sort-button" onclick="sortBy('country','desc')">▼</a>
-                        </th>
-                        <th><a href="#" class="sort-button" onclick="sortBy('address','asc')">▲</a>
-                            Address
-                            <a href="#" class="sort-button" onclick="sortBy('address','desc')">▼</a>
-                        </th>
+                        <?php
+                        $columns = [
+                            'Company Name' => 'company',
+                            'Website' => 'website',
+                            'Email' => 'email',
+                            'Phone' => 'phone',
+                            'Country' => 'country',
+                            'Address' => 'address'
+                        ];
+                        ?>
+                        <?php foreach ($columns as $displayName => $columnName): ?>
+                            <th>
+                                <a href="#" class="sort-button"
+                                    onclick="sortBy('<?php echo e($columnName); ?>','asc')">▲</a>
+                                <?php echo e($displayName); ?>
+                                <a href="#" class="sort-button"
+                                    onclick="sortBy('<?php echo e($columnName); ?>','desc')">▼</a>
+                            </th>
+                        <?php endforeach; ?>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>

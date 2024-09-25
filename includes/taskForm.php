@@ -10,48 +10,25 @@
                         </label>
                     </div>
                 </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
-                    Project Name
-                    <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
-                    Task Name
-                    <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('task_member_name','asc')">
-                        ▲</a>
-                    Assigned to
-                    <a href="#" class="sort-button" onclick="sortBy('task_member_name','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('task_tags_name','asc')">▲</a>
-                    Tags
-                    <a href="#" class="sort-button" onclick="sortBy('task_tags_name','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('start_date','asc')">▲</a>
-                    Start Date
-                    <a href="#" class="sort-button" onclick="sortBy('start_date','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('due_date','asc')">▲</a>
-                    Due Date
-                    <a href="#" class="sort-button" onclick="sortBy('due_date','desc')">
-                        ▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('status','asc')">▲</a>
-                    Status
-                    <a href="#" class="sort-button" onclick="sortBy('status','desc')">▼</a>
-                </th>
-                <th>
-                    <a href="#" class="sort-button" onclick="sortBy('priority','asc')">▲</a>
-                    Priority
-                    <a href="#" class="sort-button" onclick="sortBy('priority','desc')">▼</a>
-                </th>
+                <?php
+                $columns = [
+                    'Project Name' => 'name',
+                    'Task Name' => 'name',
+                    'Assigned to' => 'task_member_name',
+                    'Tags' => 'task_tags_name',
+                    'Start Date' => 'start_date',
+                    'Due Date' => 'due_date',
+                    'Status' => 'status',
+                    'Priority' => 'priority'
+                ];
+                ?>
+                <?php foreach ($columns as $displayName => $columnName): ?>
+                    <th>
+                        <a href="#" class="sort-button" onclick="sortBy('<?php echo e($columnName); ?>','asc')">▲</a>
+                        <?php echo e($displayName); ?>
+                        <a href="#" class="sort-button" onclick="sortBy('<?php echo e($columnName); ?>','desc')">▼</a>
+                    </th>
+                <?php endforeach; ?>
                 <?php if ($_SESSION['user_type'] == "A"): ?>
                     <th>Edit</th>
                     <th>Delete</th>

@@ -112,6 +112,16 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
         <div class="table-responsive">
             <form id="form" name="form" method="POST">
                 <table class="table">
+                    <?php
+                    $columns = [
+                        'Company Name' => 'company',
+                        'Website' => 'website',
+                        'Email' => 'email',
+                        'Phone' => 'phone',
+                        'Country' => 'country',
+                        'Address' => 'address'
+                    ];
+                    ?>
                     <thead>
                         <tr>
                             <th>
@@ -121,75 +131,32 @@ $_POST['record'] = $totalRecords; // use in pagination condition (hidden value p
                                     </label>
                                 </div>
                             </th>
-
-                            <th>
-                                <a a href="#" class="sort-button" onclick="sortBy('name','asc')">▲</a>
-                                User Name
-                                <a href="#" class="sort-button" onclick="sortBy('name','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('email','asc')">▲</a>
-                                Email
-                                <a href="#" class="sort-button" onclick="sortBy('email','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('country','asc')">
-                                    ▲</a>
-                                Country
-                                <a href="#" class="sort-button" onclick="sortBy('country','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('state','asc')">▲</a>
-                                State
-                                <a href="#" class="sort-button" onclick="sortBy('state','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('city','asc')">▲</a>
-                                City
-                                <a href="#" class="sort-button" onclick="sortBy('city','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('gender','asc')">▲</a>
-                                Gender
-                                <a href="#" class="sort-button" onclick="sortBy('gender','desc')">
-                                    ▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('maritalStatus','asc')">▲</a>
-                                Marital Status
-                                <a href="#" class="sort-button" onclick="sortBy('maritalStatus','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('mobileNo','asc')">▲</a>
-                                Mobile No.
-                                <a href="#" class="sort-button" onclick="sortBy('mobileNo','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('address','asc')">▲</a>
-                                Address
-                                <a href="#" class="sort-button" onclick="sortBy('address','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('dob','asc')">▲</a>
-                                Date of Birth
-                                <a href="#" class="sort-button" onclick="sortBy('dob','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('hireDate','asc')">▲</a>
-                                HireDate
-                                <a href="#" class="sort-button" onclick="sortBy('hireDate','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('user_type','asc')">▲</a>
-                                User Type
-                                <a href="#" class="sort-button" onclick="sortBy('user_type','desc')">▼</a>
-                            </th>
-                            <th>
-                                <a href="#" class="sort-button" onclick="sortBy('status','asc')">▲</a>
-                                Status
-                                <a href="#" class="sort-button" onclick="sortBy('status','desc')">▼</a>
-                            </th>
-
+                            <?php
+                            $columns = [
+                                'User Name' => 'name',
+                                'Email' => 'email',
+                                'Country' => 'country',
+                                'State' => 'state',
+                                'City' => 'city',
+                                'Gender' => 'gender',
+                                'Marital Status' => 'maritalStatus',
+                                'Mobile No.' => 'mobileNo',
+                                'Address' => 'address',
+                                'Date of Birth' => 'dob',
+                                'HireDate' => 'hireDate',
+                                'User Type' => 'user_type',
+                                'Status' => 'status'
+                            ];
+                            ?>
+                            <?php foreach ($columns as $displayName => $columnName): ?>
+                                <th>
+                                    <a href="#" class="sort-button"
+                                        onclick="sortBy('<?php echo e($columnName); ?>','asc')">▲</a>
+                                    <?php echo e($displayName); ?>
+                                    <a href="#" class="sort-button"
+                                        onclick="sortBy('<?php echo e($columnName); ?>','desc')">▼</a>
+                                </th>
+                            <?php endforeach; ?>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>

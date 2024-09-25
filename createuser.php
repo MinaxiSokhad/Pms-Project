@@ -1,4 +1,4 @@
-<?php //ob_start();
+<?php ob_start();
 $title = "Add User"; ?>
 <?php include "includes/_header.php"; ?>
 <?php include "includes/createUserQuery.php"; ?>

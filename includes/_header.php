@@ -4,7 +4,6 @@ ini_set('display_errors', '1');
 ?>
 <?php include "includes/function.php"; ?>
 <?php include "includes/database.php"; ?>
-
 <?php start_session(); ?>
 <?php //include "includes/getData.php"; ?>
 <?php
