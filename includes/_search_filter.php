@@ -34,7 +34,7 @@
         <div class="dropdown">
             <button class="dropdown-button">Filter Options</button>
             <div class="dropdown-content">
-                <?php if (isset($customersFilter)): ?>
+                <?php if (isset($customersFilter) || isset($membersFilter)): ?>
                     <!-- <label>
                     <input type="checkbox" name="selectCustomers[]" value="cutomers"> Customers
                 </label>

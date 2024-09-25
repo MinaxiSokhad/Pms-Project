@@ -58,7 +58,7 @@ if (!empty($_POST['s'])) {
 // Filtering by status
 $filterCountry = "";
 if (!empty($_POST['country'])) {
-    $countryList = implode("','", $_POST['status']);
+    $countryList = implode("','", $_POST['country']);
     $filterCountry = " AND `user`.`country` IN ('$countryList')";
 }
 

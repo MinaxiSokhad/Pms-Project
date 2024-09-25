@@ -365,7 +365,10 @@ if ($_SESSION['user_type'] == "A") {
     <?php endif; ?>
 <?php else: ?>
     <div class="container my-4 ">
-        <h1 class="text-center"> <span style="color: red;">Sorry ! Authorization Required </span> </h1>
+        <h1 class="text-center"> <span style="color: red;">Access Denied! You do not have permission to access this page.
+
+            </span>
+        </h1>
     </div>
 <?php endif; ?>
 <?php include "includes/_footer.php"; ?>
