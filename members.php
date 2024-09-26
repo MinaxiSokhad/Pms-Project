@@ -2,7 +2,7 @@
 <?php include "includes/_header.php"; ?>
 <?php
 // Build the base query
-$basequery = "SELECT 
+$baseQuery = "SELECT 
 id,
 name,email,country,state,city,
 CASE 
@@ -34,9 +34,9 @@ END AS `user_type`
 $where = " WHERE `user`.id > 0 ";
 
 // Sorting
-$order_by = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
+$orderBy = $_POST['order_by'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction'] ?? 'desc'; // Default sort direction
-$order = " ORDER BY $order_by $direction";
+$order = " ORDER BY $orderBy $direction";
 
 // Searching by input
 $searchTerm = "";
@@ -77,12 +77,12 @@ if ($showRecord != "1") {
 }
 
 if ($limit != '') {
-    $limit_offset = " LIMIT $limit OFFSET $offset";
+    $limitOffset = " LIMIT $limit OFFSET $offset";
 } else {
-    $limit_offset = "";
+    $limitOffset = "";
 }
 
-$query = $basequery . $where . $searchTerm . $filterCountry . $order . $limit_offset;
+$query = $baseQuery . $where . $searchTerm . $filterCountry . $order . $limitOffset;
 $members = mysqli_query($conn, $query);
 
 $countQuery = "SELECT COUNT(DISTINCT user.id) AS total
@@ -101,7 +101,7 @@ if ($showRecord != "1") {
 
 ?>
 
-<?php if ($_SESSION['user_type'] == "A"): ?>
+<?php if ($_SESSION['user_type'] === "A"): ?>
     <div class="container my-4">
 
         <h4 class="card-title">Members</h4>
@@ -109,7 +109,7 @@ if ($showRecord != "1") {
         <?php include "includes/_search_filter.php"; ?>
 
         <div class="table-responsive">
-            <form id="form" name="form" method="POST">
+            <form id="memberListForm" name="memberListForm" method="POST">
                 <table class="table">
                     <?php
                     $columns = [
@@ -165,61 +165,42 @@ if ($showRecord != "1") {
                         // print_r($projects);
                         if ($row = mysqli_num_rows($members) > 0) {
                             ?>
-                            <?php foreach ($members as $t):
+                            <?php foreach ($members as $member):
                                 ?>
                                 <tr>
                                     <td>
                                         <div class="form-check form-check-muted m-0">
                                             <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" value="<?php echo $t['id']; ?>"
+                                                <input type="checkbox" class="form-check-input" value="<?php echo $member['id']; ?>"
                                                     name="ids[]">
                                             </label>
                                         </div>
                                     </td>
-                                    <?php
-                                    // if ($t['gender'] === 'M') {
-                                    //     $t['gender'] = "Male";
-                                    // } else if ($t['gender'] === 'F') {
-                                    //     $t['gender'] = "Female";
-                                    // } else if ($t['gender'] === 'O') {
-                                    //     $t['gender'] = "Other";
-                                    // }
-                                    ?>
-                                    <?php
-                                    // if ($t['maritalStatus'] === 'S') {
-                                    //     $t['maritalStatus'] = "Single";
-                                    // } else if ($t['maritalStatus'] === 'M') {
-                                    //     $t['maritalStatus'] = "Married";
-                                    // } else if ($t['maritalStatus'] === 'W') {
-                                    //     $t['maritalStatus'] = "Widowed";
-                                    // } else if ($t['maritalStatus'] === 'D') {
-                                    //     $t['maritalStatus'] = "Divorced";
-                                    // }
-                                    ?>
-                                    <td><?php echo e($t['name']); ?></td>
-                                    <td><?php echo e($t['email']); ?></td>
-                                    <td><?php echo e($t['country']); ?>
+
+                                    <td><?php echo e($member['name']); ?></td>
+                                    <td><?php echo e($member['email']); ?></td>
+                                    <td><?php echo e($member['country']); ?>
                                     </td>
-                                    <td><?php echo e($t['state']); ?></td>
-                                    <td><?php echo e($t['city']); ?></td>
-                                    <td><?php echo e($t['gender']); ?></td>
-                                    <td><?php echo e($t['maritalStatus']); ?>
-                                    <td><?php echo e($t['mobileNo']); ?>
-                                    <td><?php echo e($t['address']); ?>
-                                    <td><?php echo e($t['dob']); ?>
-                                    <td><?php echo e($t['hireDate']); ?>
+                                    <td><?php echo e($member['state']); ?></td>
+                                    <td><?php echo e($member['city']); ?></td>
+                                    <td><?php echo e($member['gender']); ?></td>
+                                    <td><?php echo e($member['maritalStatus']); ?>
+                                    <td><?php echo e($member['mobileNo']); ?>
+                                    <td><?php echo e($member['address']); ?>
+                                    <td><?php echo e($member['dob']); ?>
+                                    <td><?php echo e($member['hireDate']); ?>
                                     <td>
-                                        <div class="btn btn-light"><?php echo e($t['user_type']); ?></div>
+                                        <div class="btn btn-light"><?php echo e($member['user_type']); ?></div>
                                     </td>
                                     <td>
-                                        <div class="btn btn-outline-success"><?php echo e($t['status']); ?></div>
+                                        <div class="btn btn-outline-success"><?php echo e($member['status']); ?></div>
                                     </td>
 
-                                    <td><a href="editProfile.php?id=<?php echo $t['id']; ?>">
+                                    <td><a href="editProfile.php?profile=<?php echo $member['id']; ?>">
                                             <div class="btn btn-primary">Edit</div>
                                         </a></td>
                                     <td>
-                                        <button type="button" onclick="deletemember(<?php echo $t['id']; ?>)" name="delete"
+                                        <button type="button" onclick="deletemember(<?php echo $member['id']; ?>)" name="delete"
                                             class="btn btn-danger">Delete
                                         </button>
                                     </td>

@@ -68,14 +68,14 @@
     <div class="mb-3">
         <label for="customer">Status<span style="color: red;"> * </span></label>
         <select class="js-example-basic-single" name="status" style="width: 100%; height: 40px;">
-            <option value="P" <?php echo ($oldFormData['status'] ?? '') === 'P' ? 'selected' : ''; ?>>In Progress
+            <option value="P" <?php echo ($oldFormData['status'][0] ?? '') === 'I' ? 'selected' : ''; ?>>In Progress
             </option>
-            <option value="S" <?php echo ($oldFormData['status'] ?? '') === 'S' ? 'selected' : ''; ?>>Not Started
+            <option value="S" <?php echo ($oldFormData['status'][0] ?? '') === 'N' ? 'selected' : ''; ?>>Not Started
             </option>
-            <option value="H" <?php echo ($oldFormData['status'] ?? '') === 'H' ? 'selected' : ''; ?>>On Hold</option>
-            <option value="C" <?php echo ($oldFormData['status'] ?? '') === 'C' ? 'selected' : ''; ?>>Cancelled
+            <option value="H" <?php echo ($oldFormData['status'][0] ?? '') === 'O' ? 'selected' : ''; ?>>On Hold</option>
+            <option value="C" <?php echo ($oldFormData['status'][0] ?? '') === 'C' ? 'selected' : ''; ?>>Cancelled
             </option>
-            <option value="F" <?php echo ($oldFormData['status'] ?? '') === 'F' ? 'selected' : ''; ?>>Finished
+            <option value="F" <?php echo ($oldFormData['status'][0] ?? '') === 'F' ? 'selected' : ''; ?>>Finished
             </option>
         </select>
     </div>

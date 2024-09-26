@@ -1,11 +1,11 @@
 <?php include "includes/_header.php"; ?>
 <?php
-$userid = $_SESSION['userid'];
 if (isset($_GET['profile'])) {
-    $id = $_GET['profile'];
-    $userprofile_query = "SELECT * FROM user WHERE `user`.id = '$id'";
-    $userprofile_result = mysqli_query($conn, $userprofile_query);
-    $users = mysqli_fetch_all($userprofile_result, MYSQLI_ASSOC);
+
+    $userId = $_GET['profile'];
+    $userprofileData = "SELECT * FROM user WHERE `user`.id = '$userId'";
+    $userprofileResult = mysqli_query($conn, $userprofileData);
+    $users = mysqli_fetch_all($userprofileResult, MYSQLI_ASSOC);
 }
 foreach ($users as $profile) {
 
@@ -145,7 +145,8 @@ $currentId = $_SESSION['userid'];
                 <div class="row">
                     <div class="col-sm-12">
                         <?php if ($_SESSION['user_type'] == "A" || $profile['id'] == $currentId): ?>
-                            <a class="btn btn-info " href="editProfile.php?id=<?php echo e($profile['id']); ?>">Edit</a>
+                            <a class="btn btn-info "
+                                href="editProfile.php?profile=<?php echo e($profile['id']); ?>">Edit</a>
                         <?php endif; ?>
                         <a class="btn btn-info " href="tasks.php">Back</a>
                     </div>

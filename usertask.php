@@ -1,7 +1,10 @@
 <?php include "includes/_header.php"; ?>
 <?php
-$userid = $_SESSION['userid'];
-$usertask_query = "SELECT
+if (isset($_GET['task'])) {
+
+    $userTask = $_GET['task'];
+
+    $usertaskData = "SELECT
               task.id,
               project.name as project,
               task.name,
@@ -34,14 +37,15 @@ $usertask_query = "SELECT
               ON task_member.user_id = `user`.id
               JOIN project
               ON task.project = project.id
-              WHERE task.id > 0
+              WHERE task.id ="
+        . $userTask . "
               GROUP BY task.id ";
-$usertask_result = mysqli_query($conn, $usertask_query);
-$users = mysqli_fetch_all($usertask_result, MYSQLI_ASSOC);
+}
+$usertaskResult = mysqli_query($conn, $usertaskData);
+$users = mysqli_fetch_all($usertaskResult, MYSQLI_ASSOC);
 foreach ($users as $usertask) {
 
 }
-
 ?>
 <div class="container my-5">
     <div class="col-md-8">
@@ -131,8 +135,8 @@ foreach ($users as $usertask) {
                 <div class="row">
                     <div class="col-sm-12">
                         <a class="btn btn-info " href="tasks.php">Back</a>
-                        <?php if ($_SESSION['user_type'] == "A"): ?>
-                            <a class="btn btn-info " href="task.php?id=<?php echo e($usertask['id']); ?>">Edit</a>
+                        <?php if ($_SESSION['user_type'] === "A"): ?>
+                            <a class="btn btn-info " href="task.php?taskId=<?php echo e($usertask['id']); ?>">Edit</a>
                         <?php endif; ?>
                     </div>
                 </div>

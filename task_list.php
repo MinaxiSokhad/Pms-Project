@@ -1,4 +1,4 @@
-<form id="form" name="form" method="POST">
+<form id="taskListForm" name="taskListForm" method="POST">
     <table class="table">
         <thead>
             <tr>
@@ -41,25 +41,25 @@
 
             if ($row = mysqli_num_rows($tasks) > 0) {
                 ?>
-                <?php foreach ($tasks as $t):
+                <?php foreach ($tasks as $task):
                     ?>
                     <tr>
                         <td>
                             <div class="form-check form-check-muted m-0">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="<?php echo $t['id']; ?>"
+                                    <input type="checkbox" class="form-check-input" value="<?php echo $task['id']; ?>"
                                         name="ids[]">
                                 </label>
                             </div>
                         </td>
-                        <td> <?php echo e($t['project']); ?>
+                        <td> <?php echo e($task['project']); ?>
                         </td>
-                        <td> <a href="usertask.php?taskid=<?php echo e($t['id']); ?>">
-                                <?php echo e($t['name']); ?></a>
+                        <td> <a href="usertask.php?task=<?php echo e($task['id']); ?>">
+                                <?php echo e($task['name']); ?></a>
                         </td>
                         <?php
-                        $task_members_id = explode(",", $t['task_member_id']);
-                        $task_members_name = explode(",", $t['task_member_name']);
+                        $task_members_id = explode(",", $task['task_member_id']);
+                        $task_members_name = explode(",", $task['task_member_name']);
                         $task_members = [];
 
                         if (count($task_members_id) === count($task_members_name)) {
@@ -76,20 +76,20 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </td>
-                        <td><?php echo e($t['task_tags_name']); ?>
+                        <td><?php echo e($task['task_tags_name']); ?>
                         </td>
-                        <td><?php echo e($t['start_date']); ?></td>
-                        <td><?php echo e($t['due_date']); ?></td>
-                        <td><?php echo e($t['status']); ?></td>
-                        <td><?php echo e($t['priority']); ?>
+                        <td><?php echo e($task['start_date']); ?></td>
+                        <td><?php echo e($task['due_date']); ?></td>
+                        <td><?php echo e($task['status']); ?></td>
+                        <td><?php echo e($task['priority']); ?>
                         </td>
 
                         <?php if ($_SESSION['user_type'] == "A"): ?>
-                            <td><a href="task.php?id=<?php echo $t['id']; ?>">
+                            <td><a href="task.php?taskId=<?php echo $task['id']; ?>">
                                     <div class="btn btn-primary">Edit</div>
                                 </a></td>
                             <td>
-                                <button type="button" onclick="deletetask(<?php echo $t['id']; ?>)" name="delete"
+                                <button type="button" onclick="deletetask(<?php echo $task['id']; ?>)" name="delete"
                                     class="btn btn-danger">Delete
                                 </button>
                             </td>

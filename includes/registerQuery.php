@@ -17,8 +17,11 @@ if (isset($_POST['register']) || isset($_POST['update']) || isset($_POST['create
     if (isset($_SESSION['userid']) && $_SESSION['user_type'] === "A") {
         $usertype = $_POST['user_type'];
     }
-    $errors = validateRegister($_POST);
-
+    if (isset($_SESSION['userid']) && $_SESSION['user_type'] === "A" && isset($_POST['createuser'])) {
+        $errors = validateUser($_POST);
+    } else {
+        $errors = validateRegister($_POST);
+    }
     if (empty($errors)) {
 
         if (isset($_POST['register']) || isset($_POST['createuser'])) {
@@ -60,30 +63,38 @@ if (isset($_POST['register']) || isset($_POST['update']) || isset($_POST['create
         }
         if (isset($_POST['update'])) {
             $currentId = isset($_SESSION['userid']) ? $_SESSION['userid'] : '';
-            $profileId = isset($_GET['id']) ? $_GET['id'] : '';
+            $profileId = isset($_GET['profile']) ? $_GET['profile'] : '';
             $id = $_POST['id'];
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $formattedDate = "{$_POST['dob']} 00:00:00";
-            $hireDate = "{$_POST['hireDate']} 00:00:00";
+            if (isExists('user', 'email', $_POST['email'], 'id !=' . $id)) {
+                $errors = "Email already exists";
 
-            $update_member = "UPDATE user SET
-                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate' WHERE id='$id'";
-            if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
-                $update_member = "UPDATE user SET
-                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate',user_type='$usertype' WHERE id='$id'";
-            }
-            $updateResult = mysqli_query($conn, $update_member);
-
-            if ($updateResult) {
-                $alert = "User updated successfully.";
-                if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
-                    redirectTo("members.php");
-                }
-                redirectTo("userprofile.php");
+            } else if (isExists('user', 'mobileNo', $_POST['mobileNo'], 'id !=' . $id)) {
+                $errors = 'Mobile number already exists';
 
             } else {
-                $alert = "Error updating member: " . mysqli_error($conn);
+                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $formattedDate = "{$_POST['dob']} 00:00:00";
+                $hireDate = "{$_POST['hireDate']} 00:00:00";
 
+                $update_member = "UPDATE user SET
+                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate' WHERE id='$id'";
+                if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
+                    $update_member = "UPDATE user SET
+                          name='$name',email='$email',password='$password',country='$country',state='$state',city='$city',gender='$gender',maritalStatus='$maritalStatus',mobileNo='$mobileNo',address='$address',dob='$dob',hireDate='$hireDate',user_type='$usertype' WHERE id='$id'";
+                }
+                $updateResult = mysqli_query($conn, $update_member);
+
+                if ($updateResult) {
+                    $alert = "User updated successfully.";
+                    if ($_SESSION['user_type'] === "A" && $currentId != $profileId) {
+                        redirectTo("members.php");
+                    }
+                    redirectTo("userprofile.php");
+
+                } else {
+                    $alert = "Error updating member: " . mysqli_error($conn);
+
+                }
             }
         }
     }

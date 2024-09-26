@@ -1,7 +1,6 @@
 <?php
-// $section = "tasks";
 // Build the base query
-$basequery = "SELECT
+$baseQuery = "SELECT
               task.id,
               project.name as project,
               task.name,
@@ -38,14 +37,14 @@ $basequery = "SELECT
 $where = " WHERE task.id > 0 ";
 $employeeTaskCount = "";
 if ($_SESSION['user_type'] != "A") {
-    $userid = $_SESSION['userid'];
-    $employeeTaskCount = " HAVING COUNT(CASE WHEN task_member.user_id = '$userid' THEN 1 ELSE NULL END) > 0 ";
+    $userId = $_SESSION['userid'];
+    $employeeTaskCount = " HAVING COUNT(CASE WHEN task_member.user_id = '$userId' THEN 1 ELSE NULL END) > 0 ";
 }
 
 // Sorting
-$order_by = $_POST['order_by_tasks'] ?? 'id'; // Default column to sort by 'id'
+$orderBy = $_POST['order_by_tasks'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction_tasks'] ?? 'desc'; // Default sort direction
-$order = " ORDER BY $order_by $direction";
+$order = " ORDER BY $orderBy $direction";
 
 // Searching by input
 $searchTerm = "";
@@ -80,17 +79,17 @@ if ($showRecord != "1") {
 }
 
 if ($limit != '') {
-    $limit_offset = " LIMIT $limit OFFSET $offset";
+    $limitOffset = " LIMIT $limit OFFSET $offset";
 } else {
-    $limit_offset = "";
+    $limitOffset = "";
 }
 
-$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY task.id " . $employeeTaskCount . $order . $limit_offset;
+$query = $baseQuery . $where . $searchTerm . $filterStatus . " GROUP BY task.id " . $employeeTaskCount . $order . $limitOffset;
 $tasks = mysqli_query($conn, $query);
 $countUserTask = "";
 if ($_SESSION['user_type'] != "A") {
-    $userid = $_SESSION['userid'];
-    $countUserTask = " AND task_member.user_id = '$userid'  ";
+    $userId = $_SESSION['userid'];
+    $countUserTask = " AND task_member.user_id = '$userId'  ";
 }
 $countQuery = "SELECT COUNT(DISTINCT task.id) AS total
 FROM task

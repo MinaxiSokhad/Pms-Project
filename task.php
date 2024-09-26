@@ -6,10 +6,23 @@ if (isset($_GET['id'])) {
     $title = "Add Task";
 }
 include "includes/_header.php"; ?>
-<?php include "includes/getData.php"; ?>
 <?php
 
-if ($_SESSION['user_type'] == "A") {
+$where = " WHERE id > 0 ";
+
+//get all the projects
+$projects = fetchData($conn, 'project', $where);
+
+//get all the tags
+$tags = fetchData($conn, 'tags', $where);
+
+//get all the users
+$users = fetchData($conn, 'user', $where);
+
+//get all the customers
+$customers = fetchData($conn, 'customers', $where);
+
+if ($_SESSION['user_type'] === "A") {
     if (isset($_POST['add']) || isset($_POST['updateTask'])) {
 
         $project = $_POST['project'];
@@ -18,8 +31,6 @@ if ($_SESSION['user_type'] == "A") {
         $formattedDueDate = "{$_POST['due_date']} 00:00:00";
         $status = $_POST['status'];
         $priority = $_POST['priority'];
-        // $tag = $_POST['tags'];
-        //  $member = $_POST['members'];
 
         $errors = validateTask($_POST);
 
@@ -28,35 +39,36 @@ if ($_SESSION['user_type'] == "A") {
             if (isset($_POST['add'])) {
 
 
-                $task_sql = "INSERT INTO `task` ( `project`,`name`, `start_date`, `due_date`, `status`,`priority`) VALUES ('$project','$name', '$formattedStartDate', '$formattedDueDate', '$status','$priority')";
-                $result_task = mysqli_query($conn, $task_sql);
-                if ($result_task) {
+                $insertTask = "INSERT INTO `task` ( `project`,`name`, `start_date`, `due_date`, `status`,`priority`) VALUES ('$project','$name', '$formattedStartDate', '$formattedDueDate', '$status','$priority')";
+                $resultInsertTask = mysqli_query($conn, $insertTask);
+                if ($resultInsertTask) {
                     //last inserted id
-                    $task_id = $conn->insert_id;
+                    $taskId = $conn->insert_id;
 
                     //tags
-                    $tag_ids = implode(',', $_POST['tags']);
-                    $tag_sql = "INSERT INTO task_tags(task_id,project_id,tags_id) SELECT '$task_id','$project',id FROM tags WHERE id IN ($tag_ids)";
-                    $result_tags = mysqli_query($conn, $tag_sql);
+                    $tagIds = implode(',', $_POST['tags']);
+                    $insertTags = "INSERT INTO task_tags(task_id,project_id,tags_id) SELECT '$taskId','$project',id FROM tags WHERE id IN ($tagIds)";
+                    $resultInsertTags = mysqli_query($conn, $insertTags);
 
                     // members
-                    $m_ids = implode(',', $_POST['members']);
+                    $memberIds = implode(',', $_POST['members']);
 
                     //check if the user is assigned to the project
-                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$m_ids' AND project_id = '$project'";
+                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$memberIds' AND project_id = '$project'";
                     $result = mysqli_query($conn, $checkProjectAssignment);
 
                     if (mysqli_num_rows($result) == 0) {
                         // If user is not assigned , assign them to project
-                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($m_ids)";
+                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($memberIds)";
                         mysqli_query($conn, $assignUserToProject);
                     }
 
                     // now proceed with assigning the task
 
-                    $member_sql = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$task_id','$project' , id FROM user WHERE id IN ($m_ids)";
-                    $result_members = mysqli_query($conn, $member_sql);
-                    if ($result_tags && $result_members) {
+                    $insertMembers = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$taskId','$project' , id FROM user WHERE id IN ($memberIds)";
+                    $resultInserMembers = mysqli_query($conn, $insertMembers);
+
+                    if ($resultInsertTags && $resultInserMembers) {
                         redirectTo("tasks.php");
                     } else {
                         $errors = "Incorrect!";
@@ -68,43 +80,46 @@ if ($_SESSION['user_type'] == "A") {
             }
 
             if (isset($_POST['updateTask'])) {
-                $id = $_POST['id'];
+                $taskId = $_POST['id'];
 
-                $update_task = "UPDATE task SET project='$project',name='$name', start_date='$formattedStartDate', due_date='$formattedDueDate', status='$status',priority='$priority' WHERE id='$id'";
-                $updateResult = mysqli_query($conn, $update_task);
-                if ($updateResult) {
+                $updateTask = "UPDATE task SET project='$project',name='$name', start_date='$formattedStartDate', due_date='$formattedDueDate', status='$status',priority='$priority' WHERE id='$taskId'";
+                $updateTaskResult = mysqli_query($conn, $updateTask);
+                if ($updateTaskResult) {
                     //delete tags 
-                    $delete_tags = "DELETE FROM task_tags WHERE task_id = $id";
-                    $deletetag = mysqli_query($conn, $delete_tags);
-
-                    //insert tags
-                    $tag_ids = implode(',', $_POST['tags']);
-                    $tag_sql = "INSERT INTO task_tags(task_id,project_id,tags_id) SELECT '$id','$project',id FROM tags WHERE id IN ($tag_ids)";
-                    $result_tags = mysqli_query($conn, $tag_sql);
-
+                    $deleteTaskTags = "DELETE FROM task_tags WHERE task_id = $taskId";
+                    $resultDeleteTaskTags = mysqli_query($conn, $deleteTaskTags);
+                    if ($resultDeleteTaskTags) {
+                        //insert tags
+                        $tagIds = implode(',', $_POST['tags']);
+                        $insertTags = "INSERT INTO task_tags(task_id,project_id,tags_id) SELECT '$taskId','$project',id FROM tags WHERE id IN ($tagIds)";
+                        $resultInsertTags = mysqli_query($conn, $insertTags);
+                    }
                     //delete members
-                    $delete_members = "DELETE FROM task_member WHERE task_id = $id";
-                    $deletemember = mysqli_query($conn, $delete_members);
+                    $deleteTaskMembers = "DELETE FROM task_member WHERE task_id = $taskId";
+                    $resultDeleteTaskMembers = mysqli_query($conn, $deleteTaskMembers);
+
 
                     // members
-                    $m_ids = implode(',', $_POST['members']);
+                    $memberIds = implode(',', $_POST['members']);
 
                     //check if the user is assigned to the project
-                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$m_ids' AND project_id = '$project'";
+                    $checkProjectAssignment = "SELECT * FROM project_member WHERE user_id = '$memberIds' AND project_id = '$project'";
                     $result = mysqli_query($conn, $checkProjectAssignment);
 
                     if (mysqli_num_rows($result) == 0) {
                         // If user is not assigned , assign them to project
-                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($m_ids)";
+                        $assignUserToProject = "INSERT INTO project_member(project_id,user_id) SELECT '$project',id FROM user WHERE id IN ($memberIds)";
                         mysqli_query($conn, $assignUserToProject);
                     }
 
                     // now proceed with assigning the task
+                    if ($resultDeleteTaskMembers) {
 
-                    $member_sql = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$id','$project', id FROM user WHERE id IN ($m_ids)";
-                    $result_members = mysqli_query($conn, $member_sql);
+                        $insertMember = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$taskId','$project', id FROM user WHERE id IN ($memberIds)";
+                        $resultInsertMembers = mysqli_query($conn, $insertMember);
 
-                    if ($result_members && $result_tags) {
+                    }
+                    if ($resultInsertMembers && $resultInsertTags) {
                         $alert = "Task updated successfully.";
                         redirectTo("tasks.php");
                     } else {
@@ -114,8 +129,8 @@ if ($_SESSION['user_type'] == "A") {
             }
         }
     }
-    if (isset($_GET['id'])) {
-        $id = mysqli_real_escape_string($conn, $_GET['id']);
+    if (isset($_GET['taskId'])) {
+        $taskId = mysqli_real_escape_string($conn, $_GET['taskId']);
         $query = "SELECT
                 task.id,
                 project.name as `project`,
@@ -143,7 +158,7 @@ if ($_SESSION['user_type'] == "A") {
                 JOIN user
                 ON task_member.user_id = user.id
                 JOIN project
-                ON task.project = project.id WHERE task.id = '$id' GROUP BY task.id";
+                ON task.project = project.id WHERE task.id = '$taskId' GROUP BY task.id";
         $result = mysqli_query($conn, $query);
         $task = mysqli_fetch_assoc($result);
     }
@@ -172,207 +187,23 @@ if ($_SESSION['user_type'] == "A") {
 }
 ?>
 <?php include "includes/showError.php"; ?>
+
 <?php if ($_SESSION['user_type'] == "A"): ?>
-    <?php if (isset($_GET['id'])): ?>
 
-        <div class="container my-4">
+    <div class="container my-4">
+
+        <?php if (isset($_GET['taskId'])): ?>
             <h1 class="text-center">Update Task</h1>
-            <form action="" method="POST">
-                <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
-                <div class="mb-3">
-                    <label for="project">Project Name<span style="color: red;"> * </span></label>
-                    <select name="project" id="project" style="width: 100%; height: 40px;">
-                        <?php foreach ($projects as $p): ?>
-                            <?php if ($p['name'] == $task['project']): ?>
-                                <option value="<?php echo e($p['id']); ?>" selected><?php echo e($p['name']); ?></option>
-                            <?php else: ?>
-                                <option value="<?php echo e($p['id']); ?>"><?php echo e($p['name']); ?></option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="name">Task Name<span style="color: red;"> * </span></label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Task Name"
-                        value="<?php echo e($task['name'] ?? ''); ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="members">Members<span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-multiple" name="members[]" multiple="multiple" style="width:100%"
-                        id="members[]">
-
-                        <?php foreach ($users as $u): ?>
-                            <?php if (in_array($u['name'], explode(",", $task['task_member_name']))): ?>
-                                <option value=<?php echo e($u['id']); ?> selected>
-                                    <?php echo e($u['name']);
-                                    echo ' ' . '(' . e($u['email']) . ')'; ?>
-                                </option>
-                            <?php else: ?>
-                                <option value=<?php echo e($u['id']); ?>>
-                                    <?php echo e($u['name']);
-                                    echo ' ' . '(' . e($u['email']) . ')'; ?>
-                                </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="tags">Tags<span style="color: red;"> *
-                        </span></label>
-                    <select class="js-example-basic-multiple" name="tags[]" multiple="multiple" style="width:100%" id="tags[]">
-                        <?php
-                        $tag = $task['task_tags_name'];
-                        $project['task_tags_name'] = explode(",", $tag);
-                        ?>
-                        <?php
-                        foreach ($tags as $t):
-                            if (in_array($t['name'], $project['task_tags_name'])):
-                                ?>
-                                <option value="<?php echo e($t['id']); ?>" selected>
-                                    <?php echo e($t['name']); ?>
-                                </option>
-                            <?php else: ?>
-                                <option value="<?php echo e($t['id']); ?>">
-                                    <?php echo e($t['name']); ?>
-                                </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="start_date">Start Date<span style="color: red;"> * </span></label>
-                    <input type="date" class="form-control" name="start_date"
-                        value="<?php echo e($task['start_date'] ?? ''); ?>" />
-                </div>
-                <div class="mb-3">
-                    <label for="due_date">Due Date</label>
-                    <input type="date" class="form-control" name="due_date" value="<?php echo e($task['due_date'] ?? ''); ?>" />
-                </div>
-                <div class="mb-3">
-                    <label for="status">Status<span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-single" name="status" style="width: 100%; height: 40px;">
-                        <option value="P" <?php echo ($task['status'] ?? '') === 'P' ? 'selected' : ''; ?>>In Progress
-                        </option>
-                        <option value="S" <?php echo ($task['status'] ?? '') === 'S' ? 'selected' : ''; ?>>Not Started
-                        </option>
-                        <option value="C" <?php echo ($task['status'] ?? '') === 'C' ? 'selected' : ''; ?>>Complete
-                        </option>
-                        <option value="F" <?php echo ($task['status'] ?? '') === 'F' ? 'selected' : ''; ?>>Testing
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="priority">Priority <span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-single" name="priority" id="priority" style="width: 100%; height: 40px;">
-                        <option value="M" <?php echo ($task['priority'] ?? '') === "M" ? 'selected' : ''; ?>>Medium</option>
-                        <option value="L" <?php echo ($task['priority'] ?? '') === "L" ? 'selected' : ''; ?>>Low</option>
-                        <option value="H" <?php echo ($task['priority'] ?? '') === "H" ? 'selected' : ''; ?>>High</option>
-                    </select>
-                </div>
-
-                <button type="submit" name="updateTask" class="btn btn-primary">Update</button>
-            </form>
-        </div>
-    <?php else: ?>
-        <div class="container my-4">
+            <?php $oldFormData = $task; ?>
+            <?php include "task_add_update_form.php"; ?>
+        <?php else: ?>
             <h1 class="text-center">Add Task</h1>
             <hr>
             <h5 class="text-center"><span style="color: red;"> * </span> Indicates required question</h5>
-            <form action="task.php" method="POST">
-                <div class="mb-3">
-                    <label for="project">Project<span style="color: red;"> * </span></label>
+            <?php include "task_add_update_form.php"; ?>
+        <?php endif; ?>
+    </div>
 
-                    <select class="js-example-basic-single" style="width: 100%; height: 40px;" name=" project">
-                        <option value="" <?php echo ($oldFormData['project'] ?? '') === '' ? 'selected' : ''; ?>>Select Option
-                        </option>
-                        <?php foreach ($projects as $c): ?>
-                            <option value=<?php echo e($c['id']); ?><?php echo ($oldFormData['project'] ?? '') == $c['id'] ? 'selected' : ''; ?>>
-                                <?php echo e($c['name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="name">Task Name<span style="color: red;"> * </span></label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Task Name"
-                        value="<?php echo e($oldFormData['name'] ?? ''); ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="members">Assigned to<span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-multiple" name="members[]" multiple="multiple" style="width:100%"
-                        id="members[]">
-                        <?php $member = array_values($oldFormData['members'] ?? []); ?>
-                        <?php foreach ($users as $u): ?>
-                            <?php if (in_array($u['id'], $member)): ?>
-                                <option value=<?php echo e($u['id']); ?> selected>
-                                    <?php echo e($u['name']);
-                                    echo ' ' . '(' . e($u['email']) . ')'; ?>
-                                </option>
-                            <?php else: ?>
-                                <option value=<?php echo e($u['id']); ?>>
-                                    <?php echo e($u['name']);
-                                    echo ' ' . '(' . e($u['email']) . ')'; ?>
-                                </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="tags">Tags<span style="color: red;"> *
-                        </span></label>
-                    <select class="js-example-basic-multiple" name="tags[]" multiple="multiple" style="width:100%" id="tags[]">
-                        <?php $tag = array_values($oldFormData['tags'] ?? []); ?>
-                        <?php foreach ($tags as $t):
-                            if (in_array($t['id'], $tag)):
-                                ?>
-                                <option value="<?php echo e($t['id']); ?>" selected>
-                                    <?php echo e($t['name']); ?>
-                                </option>
-                            <?php else: ?>
-                                <option value="<?php echo e($t['id']); ?>">
-                                    <?php echo e($t['name']); ?>
-                                </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="start_date">Start Date<span style="color: red;"> * </span></label>
-                    <input type="date" class="form-control" name="start_date"
-                        value="<?php echo e($oldFormData['start_date'] ?? ''); ?>" />
-                </div>
-                <div class="mb-3">
-                    <label for="due_date">Due Date</label>
-                    <input type="date" class="form-control" name="due_date"
-                        value="<?php echo e($oldFormData['due_date'] ?? ''); ?>" />
-                </div>
-                <div class="mb-3">
-                    <label for="status">Status<span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-single" name="status" style="width: 100%; height: 40px;">
-                        <option value="P" <?php echo ($oldFormData['status'] ?? '') === 'P' ? 'selected' : ''; ?>>In Progress
-                        </option>
-                        <option value="S" <?php echo ($oldFormData['status'] ?? '') === 'S' ? 'selected' : ''; ?>>Not Started
-                        </option>
-                        <option value="C" <?php echo ($oldFormData['status'] ?? '') === 'C' ? 'selected' : ''; ?>>Complete
-                        </option>
-                        <option value="T" <?php echo ($oldFormData['status'] ?? '') === 'T' ? 'selected' : ''; ?>>Testing</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="priority">Priority<span style="color: red;"> * </span></label>
-                    <select class="js-example-basic-single" name="priority" style="width: 100%; height: 40px;">
-                        <option value="M" <?php echo ($oldFormData['priority'] ?? '') === 'M' ? 'selected' : ''; ?>>Medium
-                        </option>
-                        <option value="H" <?php echo ($oldFormData['priority'] ?? '') === 'H' ? 'selected' : ''; ?>>High</option>
-                        <option value="L" <?php echo ($oldFormData['priority'] ?? '') === 'L' ? 'selected' : ''; ?>>Low</option>
-                    </select>
-                </div>
-
-                <button type="submit" name="add" class="btn btn-primary">Add Task</button>
-
-            </form>
-        </div>
-    <?php endif; ?>
 <?php else: ?>
     <div class="container my-4 ">
         <h1 class="text-center"> <span style="color: red;">Access Denied! You do not have permission to access this page.

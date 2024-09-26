@@ -1,5 +1,5 @@
 <form id="register" action="" method="post">
-    <?php if (isset($_SESSION['userid']) || $_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['id'])): ?>
+    <?php if (isset($_SESSION['userid']) || $_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['profile'])): ?>
         <input type="hidden" name="id" id="id" value="<?php echo e($member['id'] ?? ''); ?>" />
     <?php endif; ?>
     <div class="mb-3">
@@ -91,8 +91,8 @@
                 value="<?php echo e($oldFormData['hireDate'] ?? ''); ?>" name="hireDate">
         </div>
 
-        <?php if (isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
-            <?php if ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_GET['id']) && $currentId != $profileId): ?>
+        <?php if (isset($_SESSION['userid']) && $_SESSION['user_type'] === "A"): ?>
+            <?php if ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_GET['profile']) && $_SESSION['userid'] != $_GET['profile']): ?>
                 <div class="mb-3">
                     <label for="user_type" class="form-label">User Type <span style="color: red;"> * </span></label>
                     <select id="user_type" name="user_type" class="form-control">
@@ -107,10 +107,10 @@
             <?php endif; ?>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['userid']) && $_SERVER['REQUEST_URI'] == "editProfile.php" || isset($_GET['id'])): ?>
+        <?php if (isset($_SESSION['userid']) && $_SERVER['REQUEST_URI'] == "/editProfile.php" || isset($_GET['profile'])): ?>
             <button type="submit" name="update" class="btn btn-primary">Update</button>
 
-        <?php elseif ($_SERVER['REQUEST_URI'] == "createuser.php" || isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
+        <?php elseif ($_SERVER['REQUEST_URI'] == "/createuser.php" || isset($_SESSION['userid']) && $_SESSION['user_type'] == "A"): ?>
             <button type="submit" name="createuser" class="btn btn-primary">Create User</button>
         <?php else: ?>
             <button type="submit" name="register" class="btn btn-primary">Register</button>

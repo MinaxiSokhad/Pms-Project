@@ -9,9 +9,6 @@ include "includes/_header.php"; ?>
 <?php
 $where = " WHERE id > 0 ";
 
-//get all the projects
-// $projects = fetchData($conn, 'project', $where);
-
 //get all the tags
 $tags = fetchData($conn, 'tags', $where);
 
@@ -155,7 +152,7 @@ if ($_SESSION['user_type'] == "A") {
             JOIN user
             ON project_member.user_id = user.id
             JOIN customers
-            ON project.customer = customers.id WHERE project.id = '$projectId' GROUP BY project.id";
+            ON project.customer = customers.id WHERE project.id = " . $projectId . " GROUP BY project.id";
         $result = mysqli_query($conn, $query);
         $project = mysqli_fetch_assoc($result);
     }
@@ -185,26 +182,24 @@ if ($_SESSION['user_type'] == "A") {
 
 ?>
 <?php include "includes/showError.php"; ?>
-<?php if ($_SESSION['user_type'] == "A"): ?>
-    <?php if (isset($_GET['projectId'])): ?>
+<?php if ($_SESSION['user_type'] === "A"): ?>
 
-        <div class="container my-4">
+    <div class="container my-4">
+        <?php if (isset($_GET['projectId'])): ?>
             <h1 class="text-center">Edit Project</h1>
             <?php $oldFormData = $project; ?>
             <?php include "project_add_update_form.php"; ?>
-        </div>
-    <?php else: ?>
-        <div class="container my-4">
+        <?php else: ?>
             <h1 class="text-center">Add Project</h1>
             <hr>
             <h5 class="text-center"><span style="color: red;"> * </span> Indicates required question</h5>
             <?php include "project_add_update_form.php"; ?>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
+
 <?php else: ?>
     <div class="container my-4 ">
         <h1 class="text-center"> <span style="color: red;">Access Denied! You do not have permission to access this page.
-
             </span>
         </h1>
     </div>

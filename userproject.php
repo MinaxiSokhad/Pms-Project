@@ -1,42 +1,43 @@
 <?php include "includes/_header.php"; ?>
 <?php
-$userid = $_SESSION['userid'];
-if (isset($_GET['userproject'])) {
-    $userProject = $_GET['userproject'];
-    $userproject_query = "SELECT
-project.id,
-project.name,
-project.description,
-customers.company as `customer`,
-project.start_date,
-project.deadline,
-CASE 
-WHEN project.status = 'S' THEN 'Not Started'
-WHEN project.status = 'P' THEN 'In Progress'
-WHEN project.status = 'O' THEN 'On Hold'
-WHEN project.status = 'C' THEN 'Completed'
-WHEN project.status = 'F' THEN 'Finished'
-ELSE project.status
-END AS `status`,
-GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') AS `project_tags_name`,
-GROUP_CONCAT(DISTINCT user.id ORDER BY user.id SEPARATOR ',') AS `project_member_id`,
-GROUP_CONCAT(DISTINCT user.name ORDER BY user.id SEPARATOR ',') AS `project_member_name`
-FROM project
-JOIN project_tags
-ON project.id = project_tags.project_id
-JOIN project_member
-ON project.id = project_member.project_id 
-JOIN tags
-ON project_tags.tags_id = tags.id
-JOIN user
-ON project_member.user_id = user.id
-JOIN customers
-ON project.customer = customers.id
-              WHERE project.id = '$userProject'
-              GROUP BY project.id ";
+if (isset($_GET['project'])) {
+
+    $userProject = $_GET['project'];
+
+    $userprojectData = "SELECT
+            project.id,
+            project.name,
+            project.description,
+            customers.company as `customer`,
+            project.start_date,
+            project.deadline,
+            CASE 
+            WHEN project.status = 'S' THEN 'Not Started'
+            WHEN project.status = 'P' THEN 'In Progress'
+            WHEN project.status = 'O' THEN 'On Hold'
+            WHEN project.status = 'C' THEN 'Completed'
+            WHEN project.status = 'F' THEN 'Finished'
+            ELSE project.status
+            END AS `status`,
+            GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') AS `project_tags_name`,
+            GROUP_CONCAT(DISTINCT user.id ORDER BY user.id SEPARATOR ',') AS `project_member_id`,
+            GROUP_CONCAT(DISTINCT user.name ORDER BY user.id SEPARATOR ',') AS `project_member_name`
+            FROM project
+            JOIN project_tags
+            ON project.id = project_tags.project_id
+            JOIN project_member
+            ON project.id = project_member.project_id 
+            JOIN tags
+            ON project_tags.tags_id = tags.id
+            JOIN user
+            ON project_member.user_id = user.id
+            JOIN customers
+            ON project.customer = customers.id
+                WHERE project.id = '$userProject'
+                GROUP BY project.id ";
 }
-$userproject_result = mysqli_query($conn, $userproject_query);
-$users = mysqli_fetch_all($userproject_result, MYSQLI_ASSOC);
+$userprojectResult = mysqli_query($conn, $userprojectData);
+$users = mysqli_fetch_all($userprojectResult, MYSQLI_ASSOC);
 foreach ($users as $userproject) {
 
 }
@@ -130,7 +131,8 @@ foreach ($users as $userproject) {
                     <div class="col-sm-12">
                         <a class="btn btn-info " href="projects.php">Back</a>
                         <?php if ($_SESSION['user_type'] == "A"): ?>
-                            <a class="btn btn-info " href="project.php?id=<?php echo e($userproject['id']); ?>">Edit</a>
+                            <a class="btn btn-info "
+                                href="project.php?projectId=<?php echo e($userproject['id']); ?>">Edit</a>
                         <?php endif; ?>
                     </div>
                 </div>

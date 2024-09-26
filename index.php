@@ -11,7 +11,7 @@
         <?php include "includes/_search_filter.php"; ?>
 
         <div class="table-responsive">
-            <?php include "project_select_data.php"; ?>
+            <?php include "projects_select_data.php"; ?>
             <?php include "project_list.php"; ?>
             <br><br>
 
@@ -27,8 +27,8 @@
         <?php endif; ?>
         <?php include "includes/_search_filter.php"; ?>
         <div class="table-responsive">
-            <?php include "includes/taskQuery.php"; ?>
-            <?php include "includes/taskForm.php"; ?>
+            <?php include "tasks_select_data.php"; ?>
+            <?php include "task_list.php"; ?>
         </div>
     </div>
 </div>

@@ -85,8 +85,8 @@ $projects = mysqli_query($conn, $query);
 
 $countUserProject = "";
 if ($_SESSION['user_type'] != "A") {
-    $userid = $_SESSION['userid'];
-    $countUserProject = " AND project_member.user_id = '$userid' ";
+    $userId = $_SESSION['userid'];
+    $countUserProject = " AND project_member.user_id = '$userId' ";
 }
 
 $countQuery = "SELECT COUNT(DISTINCT project.id) AS total

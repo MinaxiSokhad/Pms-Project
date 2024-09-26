@@ -1,6 +1,6 @@
 <?php $title = "Tasks"; ?>
 <?php include "includes/_header.php"; ?>
-<?php include "includes/taskQuery.php"; ?>
+<?php include "tasks_select_data.php"; ?>
 <div class="container my-4">
 
     <h4 class="card-title">Tasks</h4>
@@ -9,7 +9,7 @@
 
     <div class="table-responsive">
 
-        <?php include "includes/taskForm.php"; ?>
+        <?php include "task_list.php"; ?>
 
         <br><br>
 

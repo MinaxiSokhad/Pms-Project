@@ -4,14 +4,14 @@ $title = "Update Profile"; ?>
 <?php include "includes/_header.php"; ?>
 <?php include "includes/registerQuery.php"; ?>
 <?php include "includes/showError.php"; ?>
-<?php include "includes/getData.php"; ?>
+
 <?php
 $currentId = isset($_SESSION['userid']) ? $_SESSION['userid'] : '';
-$profileId = isset($_GET['id']) ?? $_GET['id'];
+$profileId = isset($_GET['profile']) ?? $_GET['profile'];
 
-if (isset($_GET['id'])) {
-    $id = mysqli_real_escape_string($conn, $_GET['id']);
-    $query = "SELECT * FROM user WHERE `user`.id = '$id'";
+if (isset($_GET['profile'])) {
+    $userId = mysqli_real_escape_string($conn, $_GET['profile']);
+    $query = "SELECT * FROM user WHERE `user`.id = '$userId'";
     $result = mysqli_query($conn, $query);
     $member = mysqli_fetch_assoc($result);
 }
@@ -41,13 +41,13 @@ if ($_SESSION['user_type'] === "A") {
 
 ?>
 <?php if ($_SESSION['user_type'] === "A" || $currentId == $profileId): ?>
-    <?php if (isset($_GET['id'])): ?>
+    <?php if (isset($_GET['profile'])): ?>
         <?php $oldFormData = $member; ?>
         <div class="container my-4">
-            <?php if ($_SESSION['user_type'] === "A" || $currentId == $profileId): ?>
-                <h1 class="text-center">Edit User</h1>
+            <?php if ($_SESSION['user_type'] === "A" || $currentId != $profileId): ?>
+                <h1 class="text-center">Update User</h1>
             <?php else: ?>
-                <h1 class="text-center">Edit Profile</h1>
+                <h1 class="text-center">Update Profile</h1>
             <?php endif; ?>
             <?php include "includes/userDetailsForm.php"; ?>
         </div>

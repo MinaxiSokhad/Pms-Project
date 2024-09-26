@@ -1,6 +1,6 @@
 <?php $title = "Projects"; ?>
 <?php include "includes/_header.php"; ?>
-<?php include "project_select_data.php"; ?>
+<?php include "projects_select_data.php"; ?>
 
 <div class="container my-4">
 
