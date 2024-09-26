@@ -2,7 +2,7 @@
 $title = "Update Profile"; ?>
 
 <?php include "includes/_header.php"; ?>
-<?php include "includes/registerQuery.php"; ?>
+<?php include "register_crud.php"; ?>
 <?php include "includes/showError.php"; ?>
 
 <?php
@@ -49,7 +49,7 @@ if ($_SESSION['user_type'] === "A") {
             <?php else: ?>
                 <h1 class="text-center">Update Profile</h1>
             <?php endif; ?>
-            <?php include "includes/userDetailsForm.php"; ?>
+            <?php include "user_details_form.php"; ?>
         </div>
     <?php endif; ?>
 <?php else: ?>
