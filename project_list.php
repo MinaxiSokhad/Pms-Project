@@ -1,4 +1,4 @@
-<form id="form" name="form" method="POST">
+<form id="projectListForm" name="projectListForm" method="POST">
     <table class="table">
         <thead>
             <tr>
@@ -41,28 +41,29 @@
 
             if ($row = mysqli_num_rows($projects) > 0) {
                 ?>
-                <?php foreach ($projects as $p):
+                <?php foreach ($projects as $project):
                     ?>
                     <tr>
                         <td>
                             <div class="form-check form-check-muted m-0">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="<?php echo $p['id']; ?>"
+                                    <input type="checkbox" class="form-check-input" value="<?php echo $project['id']; ?>"
                                         name="ids[]">
                                 </label>
                             </div>
                         </td>
-                        <td><a href="userproject.php?userproject=<?php echo e($p['id']); ?>"><?php echo e($p['name']); ?></a>
+                        <td><a
+                                href="userproject.php?project=<?php echo e($project['id']); ?>"><?php echo e($project['name']); ?></a>
                         </td>
-                        <td><?php echo e($p['description']); ?></td>
-                        <td><?php echo e($p['customer']); ?></td>
-                        <td><?php echo e($p['project_tags_name']); ?>
+                        <td><?php echo e($project['description']); ?></td>
+                        <td><?php echo e($project['customer']); ?></td>
+                        <td><?php echo e($project['project_tags_name']); ?>
                         </td>
-                        <td><?php echo e($p['start_date']); ?></td>
-                        <td><?php echo e($p['deadline']); ?></td>
-                        <td><?php echo e($p['status']); ?></td>
-                        <?php $project_member_id = explode(",", $p['project_member_id']);
-                        $project_member_name = explode(",", $p['project_member_name']);
+                        <td><?php echo e($project['start_date']); ?></td>
+                        <td><?php echo e($project['deadline']); ?></td>
+                        <td><?php echo e($project['status']); ?></td>
+                        <?php $project_member_id = explode(",", $project['project_member_id']);
+                        $project_member_name = explode(",", $project['project_member_name']);
                         $project_member = [];
                         if (count($project_member_id) === count($project_member_name)) {
                             $project_member = array_combine($project_member_id, $project_member_name);
@@ -77,11 +78,11 @@
                         </td>
 
                         <?php if ($_SESSION['user_type'] == "A"): ?>
-                            <td><a href="project.php?id=<?php echo $p['id']; ?>">
+                            <td><a href="project.php?projectId=<?php echo $project['id']; ?>">
                                     <div class="btn btn-primary">Edit</div>
                                 </a></td>
                             <td>
-                                <button type="button" onclick="deleteproject(<?php echo $p['id']; ?>)" name="delete"
+                                <button type="button" onclick="deleteproject(<?php echo $project['id']; ?>)" name="delete"
                                     class="btn btn-danger">Delete
                                 </button>
                             </td>
@@ -97,7 +98,7 @@
             <div class="btn btn-primary">Add New Project</div>
         </a>
         <?php if ($row = mysqli_num_rows($projects)): ?>
-            <form action="projects.php" name="deleteform" method="POST">
+            <form action="project_list.php" name="deleteform" method="POST">
                 <button type="button" onclick="deleteSelectedProjects()" name="deleteSelected" class="btn btn-danger">Delete
                     Selected Projects
                 </button>

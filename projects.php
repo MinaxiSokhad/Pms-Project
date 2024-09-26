@@ -1,6 +1,6 @@
 <?php $title = "Projects"; ?>
 <?php include "includes/_header.php"; ?>
-<?php include "includes/projectQuery.php"; ?>
+<?php include "project_select_data.php"; ?>
 
 <div class="container my-4">
 
@@ -10,7 +10,7 @@
 
     <div class="table-responsive">
 
-        <?php include "includes/projectForm.php"; ?>
+        <?php include "project_list.php"; ?>
         <br><br>
         <?php include "includes/_pagination.php"; ?>
     </div>

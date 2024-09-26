@@ -1,8 +1,6 @@
-<?php include "includes/_header.php"; ?>
-<?php include "includes/taskQuery.php"; ?>
-<?php include "includes/projectQuery.php"; ?>
-
 <?php $title = "Dashboard"; ?>
+<?php include "includes/_header.php"; ?>
+
 <div class="container my-4">
     <div class="card-body">
         <?php if ($_SESSION['user_type'] == "A"): ?>
@@ -13,8 +11,8 @@
         <?php include "includes/_search_filter.php"; ?>
 
         <div class="table-responsive">
-            <?php include "includes/projectQuery.php"; ?>
-            <?php include "includes/projectForm.php"; ?>
+            <?php include "project_select_data.php"; ?>
+            <?php include "project_list.php"; ?>
             <br><br>
 
         </div>

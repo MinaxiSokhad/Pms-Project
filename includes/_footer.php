@@ -67,6 +67,10 @@
         $("input[name='selectCountries[]']").click(function () {
             $("input[name='country[]']").prop('checked', this.checked);
         });
+        // Select / Deselect checkboxes in the Countries group
+        $("input[name='selectStatus[]']").click(function () {
+            $("input[name='status[]']").prop('checked', this.checked);
+        });
     });
 
     function deleteSelectedCustomers() {

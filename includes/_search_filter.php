@@ -30,7 +30,7 @@
         } ?>
 
         <div class="dropdown">
-            <button class="dropdown-button">Filter Options</button>
+            <button class="dropdown-button">Filter By</button>
             <div class="dropdown-content">
                 <?php if (isset($customers) || isset($members)): ?>
 

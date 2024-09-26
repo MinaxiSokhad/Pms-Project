@@ -1,7 +1,6 @@
 <?php
-// $section = "projects";
 // Build the base query
-$basequery = "SELECT
+$baseQuery = "SELECT
 project.id,
 project.name,
 project.description,
@@ -32,15 +31,16 @@ JOIN customers
 ON project.customer = customers.id ";
 
 $where = " WHERE project.id > 0 ";
-$employeeProjectCount = "";
+
+$projectShowTotalMembers = "";
 if ($_SESSION['user_type'] != "A") {
-    $userid = $_SESSION['userid'];
-    $employeeProjectCount = " HAVING COUNT(CASE WHEN project_member.user_id = '$userid' THEN 1 ELSE NULL END) > 0 ";
+    $userId = $_SESSION['userid'];
+    $projectShowTotalMembers = " HAVING COUNT(CASE WHEN project_member.user_id = '$userId' THEN 1 ELSE NULL END) > 0 ";
 }
 // Sorting
-$order_by = $_POST['order_by_projects'] ?? 'id'; // Default column to sort by 'id'
+$orderBy = $_POST['order_by_projects'] ?? 'id'; // Default column to sort by 'id'
 $direction = $_POST['direction_projects'] ?? 'desc'; // Default sort direction
-$order = " ORDER BY $order_by $direction";
+$order = " ORDER BY $orderBy $direction";
 
 // Searching by input
 $searchTerm = "";
@@ -75,18 +75,20 @@ if ($showRecord != "1") {
 }
 
 if ($limit != '') {
-    $limit_offset = " LIMIT $limit OFFSET $offset";
+    $limitOffset = " LIMIT $limit OFFSET $offset";
 } else {
-    $limit_offset = "";
+    $limitOffset = "";
 }
 
-$query = $basequery . $where . $searchTerm . $filterStatus . " GROUP BY project.id " . $employeeProjectCount . $order . $limit_offset;
+$query = $baseQuery . $where . $searchTerm . $filterStatus . " GROUP BY project.id " . $projectShowTotalMembers . $order . $limitOffset;
 $projects = mysqli_query($conn, $query);
+
 $countUserProject = "";
 if ($_SESSION['user_type'] != "A") {
     $userid = $_SESSION['userid'];
     $countUserProject = " AND project_member.user_id = '$userid' ";
 }
+
 $countQuery = "SELECT COUNT(DISTINCT project.id) AS total
 FROM project
 JOIN customers ON project.customer = customers.id

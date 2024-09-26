@@ -176,7 +176,7 @@ if ($_SESSION['user_type'] == "A") {
     <?php if (isset($_GET['id'])): ?>
 
         <div class="container my-4">
-            <h1 class="text-center">Edit Task</h1>
+            <h1 class="text-center">Update Task</h1>
             <form action="" method="POST">
                 <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
                 <div class="mb-3">

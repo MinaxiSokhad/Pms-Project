@@ -289,4 +289,10 @@ function validateUser($data)
     }
     return $errors;
 }
+function fetchData($conn, $table, $where)
+{
+    $query = "SELECT * FROM $table " . $where;
+    $result = mysqli_query($conn, $query);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
 ?>
