@@ -19,6 +19,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_type'] = $rows['user_type'];
             redirectTo("index.php");
 
+
         } else {
             // Password doesn't match
             $showError = "Incorrect email or password";

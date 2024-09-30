@@ -9,11 +9,19 @@ ini_set('display_errors', '1');
 <?php
 ob_start();
 
-$where = "  WHERE id = '$_SESSION[userid]' ";
-$users = fetchData($conn, 'user', $where);
-foreach ($users as $user) {
-
+$query = "SELECT * FROM user WHERE id='$_SESSION[userid]'";
+$result = mysqli_query($conn, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+    $user = mysqli_fetch_assoc($result); // fetch the user data
+} else {
+    $user = null; // No user found or query failed
 }
+
+// $where = "  WHERE id = '$_SESSION[userid]' ";
+// $user = fetchData($conn, 'user', $where);
+// foreach ($users as $user) {
+
+// }
 ?>
 
 <!doctype html>
