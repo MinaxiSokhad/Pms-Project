@@ -1,4 +1,4 @@
-<form id="taskListForm" name="taskListForm" method="POST">
+<form id="form" name="form" method="POST">
     <table class="table">
         <thead>
             <tr>

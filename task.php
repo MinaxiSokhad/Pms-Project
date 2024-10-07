@@ -7,7 +7,39 @@ if (isset($_GET['id'])) {
 }
 include "includes/_header.php"; ?>
 <?php
-
+$selectQuery = "SELECT
+                task.id as `Task id`,
+                project.name as `project`,
+                task.name as `Task Name`,
+               DATE_FORMAT(task.start_date ,'%Y-%m-%d') as `Start Date`,
+               DATE_FORMAT(task.due_date ,'%Y-%m-%d') as `Due Date`,
+                CASE 
+                      WHEN task.priority = 'H' THEN 'High' 
+                      WHEN task.priority = 'M' THEN 'Medium' 
+                      WHEN task.priority = 'L' THEN 'Low'  
+                      ELSE task.priority 
+                  END AS `Priority`,
+                CASE 
+                      WHEN task.status = 'S' THEN 'Not Started' 
+                      WHEN task.status = 'P' THEN 'In Progress' 
+                      WHEN task.status = 'C' THEN 'Complete' 
+                      WHEN task.status = 'T' THEN 'Testing' 
+                      ELSE task.status 
+                  END AS `Status`,
+                GROUP_CONCAT(DISTINCT tags.name SEPARATOR ',') as `Task Tags Name`,
+                GROUP_CONCAT(DISTINCT `user`.name  ORDER BY user.id SEPARATOR ',')as `Task Member Name`
+               
+              FROM task
+              JOIN task_tags
+                ON task.id = task_tags.task_id
+                JOIN task_member
+                ON task.id = task_member.task_id
+                JOIN tags 
+                ON task_tags.tags_id = tags.id
+                JOIN user
+                ON task_member.user_id = `user`.id
+                JOIN project
+                ON task.project = project.id";
 $where = " WHERE id > 0 ";
 
 //get all the projects
@@ -68,7 +100,26 @@ if ($_SESSION['user_type'] === "A") {
                     $insertMembers = "INSERT INTO task_member(task_id,project_id,user_id) SELECT '$taskId','$project' , id FROM user WHERE id IN ($memberIds)";
                     $resultInserMembers = mysqli_query($conn, $insertMembers);
 
+                    $query = $selectQuery . " WHERE task.id = $taskId GROUP BY task.id";
+                    $result = mysqli_query($conn, $query);
+                    $fetchTask = mysqli_fetch_assoc($result);
+                    $newValue = $fetchTask;
+
                     if ($resultInsertTags && $resultInserMembers) {
+
+                        $oldValue = ["Empty " => "- (empty, since it's a new task)"];
+                        // $newValue = [
+                        //     'Project' => $project,
+                        //     'Name' => $name,
+                        //     'Start Date' => $formattedStartDate,
+                        //     'Due Date' => $formattedDueDate,
+                        //     'Status' => $status,
+                        //     'Priority' => $priority,
+                        //     'Tags' => $tagIds,
+                        //     'Members' => $memberIds
+                        // ];
+                        //$newValue = implode(",", $newValue);
+                        activityLog($conn, $_SESSION['userid'], 'Create', 'Task', $taskId, $oldValue, $newValue);
                         redirectTo("tasks.php");
                     } else {
                         $errors = "Incorrect!";
@@ -80,7 +131,12 @@ if ($_SESSION['user_type'] === "A") {
             }
 
             if (isset($_POST['updateTask'])) {
+
                 $taskId = $_POST['id'];
+                $fetchData = $selectQuery . " WHERE task.id=$taskId GROUP BY task.id";
+                $currentTaskResult = mysqli_query($conn, $fetchData);
+                $currentTask = mysqli_fetch_assoc($currentTaskResult);
+                $oldValue = $currentTask;
 
                 $updateTask = "UPDATE task SET project='$project',name='$name', start_date='$formattedStartDate', due_date='$formattedDueDate', status='$status',priority='$priority' WHERE id='$taskId'";
                 $updateTaskResult = mysqli_query($conn, $updateTask);
@@ -119,9 +175,17 @@ if ($_SESSION['user_type'] === "A") {
                         $resultInsertMembers = mysqli_query($conn, $insertMember);
 
                     }
+
                     if ($resultInsertMembers && $resultInsertTags) {
-                        $alert = "Task updated successfully.";
+
+                        $updateTaskResult = mysqli_query($conn, $fetchData);
+                        $updateTask = mysqli_fetch_assoc($updateTaskResult);
+                        $newValue = $updateTask;
+
+                        activityLog($conn, $_SESSION['userid'], 'Update', 'Task', $taskId, $oldValue, $newValue);
+
                         redirectTo("tasks.php");
+
                     } else {
                         $alert = "Error updating task: " . mysqli_error($conn);
                     }
@@ -129,6 +193,7 @@ if ($_SESSION['user_type'] === "A") {
             }
         }
     }
+
     if (isset($_GET['taskId'])) {
         $taskId = mysqli_real_escape_string($conn, $_GET['taskId']);
         $query = "SELECT
@@ -168,17 +233,38 @@ if ($_SESSION['user_type'] === "A") {
 if ($_SESSION['user_type'] == "A") {
     if (isset($_GET['delete']) || isset($_GET['DeleteAll'])) {
         $where = " ";
+        $oldValue = [];
+
         if (isset($_GET['DeleteAll']) && !empty($_POST['ids'])) {
             $ids = $_POST['ids']; // This will be an array of selected customer IDs
             $idsList = implode(',', $ids);
             $where = " WHERE task.id IN ($idsList) ";
+
+            $query = $selectQuery . " WHERE task.id IN ($idsList) GROUP BY task.id";
+            $result = mysqli_query($conn, $query);
+            while ($deleteTask = mysqli_fetch_assoc($result)) {
+                $oldValue[] = $deleteTask; // Append each task to $oldValue
+            }
+
+
         } else {
             $id = $_GET['delete'];
             $where = " WHERE task.id = '$id' ";
+
+            $query = $selectQuery . " WHERE task.id = $id GROUP BY task.id";
+            $result = mysqli_query($conn, $query);
+            $deleteTask = mysqli_fetch_assoc($result);
+            $oldValue[] = $deleteTask;
         }
         $delQuery = "DELETE FROM task " . $where;
         $result = mysqli_query($conn, $delQuery);
         if ($result) {
+
+            foreach ($oldValue as $task) {
+                $taskId = $task['Task id'];
+                $newValue = ["Empty " => "- (task is deleted, so no new value) "];
+                activityLog($conn, $_SESSION['userid'], "Delete", "Task", $taskId, $task, $newValue);
+            }
             redirectTo("tasks.php");
         } else {
             $alert = "Error deleting task.";

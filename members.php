@@ -109,7 +109,7 @@ if ($showRecord != "1") {
         <?php include "includes/_search_filter.php"; ?>
 
         <div class="table-responsive">
-            <form id="memberListForm" name="memberListForm" method="POST">
+            <form id="form" name="form" method="POST">
                 <table class="table">
                     <?php
                     $columns = [

@@ -295,4 +295,23 @@ function fetchData($conn, $table, $where)
     $result = mysqli_query($conn, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+function activityLog($conn, $userId, $actionType, $entityType, $entityId, array $oldValue, array $newValue)
+{
+    $oldValue = mysqli_real_escape_string($conn, json_encode($oldValue));
+    $newValue = mysqli_real_escape_string($conn, json_encode($newValue));
+    $userId = mysqli_real_escape_string($conn, $userId);
+    $actionType = mysqli_real_escape_string($conn, $actionType);
+    $entityType = mysqli_real_escape_string($conn, $entityType);
+    $entityId = mysqli_real_escape_string($conn, $entityId);
+
+    $query = "INSERT INTO activity_log(user_id,action_type,entity_type,entity_id,old_value,new_value)
+                    VALUES ('$userId','$actionType','$entityType','$entityId','$oldValue','$newValue')";
+    $result = mysqli_query($conn, $query);
+    // return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    if ($result) {
+        return mysqli_insert_id($conn); // Return the last inserted ID
+    } else {
+        return false; // Query failed
+    }
+}
 ?>
