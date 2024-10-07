@@ -12,6 +12,9 @@ $content = fread($filePointer, filesize("file.txt"));
 fclose($filePointer);
 echo $content;
 
+
+// echo file_get_contents("file.txt");
+
 // echo "Welcome to writes file in php"; //write file use -> w
 // $fptr = fopen("file.txt", "w");
 // fwrite($fptr, "This is best file on this planet");
